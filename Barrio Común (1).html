@@ -1,0 +1,841 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Barrio Común</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Concepto: afiche de asamblea vecinal. Fondo frío, tinta oscura, azul cobalto cívico y un amarillo de señalización para el juego. El juego es tablero + tarjeta; el modo profesional es formulario + hoja de ruta. */
+:root{
+  --bg:#EEF2F1; --surface:#FFFFFF; --surface2:#E3EAEA; --ink:#14232B; --muted:#52656E; --line:#C7D3D3;
+  --accent:#2349D8; --accent-ink:#FFFFFF; --sun:#F2B21A; --sun-ink:#14232B;
+  --good:#1E7F48; --bad:#C23B2E; --warn:#9A6A0B;
+  --bin-green:#2E8B57; --bin-brown:#8A5A3C; --bin-black:#2B2F33; --bin-red:#C23B2E;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'Public Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1A20; --surface:#16262E; --surface2:#1E333C; --ink:#E6EEF0; --muted:#9FB2BA; --line:#2B4048;
+  --accent:#7C9BFF; --accent-ink:#0E1A20; --sun:#F4C14B; --sun-ink:#14232B;
+  --good:#4FC27F; --bad:#FF7E70; --warn:#E8B04A;
+  --bin-green:#3FA56C; --bin-brown:#A9744F; --bin-black:#4A5258; --bin-red:#D9564A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A20; --surface:#16262E; --surface2:#1E333C; --ink:#E6EEF0; --muted:#9FB2BA; --line:#2B4048;
+  --accent:#7C9BFF; --accent-ink:#0E1A20; --sun:#F4C14B; --sun-ink:#14232B;
+  --good:#4FC27F; --bad:#FF7E70; --warn:#E8B04A;
+  --bin-green:#3FA56C; --bin-brown:#A9744F; --bin-black:#4A5258; --bin-red:#D9564A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:980px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-block:20px 12px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand b{font-family:var(--f-display);font-weight:800;font-size:28px;letter-spacing:-.02em}
+.brand span{color:var(--muted)}
+.seg{display:inline-flex;background:var(--surface2);border-radius:999px;padding:4px;gap:2px}
+.seg button{border:0;background:transparent;padding:9px 18px;border-radius:999px;font-weight:600;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.sub{display:flex;gap:8px;flex-wrap:wrap;margin-block:8px 20px}
+.sub button{border:1.5px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:10px;font-weight:600;min-height:44px}
+.sub button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);padding:12px 22px;border-radius:10px;font-weight:600;min-height:46px}
+.btn.sun{background:var(--sun);color:var(--sun-ink)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn:hover{filter:brightness(1.06)}
+.grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}}
+.stack{display:flex;flex-direction:column;gap:16px}
+.purpose{background:var(--ink);color:var(--bg);border-radius:14px;padding:26px}
+.purpose h2{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.02em}
+.purpose p{max-width:62ch;margin-top:12px;opacity:.92}
+.purpose .mono{color:var(--sun)}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.how div{border-top:2px solid var(--sun);padding-top:8px;font-size:14px}
+.how b{display:block;font-family:var(--f-display);font-size:17px}
+.meter{display:grid;gap:4px;margin-bottom:12px}
+.meter .row{display:flex;justify-content:space-between;font-weight:600;font-size:14px}
+.meter .row span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.bar{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .5s}
+.pill{display:inline-block;background:var(--surface2);border-radius:99px;padding:3px 10px}
+.round{display:flex;gap:4px;margin-bottom:12px}
+.round i{flex:1;height:6px;border-radius:3px;background:var(--surface2)}
+.round i.on{background:var(--accent)}
+.choices{display:grid;gap:10px;margin-top:16px}
+.choice{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 16px;min-height:52px}
+.choice:hover:not([disabled]){border-color:var(--accent)}
+.choice[disabled]{cursor:default}
+.choice.pick{border-color:var(--accent);background:var(--surface2)}
+.result{margin-top:16px;border-left:4px solid var(--sun);padding:4px 0 4px 14px;display:grid;gap:10px}
+.deltas{display:flex;flex-wrap:wrap;gap:6px}
+.deltas .pill{font-family:var(--f-mono);font-size:12px}
+.deltas .up{color:var(--good)} .deltas .down{color:var(--bad)}
+.learn{background:var(--surface2);border-radius:10px;padding:12px 14px;font-size:14.5px}
+.scene{width:100%;height:auto;display:block;border-radius:10px;background:var(--surface2)}
+.scene .ground{fill:var(--line)} .scene .house{fill:var(--surface)} .scene .roof{fill:var(--accent)}
+.scene .win{fill:var(--sun)} .scene .trash{fill:var(--bin-black)} .scene .tree{fill:var(--bin-green)}
+.scene .trunk{fill:var(--bin-brown)} .scene .lamp{fill:var(--sun)} .scene .pole{fill:var(--muted)} .scene .per{fill:var(--ink)}
+.scene g{transition:opacity .5s}
+.seals{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.seal{border:1.5px dashed var(--sun);border-radius:8px;padding:3px 8px;font-size:12px;font-weight:600}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:16px}
+.bin{border:0;color:#fff;border-radius:12px;padding:16px 10px;font-weight:600;min-height:76px;text-align:center}
+.bin small{display:block;font-weight:400;opacity:.9;font-size:12px}
+.bin.g{background:var(--bin-green)} .bin.b{background:var(--bin-brown)} .bin.n{background:var(--bin-black)} .bin.r{background:var(--bin-red)}
+.item{font-family:var(--f-display);font-weight:800;font-size:clamp(26px,5vw,38px);letter-spacing:-.01em;margin-block:10px}
+.feedback{min-height:48px;margin-top:12px;font-size:14.5px}
+.ok{color:var(--good);font-weight:600} .no{color:var(--bad);font-weight:600}
+label{display:block;font-weight:600;font-size:14px;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{min-height:110px;resize:vertical}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.form .full{grid-column:1/-1}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 14px;font-weight:600;min-height:44px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.steps input{width:20px;height:20px;min-height:0;margin-top:3px}
+.steps li.done{opacity:.6}
+.steps b{display:block}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.doc{white-space:pre-wrap;font-family:var(--f-mono);font-size:13px;line-height:1.6;background:var(--bg);border:1.5px dashed var(--line);border-radius:10px;padding:16px;max-height:520px;overflow:auto}
+.note{font-size:13px;color:var(--muted)}
+.big{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,6vw,44px);letter-spacing:-.02em}
+ul.plain{margin:6px 0 0;padding-left:18px}
+.hr{height:1px;background:var(--line);border:0;margin-block:6px}
+.trash{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-bottom:14px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center}
+.trash .lbl{font-weight:600;font-size:14px}
+.trash .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:13px;text-align:right}
+.trash .bar{height:12px}
+.trash .tip{grid-column:1/-1;font-size:13px;color:var(--muted)}
+@media (max-width:560px){.trash{grid-template-columns:minmax(0,1fr) auto}.trash .bar{grid-column:1/-1;order:3}}
+.pts{display:grid;gap:8px;margin-top:14px}
+.pt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;min-height:56px}
+.pt[aria-pressed="true"]{border-color:var(--accent);background:var(--surface2)}
+.pt[disabled]{opacity:.5;cursor:not-allowed}
+.pt b{font-weight:600}
+.pt .m{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.pt .p2{color:var(--warn);font-weight:600;font-size:12px}
+.budget{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;font-family:var(--f-mono);font-size:13px}
+.arena{width:100%;max-width:520px;height:auto;display:block;border-radius:12px;background:var(--surface2);touch-action:manipulation;cursor:crosshair}
+.hud{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px;font-family:var(--f-mono);font-size:13px}
+.tf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>Barrio Común</b><span class="mono">Ciudadanía en acción</span></div>
+    <div class="seg" role="group" aria-label="Modo">
+      <button id="mode-game" aria-pressed="true">Juego</button>
+      <button id="mode-pro" aria-pressed="false">Modo profesional</button>
+    </div>
+  </header>
+
+  <div id="trash-banner" class="trash"></div>
+
+  <main id="game">
+    <div class="sub" role="group" aria-label="Juegos">
+      <button id="g-barrio" aria-pressed="true">Barrio Nueva Esperanza</button>
+      <button id="g-limpio" aria-pressed="false">Punto limpio</button>
+      <button id="g-ruta" aria-pressed="false">Ruta del camión</button>
+      <button id="g-bolsas" aria-pressed="false">Atrapa-bolsas</button>
+      <button id="g-mitos" aria-pressed="false">Mitos y datos</button>
+    </div>
+    <section id="view-barrio"></section>
+    <section id="view-limpio" hidden></section>
+    <section id="view-ruta-juego" hidden></section>
+    <section id="view-bolsas" hidden></section>
+    <section id="view-mitos" hidden></section>
+  </main>
+
+  <main id="pro" hidden>
+    <div class="purpose" style="margin-bottom:18px">
+      <div class="mono">Modo profesional</div>
+      <h2>De "esto está mal" a un trámite que sí avanza</h2>
+      <p>Elige tu problema, sigue la ruta con las entidades que corresponden, redacta el documento y calcula hasta cuándo pueden responderte. Es una guía de orientación y no reemplaza a un abogado. Las referencias legales corresponden al Perú; confirma que sigan vigentes antes de presentar.</p>
+      <p style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="basura-ruta">Basura acumulada en mi calle: ver la ruta</button><button class="btn ghost" style="color:var(--bg);border-color:var(--bg)" data-act="basura-doc">Redactar el reclamo de recojo</button></p>
+    </div>
+    <div class="sub" role="group" aria-label="Herramientas">
+      <button id="p-ruta" aria-pressed="true">Ruta de acción</button>
+      <button id="p-doc" aria-pressed="false">Redactar documento</button>
+      <button id="p-plazo" aria-pressed="false">Plazos</button>
+    </div>
+    <section id="view-ruta"></section>
+    <section id="view-doc" hidden></section>
+    <section id="view-plazo" hidden></section>
+  </main>
+</div>
+<script>
+/* Eventos del juego. Efectos: [Participación, Derechos, Ambiente, Confianza] */
+var EVENTS = [
+ {tag:"Residuos", seal:"Sello Limpieza", title:"El montón de la esquina",
+  text:"En el pasaje 3 la basura lleva dos semanas acumulada y el camión recolector no pasa. Los perros rompen las bolsas y ya hay moscas. ¿Qué haces?",
+  learn:"El recojo de residuos domiciliarios es un servicio que presta la municipalidad. Una carta con firmas y fotos deja constancia, obliga a responder y sirve de prueba si luego hay que acudir a la OEFA. Quemar basura contamina el aire y es sancionable.",
+  choices:[
+   {t:"Quemar la basura esta noche para salir del problema.", d:[-4,-3,-14,-8], out:"El humo enferma a los niños y los vecinos se enojan. El problema vuelve en una semana.", best:false},
+   {t:"Juntar firmas y fotos, y pedir por escrito el recojo y el horario de rutas.", d:[10,4,12,8], out:"La municipalidad responde con un cronograma. Aparece un primer grupo de vecinos que quiere seguir colaborando.", best:true},
+   {t:"Esperar a que alguien más reclame.", d:[-6,0,-6,-4], out:"Pasa otra semana. Cada vecino piensa que le toca a otro.", best:false}]},
+ {tag:"Participación", seal:"Sello Convocatoria", title:"Asamblea casi vacía",
+  text:"Convocaste una reunión vecinal y llegaron seis personas. Hay decisiones importantes por tomar y tres de los presentes quieren decidir todo ya.",
+  learn:"Una decisión colectiva vale por quienes pudieron participar. Convocar con tiempo, por varios medios y en horarios distintos amplía la participación. La Ley 26300 y la Ley 27972 reconocen mecanismos de participación como el cabildo abierto.",
+  choices:[
+   {t:"Decidir con los seis y avisar después.", d:[-8,-4,0,-8], out:"Varias familias sienten que las ignoraron y no vuelven.", best:false},
+   {t:"Reprogramar. Pasar volante casa por casa, usar el grupo de WhatsApp y ofrecer dos horarios.", d:[14,3,0,10], out:"La siguiente reunión reúne a más de treinta personas, incluidas varias mujeres y adultos mayores.", best:true},
+   {t:"Cancelar todo: nadie se interesa.", d:[-10,0,0,-6], out:"La poca energía que había se apaga.", best:false}]},
+ {tag:"Transparencia", seal:"Sello Transparencia", title:"¿En qué se gasta el dinero?",
+  text:"La municipalidad anunció obras para la zona, pero nadie sabe cuáles, cuánto cuestan ni cuándo empiezan. Circulan sospechas.",
+  learn:"Toda persona puede pedir información a una entidad pública sin explicar para qué la quiere (Constitución, art. 2 inc. 5, y Ley de Transparencia). La entidad debe responder en el plazo que fija la norma. Pide siempre que quede constancia de la fecha de presentación.",
+  choices:[
+   {t:"Presentar una solicitud de acceso a la información pública, con cargo de recepción.", d:[8,12,0,10], out:"Recibes el cronograma y el presupuesto de las obras. Ahora la asamblea discute con datos.", best:true},
+   {t:"Publicar en redes que hay corrupción.", d:[2,-6,0,-10], out:"Se arma pelea, pero sin pruebas la denuncia pierde fuerza y tu credibilidad también.", best:false},
+   {t:"Pedir el dato como favor a un conocido en la municipalidad.", d:[-2,-4,0,-4], out:"Te dan una versión parcial y sin documento. Otros vecinos siguen sin enterarse.", best:false}]},
+ {tag:"Presupuesto", seal:"Sello Presupuesto", title:"Taller de presupuesto participativo",
+  text:"Se abre el proceso para decidir en qué invertir. Hay un taller el sábado y la plaza de la zona compite con otras diez.",
+  learn:"El presupuesto participativo permite que la población priorice proyectos junto con el gobierno local (Ley 28056). Las propuestas con diagnóstico, fotos, costo estimado y firmas son más difíciles de ignorar.",
+  choices:[
+   {t:"Llevar una propuesta con diagnóstico, fotos y 40 firmas.", d:[12,4,6,8], out:"Tu proyecto entra a la lista priorizada y se forma un comité de vigilancia con vecinos voluntarios.", best:true},
+   {t:"Ir al taller, sentarte atrás y escuchar.", d:[2,0,0,0], out:"Aprendes cómo funciona, pero tu zona queda sin propuesta.", best:false},
+   {t:"No ir: eso siempre lo deciden los de arriba.", d:[-8,-4,-2,-4], out:"Se aprueban proyectos de otras zonas. Dejar de asistir también es una decisión.", best:false}]},
+ {tag:"Derechos", seal:"Sello Derechos", title:"Don Mateo y la posta",
+  text:"Don Mateo, adulto mayor, fue rechazado en el establecimiento de salud por no tener su documento a la mano. Estaba con dolor y regresó a casa sin atención.",
+  learn:"La atención de salud no puede negarse por un trámite documentario en una urgencia. SUSALUD recibe quejas de usuarios de servicios de salud y la Defensoría del Pueblo interviene ante la vulneración de derechos. Tu queja gana fuerza con fecha, hora, nombre del servicio y testigos.",
+  choices:[
+   {t:"Acompañarlo, anotar lo ocurrido con fecha y hora y presentar una queja escrita al establecimiento y a SUSALUD o la Defensoría.", d:[6,14,0,10], out:"Le dan cita prioritaria y el establecimiento corrige su protocolo de ingreso.", best:true},
+   {t:"Decirle que insista otro día.", d:[-2,-8,0,-4], out:"Don Mateo se siente un estorbo. El caso queda sin registro.", best:false},
+   {t:"Insultar al personal en un video para redes.", d:[0,-4,0,-10], out:"El video se vuelve viral, pero el personal se pone a la defensiva y el reclamo se pierde en la discusión.", best:false}]},
+ {tag:"Ambiente", seal:"Sello Ambiental", title:"Aceite en la quebrada",
+  text:"Un taller mecánico vierte aceite y agua sucia a la quebrada donde juegan los niños. El agua huele mal y hay peces muertos.",
+  learn:"La OEFA y las autoridades ambientales locales reciben denuncias por contaminación. Fotos con fecha, ubicación aproximada y una descripción clara ayudan a que fiscalicen. No hace falta enfrentar al responsable ni exponerte.",
+  choices:[
+   {t:"Reunir fotos con fecha y ubicación y presentar una denuncia ambiental, con copia a la municipalidad.", d:[6,8,14,6], out:"Una inspección ordena corregir el vertimiento. El taller instala una trampa de grasa.", best:true},
+   {t:"Ir a gritarle al dueño y amenazarlo.", d:[-4,-6,0,-8], out:"Terminas en un conflicto personal y el taller sigue igual.", best:false},
+   {t:"No decir nada: el taller da empleo al barrio.", d:[-6,-4,-12,-4], out:"La quebrada empeora. Los niños dejan de jugar ahí.", best:false}]},
+ {tag:"Residuos", seal:"Sello Reciclador", title:"Separar en origen",
+  text:"La municipalidad lanza un programa para separar los residuos en casa. Faltan promotores que expliquen cómo hacerlo.",
+  learn:"La Ley de Gestión Integral de Residuos Sólidos promueve la segregación en la fuente. Separar aprovechables, orgánicos, no aprovechables y peligrosos reduce lo que va al botadero y crea trabajo para recicladores formalizados. Prueba el minijuego Punto limpio.",
+  choices:[
+   {t:"Formar una brigada de promotores vecinales y hacer una charla con el colegio.", d:[10,2,14,8], out:"Treinta familias empiezan a separar. Los niños llevan el mensaje a casa.", best:true},
+   {t:"Esperar a que la municipalidad lo haga todo.", d:[-4,0,-4,-2], out:"El programa avanza lento en tu zona.", best:false},
+   {t:"Pagar a alguien para que bote todo en un terreno baldío.", d:[-6,-4,-16,-8], out:"Aparece un nuevo botadero informal en el barrio.", best:false}]},
+ {tag:"Información", seal:"Sello Verificador", title:"El rumor del mercado",
+  text:"Un audio dice que cerrarán el mercado de la zona la próxima semana. Todos lo reenvían. Hay pánico y vendedores sin dormir.",
+  learn:"Antes de compartir, verifica en la fuente oficial: la página o el comunicado de la municipalidad, o una solicitud de información. Un rumor sin verificar daña la confianza y puede afectar el sustento de familias.",
+  choices:[
+   {t:"Reenviarlo con la nota: ojo, cuidado.", d:[-4,-2,0,-12], out:"El pánico crece. Algunos vendedores rematan su mercadería.", best:false},
+   {t:"Verificar con la municipalidad, pedir el comunicado y aclarar en la asamblea y el grupo.", d:[8,6,0,14], out:"Era falso. Tu aclaración con documento calma a todos y te da prestigio de fuente confiable.", best:true},
+   {t:"Ignorarlo y esperar a que pase.", d:[-2,0,0,-4], out:"El rumor sigue circulando unos días más.", best:false}]},
+ {tag:"Convivencia", seal:"Sello Acuerdo", title:"Parque o estacionamiento",
+  text:"Hay un terreno baldío. Un grupo quiere un parque para los niños y otro quiere un estacionamiento. La discusión sube de tono.",
+  learn:"Los conflictos por el uso del espacio común se resuelven mejor con reglas acordadas antes, información sobre la propiedad del terreno y acta firmada. Si el terreno es público, la decisión final depende de la autoridad competente y se puede proponer por canales de participación.",
+  choices:[
+   {t:"Acordar reglas de votación, revisar quién es el titular del terreno y votar con acta.", d:[12,6,4,10], out:"El resultado se respeta aunque no todos ganaron. El acta se envía a la municipalidad como propuesta.", best:true},
+   {t:"Que decida el vecino más antiguo.", d:[-6,-6,0,-4], out:"Los recién llegados se sienten excluidos.", best:false},
+   {t:"Dejar que cada grupo haga lo que pueda.", d:[-8,-6,-6,-8], out:"Aparece un cerco improvisado y un enfrentamiento.", best:false}]},
+ {tag:"Fiscalización", seal:"Sello Vigilancia", title:"La vereda a medias",
+  text:"Hace seis meses empezó la obra de la vereda y quedó a medias. No hay cartel de obra visible, ni se sabe quién la ejecuta.",
+  learn:"Las obras públicas deben informar su costo, plazo y ejecutor. El comité de vigilancia, las solicitudes de información y las denuncias ante el órgano de control correspondiente (la Contraloría) son vías para pedir cuentas sin violencia.",
+  choices:[
+   {t:"Pedir información del expediente, hacer seguimiento con el comité de vigilancia y comunicar el caso al órgano de control.", d:[10,8,4,12], out:"Se reactiva la obra y se publica un nuevo cronograma. El comité se convierte en un referente.", best:true},
+   {t:"Aceptar: peor es nada.", d:[-8,-6,0,-4], out:"La obra se abandona. El barrio normaliza lo incompleto.", best:false},
+   {t:"Llevarse los materiales por si acaso.", d:[-4,-10,0,-14], out:"Ahora el problema es de otro tipo: te pueden denunciar.", best:false}]}
+];
+var METERS = [
+ {k:"P", n:"Participación", c:"var(--accent)"},
+ {k:"D", n:"Derechos", c:"var(--sun)"},
+ {k:"A", n:"Ambiente", c:"var(--good)"},
+ {k:"C", n:"Confianza", c:"var(--bin-brown)"}
+];
+var TIERS = [
+ {min:0, name:"Barrio en espera", msg:"Muchas cosas siguen igual. Lo bueno es que ya sabes qué canales existen. Prueba otra vez con otras decisiones."},
+ {min:160, name:"Barrio que despierta", msg:"Hay vecinos organizados y algunas respuestas. El siguiente paso es sostenerlo en el tiempo."},
+ {min:240, name:"Barrio organizado", msg:"Participan, piden información y usan los canales. Falta que más gente se sume."},
+ {min:320, name:"Barrio ejemplar", msg:"Tu barrio sabe qué pedir, a quién y cómo. Eso se contagia a los barrios vecinos."}
+];
+/* Rutas de acción (orientación general; referencias del Perú) */
+var ROUTES = [
+ {id:"residuos", name:"Basura y recojo de residuos",
+  intro:"El servicio de limpieza y recojo lo presta la municipalidad. Tu objetivo es que quede por escrito y que alguien responda.",
+  steps:[
+   ["Documenta el problema","Fotos con fecha y hora, dirección exacta, días sin recojo y personas afectadas."],
+   ["Suma a tus vecinos","Una solicitud con varias firmas muestra que no es un caso aislado."],
+   ["Presenta una solicitud a la municipalidad","Pide recojo, un cronograma de rutas y un responsable. Guarda el cargo con fecha de recepción."],
+   ["Reitera si no responden","Si pasa el plazo, presenta un segundo escrito o una queja por defectos de tramitación (TUO de la Ley 27444, art. 169)."],
+   ["Denuncia ante la OEFA","La OEFA supervisa la gestión de residuos de las municipalidades. Anexa tu cargo y las pruebas."],
+   ["Pide apoyo a la Defensoría","Puede mediar y pedir explicaciones a la entidad cuando el servicio no se presta."]],
+  entities:[["Municipalidad distrital o provincial","Presta el servicio de recojo y limpieza."],["OEFA","Fiscaliza el cumplimiento ambiental, incluida la gestión municipal de residuos."],["Defensoría del Pueblo","Media y supervisa a las entidades públicas."],["Red de salud local","Si hay foco infeccioso o plagas."]],
+  evidence:["Fotos y videos con fecha","Lista de afectados con firmas","Cargo de tu solicitud","Respuesta de la municipalidad, si existe"],
+  law:["Constitución, art. 2 inc. 20 (petición) e inc. 22 (ambiente equilibrado)","Decreto Legislativo 1278 y su reglamento (DS 014-2017-MINAM)","Ley 27972, Orgánica de Municipalidades"]},
+ {id:"contaminacion", name:"Contaminación de agua, aire o ruido",
+  intro:"Identifica quién contamina y qué autoridad lo fiscaliza. Evita el enfrentamiento personal; la prueba y el canal correcto pesan más.",
+  steps:[
+   ["Registra lo que ves","Fotos, videos, horas, olor, color del agua, efectos en personas, animales o cultivos."],
+   ["Identifica la actividad","Taller, planta, minería, granja, relleno u otro. Anota ubicación y, si lo sabes, nombre del responsable."],
+   ["Presenta la denuncia ambiental","Ante la OEFA o la autoridad ambiental competente según la actividad. Pide número de registro."],
+   ["Envía copia a la municipalidad","Puede ordenar medidas si es de su competencia y deja otra constancia."],
+   ["Si hay posible delito o riesgo grave","Recurre a la Fiscalía especializada en materia ambiental y comunica a la red de salud."],
+   ["Haz seguimiento","Pregunta por el estado cada cierto tiempo y conserva todo por escrito."]],
+  entities:[["OEFA","Recibe denuncias y fiscaliza."],["Gobierno regional o ministerio del sector","Autoridad competente según la actividad."],["Fiscalía en materia ambiental","Investiga posibles delitos ambientales."],["Municipalidad","Controla actividades locales y ruidos."]],
+  evidence:["Fotos y videos con fecha","Ubicación o coordenadas aproximadas","Testimonios de vecinos","Informes médicos si hay personas afectadas"],
+  law:["Constitución, art. 2 inc. 22","Ley 28611, Ley General del Ambiente","Código Penal, delitos ambientales"]},
+ {id:"derechos", name:"Derecho vulnerado o mal trato",
+  intro:"Salud, educación, discriminación o trato indigno. Registra los hechos antes de reclamar y usa los canales de queja de la entidad y los de supervisión.",
+  steps:[
+   ["Escribe qué pasó","Fecha, hora, lugar, nombre o cargo de quien intervino y qué se negó o se hizo."],
+   ["Reúne pruebas y testigos","Documentos, mensajes, fotos de carteles o procedimientos, nombres de testigos."],
+   ["Presenta la queja o el reclamo en la entidad","Usa el libro de reclamaciones o una carta con cargo. Pide una respuesta por escrito."],
+   ["Acude al supervisor del sector","En salud, SUSALUD. En general, la Defensoría del Pueblo."],
+   ["Si hay discriminación o violencia","Pide medidas de protección y presenta denuncia ante el Ministerio Público o la policía."],
+   ["Evalúa una acción judicial","Para vulneraciones graves, consulta con un abogado o con el consultorio jurídico gratuito de tu zona."]],
+  entities:[["La entidad responsable","Debe investigar y responder tu queja."],["SUSALUD","Atiende quejas de usuarios de servicios de salud."],["Defensoría del Pueblo","Interviene ante vulneraciones de derechos por entidades públicas."],["Ministerio Público","Si hay delito o riesgo para la persona."]],
+  evidence:["Relato con fecha y hora","Documentos o recetas","Datos de testigos","Cargo de tu queja"],
+  law:["Constitución, art. 1 y art. 2","Ley 29414, derechos de usuarios de servicios de salud","Ley 29973, Ley General de la Persona con Discapacidad (si corresponde)","TUO de la Ley 27444, art. 169 (queja)"]},
+ {id:"informacion", name:"Pedir información pública",
+  intro:"No necesitas explicar para qué quieres la información. Sí necesitas pedirla por escrito, de forma clara y guardar el cargo.",
+  steps:[
+   ["Define qué información pides","Sé específico: documento, periodo, obra o gasto. Evita pedidos como \"todo lo relacionado a...\"."],
+   ["Identifica a la entidad","Cada entidad tiene un funcionario responsable del acceso a la información o un canal digital."],
+   ["Presenta la solicitud","Con tu nombre, documento de identidad y la forma de entrega que prefieres. Guarda el cargo."],
+   ["Cuenta el plazo","La regla general es de 10 días hábiles. Una sola prórroga debe estar fundamentada. Usa la pestaña Plazos."],
+   ["Si no responden o deniegan","Puedes apelar ante el Tribunal de Transparencia y Acceso a la Información Pública dentro del plazo vigente."],
+   ["Comparte la información","Úsala en la asamblea y en el comité de vigilancia."]],
+  entities:[["La entidad que tiene la información","Debe entregarla o explicar por escrito por qué no puede."],["Tribunal de Transparencia y Acceso a la Información Pública","Resuelve las apelaciones por denegatoria o silencio."],["Autoridad Nacional de Transparencia","Promueve y supervisa la política de transparencia."]],
+  evidence:["Solicitud con cargo","Capturas del trámite digital","Respuesta o denegatoria"],
+  law:["Constitución, art. 2 inc. 5","TUO de la Ley 27806 de Transparencia y Acceso a la Información Pública","Reglamento aprobado por DS 007-2024-JUS"]},
+ {id:"obra", name:"Obra pública paralizada o sospechosa",
+  intro:"Primero información, después vigilancia y, solo si corresponde, denuncia. Con datos concretos todo avanza más rápido.",
+  steps:[
+   ["Toma nota de lo visible","Cartel de obra, nombre del proyecto, monto, plazo, ejecutor y estado actual con fotos fechadas."],
+   ["Pide información","Solicita expediente técnico, cronograma, avance y valorizaciones mediante una solicitud de acceso a la información."],
+   ["Forma o activa el comité de vigilancia","El presupuesto participativo prevé comités de vigilancia con vecinos."],
+   ["Presenta una queja ante la entidad","Pide un plan de reinicio, fechas y responsable."],
+   ["Informa al órgano de control","Si hay indicios de irregularidades, presenta tu denuncia ante la Contraloría con las pruebas reunidas."],
+   ["Si hay posible delito","Comunica al Ministerio Público con apoyo de abogado."]],
+  entities:[["Entidad que ejecuta la obra","Municipalidad, gobierno regional u otra."],["Contraloría General de la República","Canal de denuncias de irregularidades."],["Ministerio Público","Investiga posibles delitos."],["Defensoría del Pueblo","Supervisa y acompaña."]],
+  evidence:["Fotos del avance con fecha","Datos del cartel de obra","Documentos obtenidos por transparencia","Actas del comité de vigilancia"],
+  law:["Ley 27785, Sistema Nacional de Control","Ley 28056, Presupuesto Participativo","TUO de la Ley 27806"]},
+ {id:"propuesta", name:"Quiero proponer o participar",
+  intro:"La participación también se hace por escrito y con datos. Una propuesta clara y respaldada por vecinos se puede evaluar.",
+  steps:[
+   ["Define el problema y la propuesta","Un párrafo para cada uno. Incluye a quién beneficia, costo aproximado y quién podría ejecutarla."],
+   ["Reúne respaldo","Firmas, actas o cartas de organizaciones vecinales."],
+   ["Elige el canal","Presupuesto participativo, consejo de coordinación local, audiencia o cabildo abierto, o iniciativa de ordenanza con firmas."],
+   ["Preséntala por escrito","Pide fecha de revisión y quién la evaluará. Guarda el cargo."],
+   ["Participa en las reuniones","Asiste, pide la palabra y deja constancia en el acta."],
+   ["Da seguimiento","Pide cuentas de lo acordado y comunica los avances a la asamblea."]],
+  entities:[["Municipalidad","Canal principal para propuestas locales."],["Consejo de Coordinación Local","Espacio de coordinación con la sociedad civil."],["Oficina de participación ciudadana","Orienta sobre los canales disponibles."]],
+  evidence:["Propuesta escrita","Firmas o actas","Cargo de presentación"],
+  law:["Constitución, art. 2 inc. 17 (participación)","Ley 26300, Derechos de Participación y Control Ciudadanos","Ley 28056, Presupuesto Participativo","Ley 27972, Orgánica de Municipalidades"]}
+];
+
+/* Tipos de documento */
+var DOCS = [
+ {id:"info", name:"Solicitud de acceso a la información pública", entityLabel:"Entidad destinataria (por ejemplo, Municipalidad Distrital de ...)", askLabel:"Información que solicitas (sé específico)", factsLabel:"Contexto (opcional)", ph:"Ej.: Copia del expediente técnico y del cronograma de la obra de la vereda del pasaje 3, y el monto pagado a la fecha."},
+ {id:"peticion", name:"Petición o reclamo ante la municipalidad", entityLabel:"Entidad destinataria", askLabel:"Qué pides que se haga", factsLabel:"Hechos", ph:"Ej.: Que se reanude el recojo de residuos en el pasaje 3 y se informe el horario de rutas."},
+ {id:"ambiental", name:"Denuncia ambiental", entityLabel:"Entidad destinataria (OEFA u otra autoridad ambiental)", askLabel:"Qué pides que se haga", factsLabel:"Descripción de los hechos", ph:"Ej.: Que se realice una inspección y se ordene el cese del vertimiento."},
+ {id:"queja", name:"Queja por vulneración de derechos", entityLabel:"Entidad o institución destinataria", askLabel:"Qué solicitas", factsLabel:"Hechos", ph:"Ej.: Que se investigue la negativa de atención y se garantice la atención prioritaria."}
+];
+
+/* Punto limpio: código de colores (verde, marrón, negro y rojo) */
+var BINS = [
+ {k:"g", n:"Verde", s:"Aprovechables"},
+ {k:"b", n:"Marrón", s:"Orgánicos"},
+ {k:"n", n:"Negro", s:"No aprovechables"},
+ {k:"r", n:"Rojo", s:"Peligrosos"}
+];
+var ITEMS = [
+ ["Botella de plástico vacía","g","Enjuágala antes de entregarla."],
+ ["Caja de cartón seca","g","El cartón mojado o sucio pierde valor de reciclaje."],
+ ["Lata de conserva","g","Los metales como las latas son aprovechables."],
+ ["Frasco de vidrio","g","El vidrio se recicla muchas veces."],
+ ["Periódico","g","Mantén el papel seco y limpio."],
+ ["Cáscaras de plátano","b","Sirven para compost."],
+ ["Restos de verduras","b","Los restos de comida son orgánicos."],
+ ["Hojas secas del jardín","b","Los restos de poda y hojarasca son orgánicos."],
+ ["Pilas usadas","r","Contienen metales tóxicos. Llévalas a un punto de acopio."],
+ ["Foco ahorrador","r","Las lámparas contienen mercurio."],
+ ["Medicinas vencidas","r","Entrégalas en un punto autorizado."],
+ ["Envase de plaguicida","r","Es un residuo peligroso."],
+ ["Papel higiénico usado","n","Los residuos sanitarios son no aprovechables."],
+ ["Pañal descartable","n","Los residuos sanitarios no se reciclan."],
+ ["Colilla de cigarro","n","Es un residuo no aprovechable."],
+ ["Bolsa de snack metalizada","n","El papel metalizado va en el negro."],
+ ["Cerámica rota","n","Los cerámicos son no aprovechables."],
+ ["Paño húmedo","n","Los paños húmedos son residuos sanitarios."]
+];
+/* ---------- utilidades ---------- */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function store(k,v){try{if(v===undefined){var r=localStorage.getItem(k);return r===null?null:JSON.parse(r)}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+/* ---------- navegación ---------- */
+function setPressed(ids,on){ids.forEach(function(id){$(id).setAttribute("aria-pressed",id===on?"true":"false")})}
+var GV={barrio:"view-barrio",limpio:"view-limpio",ruta:"view-ruta-juego",bolsas:"view-bolsas",mitos:"view-mitos"};
+function setMode(m){
+  if(m!=="game"&&typeof bgStop==="function")bgStop();
+  $("game").hidden=m!=="game";$("pro").hidden=m!=="pro";
+  setPressed(["mode-game","mode-pro"],m==="game"?"mode-game":"mode-pro");
+  renderBanner();
+}
+function setGameView(v){
+  if(v!=="bolsas")bgStop();
+  Object.keys(GV).forEach(function(k){$(GV[k]).hidden=k!==v});
+  setPressed(["g-barrio","g-limpio","g-ruta","g-bolsas","g-mitos"],"g-"+v);
+  if(v==="limpio")renderLimpio();
+  else if(v==="ruta")renderRutaJuego();
+  else if(v==="bolsas")renderBolsas();
+  else if(v==="mitos")renderMitos();
+}
+function setProView(v){
+  ["ruta","doc","plazo"].forEach(function(k){$("view-"+k).hidden=k!==v});
+  setPressed(["p-ruta","p-doc","p-plazo"],"p-"+v);
+}
+
+/* ---------- juego del barrio ---------- */
+var G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{}};
+
+function scene(m){
+  var h="",i;
+  [16,84,152,220,288].forEach(function(x){
+    h+='<rect class="house" x="'+x+'" y="64" width="52" height="46"/><polygon class="roof" points="'+(x-4)+',64 '+(x+26)+',40 '+(x+56)+',64"/><rect class="win" x="'+(x+8)+'" y="76" width="10" height="12"/><rect class="win" x="'+(x+34)+'" y="76" width="10" height="12"/>';
+  });
+  var t="";
+  for(i=0;i<5;i++){
+    var x=[52,120,188,256,324][i],o=clamp((m.A-(10+i*14))/20,0,1);
+    t+='<g style="opacity:'+o.toFixed(2)+'"><rect class="trunk" x="'+(x-2)+'" y="88" width="4" height="22"/><circle class="tree" cx="'+x+'" cy="82" r="11"/></g>';
+  }
+  var p="";
+  for(i=0;i<5;i++){
+    var tx=[70,138,206,274,342][i],op=clamp((85-i*15-m.A)/20,0,1);
+    p+='<g style="opacity:'+op.toFixed(2)+'"><ellipse class="trash" cx="'+tx+'" cy="108" rx="11" ry="6"/><rect class="trash" x="'+(tx-6)+'" y="98" width="8" height="8" rx="2"/></g>';
+  }
+  var l="";
+  [[100,20],[180,45],[260,70]].forEach(function(a){
+    l+='<g style="opacity:'+(m.C>=a[1]?1:.25)+'"><rect class="pole" x="'+(a[0]-1)+'" y="84" width="2" height="26"/><circle class="lamp" cx="'+a[0]+'" cy="82" r="5"/></g>';
+  });
+  var n=Math.round(m.P/100*8),q="";
+  for(i=0;i<8;i++){
+    var px=24+i*42;
+    q+='<g style="opacity:'+(i<n?1:0)+'"><circle class="per" cx="'+px+'" cy="122" r="4"/><rect class="per" x="'+(px-3)+'" y="127" width="6" height="12" rx="2"/></g>';
+  }
+  return '<svg class="scene" viewBox="0 0 360 150" role="img" aria-label="Vista del barrio: la limpieza, los árboles, las luces y la cantidad de vecinos cambian con tus decisiones"><rect class="ground" x="0" y="110" width="360" height="40"/>'+h+t+p+l+q+'</svg>';
+}
+
+function meters(){
+  return METERS.map(function(x){
+    var v=G.m[x.k];
+    return '<div class="meter"><div class="row"><span>'+x.n+'</span><span>'+v+'/100</span></div><div class="bar" role="img" aria-label="'+x.n+' '+v+' de 100"><i style="width:'+v+'%;background:'+x.c+'"></i></div></div>';
+  }).join("");
+}
+
+function sidePanel(){
+  var s=G.seals.length?'<div class="seals">'+G.seals.map(function(x){return '<span class="seal">'+esc(x)+'</span>'}).join("")+'</div>':'<p class="note" style="margin-top:8px">Aún no tienes sellos. Se ganan con las mejores decisiones.</p>';
+  return '<div class="card stack">'+scene(G.m)+'<div>'+meters()+'</div><div><div class="mono">Sellos ganados</div>'+s+'</div></div>';
+}
+
+function mainPanel(){
+  if(G.phase==="intro"){
+    var best=store("bc_best");
+    return '<div class="purpose"><div class="mono">Propósito del juego</div><h2>Que tu barrio aprenda a cuidarse y a exigir</h2><p>Nueva Esperanza es un barrio ficticio con problemas muy reales: basura, información que no llega, derechos que se pasan por alto. Tu misión es guiar a los vecinos durante 10 decisiones para que participen, pidan lo que les corresponde por los canales correctos y cuiden su entorno. Ojo: cada semana que pasa se acumulan 12 bolsas de basura más, y los cuatro minijuegos de limpieza te ayudan a retirarlas.</p><div class="how"><div><b>Participación</b>Cuánta gente se involucra.</div><div><b>Derechos</b>Cuánto se conoce y se exige.</div><div><b>Ambiente</b>Limpieza y cuidado del entorno.</div><div><b>Confianza</b>Cuánto se cree entre vecinos y con las entidades.</div></div><p style="margin-top:18px"><button class="btn sun" data-act="start">Empezar</button></p>'+(best?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 400</p>':'')+'</div>';
+  }
+  if(G.phase==="end"){
+    var tot=G.m.P+G.m.D+G.m.A+G.m.C,tier=TIERS[0];
+    TIERS.forEach(function(t){if(tot>=t.min)tier=t});
+    var eco=(store("bc_limpio")||0)>=10;
+    return '<div class="card stack"><div class="mono">Resultado final</div><div class="big">'+esc(tier.name)+'</div><p>'+esc(tier.msg)+'</p><p class="mono">Basura acumulada al final: ≈ '+bagsNow()+' bolsas · Puntaje: '+tot+' / 400 · Sellos: '+G.seals.length+' de '+EVENTS.length+(eco?' · Sello Eco del Punto limpio':'')+'</p><p>Cada decisión del juego tiene un equivalente real. Abre el <b>Modo profesional</b> para ver la ruta de acción, redactar el documento y calcular los plazos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="start">Jugar otra vez</button><button class="btn ghost" data-act="topro">Ir al modo profesional</button></p></div>';
+  }
+  var ev=EVENTS[G.round];
+  var bar='<div class="round">'+EVENTS.map(function(_,i){return '<i class="'+(i<=G.round?'on':'')+'"></i>'}).join("")+'</div>';
+  var head=bar+'<div class="mono">Decisión '+(G.round+1)+' de '+EVENTS.length+' · '+esc(ev.tag)+'</div><h2 style="margin-block:6px 10px;font-size:clamp(24px,4vw,32px)">'+esc(ev.title)+'</h2><p>'+esc(ev.text)+'</p>';
+  var ch='<div class="choices">'+G.order.map(function(idx){
+    var c=ev.choices[idx];
+    return '<button class="choice'+(G.pick===idx?' pick':'')+'" data-act="pick" data-i="'+idx+'"'+(G.phase==="result"?' disabled':'')+'>'+esc(c.t)+'</button>';
+  }).join("")+'</div>';
+  var res="";
+  if(G.phase==="result"){
+    var c=ev.choices[G.pick],names=["Participación","Derechos","Ambiente","Confianza"];
+    var dl=c.d.map(function(v,i){return v?'<span class="pill '+(v>0?'up':'down')+'">'+names[i]+' '+(v>0?'+':'')+v+'</span>':''}).join("")+'<span class="pill down">Pasa la semana: +12 bolsas de basura</span>';
+    res='<div class="result"><p><b>'+(c.best?'Buena decisión. ':'Consecuencia. ')+'</b>'+esc(c.out)+'</p><div class="deltas">'+dl+'</div><div class="learn"><b>Para la vida real:</b> '+esc(ev.learn)+'</div><p><button class="btn" data-act="next">'+(G.round+1>=EVENTS.length?'Ver resultado':'Siguiente decisión')+'</button></p></div>';
+  }
+  return '<div class="card">'+head+ch+res+'</div>';
+}
+
+function renderBarrio(){
+  renderBanner();
+  $("view-barrio").innerHTML='<div class="grid">'+sidePanel()+'<div>'+mainPanel()+'</div></div>';
+}
+function startEvent(){G.order=shuffle([0,1,2]);G.pick=-1}
+function gameAct(a,el){
+  if(a==="start"){G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"event",pick:-1,order:[],bonus:{}};startEvent()}
+  else if(a==="pick"&&G.phase==="event"){
+    var i=+el.getAttribute("data-i"),ev=EVENTS[G.round],c=ev.choices[i];
+    G.pick=i;G.phase="result";
+    ["P","D","A","C"].forEach(function(k,j){G.m[k]=clamp(G.m[k]+c.d[j],0,100)});
+    G.m.A=clamp(G.m.A-3,0,100);
+    if(c.best&&G.seals.indexOf(ev.seal)<0)G.seals.push(ev.seal);
+  }else if(a==="next"){
+    G.round++;
+    if(G.round>=EVENTS.length){
+      G.phase="end";
+      var tot=G.m.P+G.m.D+G.m.A+G.m.C,b=store("bc_best")||0;
+      if(tot>b)store("bc_best",tot);
+    }else{G.phase="event";startEvent()}
+  }else if(a==="topro"){setMode("pro");window.scrollTo(0,0);return}
+  renderBarrio();
+  var f=document.querySelector("#view-barrio .result .btn,#view-barrio .choice");
+  if(a==="pick"||a==="next"){var t=document.querySelector("#view-barrio h2")||document.querySelector("#view-barrio .big");if(t){t.setAttribute("tabindex","-1");t.focus({preventScroll:true})}}
+}
+
+/* ---------- minijuego: punto limpio ---------- */
+var L={phase:"intro",i:0,score:0,streak:0,answered:false,items:[],last:null};
+function renderLimpio(){
+  var el=$("view-limpio"),best=store("bc_limpio");
+  if(L.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego</div><h2>Punto limpio</h2><p>Llegan 12 residuos al punto de acopio del barrio. Elige el contenedor correcto según el código de colores peruano: verde para aprovechables, marrón para orgánicos, negro para no aprovechables y rojo para peligrosos. Si aciertas 10 o más, ganas el Sello Eco.</p><p style="margin-top:18px"><button class="btn sun" data-act="lstart">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 12</p>':'')+'</div>';
+    return;
+  }
+  if(L.phase==="end"){
+    var eco=L.score>=10;
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+L.score+' de 12</div><p>'+(eco?'Ganaste el Sello Eco. Ya sabes separar bien los residuos.':L.score>=7?'Vas bien. Repasa los residuos peligrosos y los no aprovechables.':'Hay que practicar un poco más. Intenta de nuevo y lee los consejos.')+'</p><p>'+esc(L.msg||"")+'</p><p class="note">Revisa siempre las indicaciones de tu municipalidad: los programas locales pueden agrupar los residuos de forma distinta.</p><p><button class="btn sun" data-act="lstart">Jugar otra vez</button></p></div>';
+    return;
+  }
+  var it=L.items[L.i];
+  var bins=BINS.map(function(b,idx){return '<button class="bin '+b.k+'" data-act="bin" data-k="'+b.k+'"'+(L.answered?' disabled':'')+'><span class="mono" style="opacity:.8">'+(idx+1)+'</span><br>'+b.n+'<small>'+b.s+'</small></button>'}).join("");
+  var fb=L.answered?'<span class="'+(L.last.ok?'ok':'no')+'">'+(L.last.ok?'Correcto. ':'No era ese. Va en el '+esc(BINS.filter(function(b){return b.k===it[1]})[0].n.toLowerCase())+'. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="lnext" style="margin-left:8px">'+(L.i+1>=12?'Ver resultado':'Siguiente')+'</button>':'<span class="note">Toca un contenedor o usa las teclas 1 a 4.</span>';
+  el.innerHTML='<div class="card"><div class="round">'+L.items.map(function(_,i){return '<i class="'+(i<=L.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Residuo '+(L.i+1)+' de 12 · Aciertos '+L.score+' · Racha '+L.streak+'</div><div class="item">'+esc(it[0])+'</div><div class="bins">'+bins+'</div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
+}
+function limpioAct(a,el){
+  if(a==="lstart"){L={phase:"play",i:0,score:0,streak:0,answered:false,items:shuffle(ITEMS).slice(0,12),last:null}}
+  else if(a==="bin"&&!L.answered){
+    var ok=el.getAttribute("data-k")===L.items[L.i][1];
+    L.answered=true;L.last={ok:ok};
+    if(ok){L.score++;L.streak++}else L.streak=0;
+  }else if(a==="lnext"){
+    L.i++;L.answered=false;
+    if(L.i>=12){
+      L.phase="end";
+      var b=store("bc_limpio");if(b===null||L.score>b)store("bc_limpio",L.score);
+      L.msg=award("limpio",L.score/12);
+    }
+  }
+  renderLimpio();
+  var n=document.querySelector('#view-limpio [data-act="lnext"]');if(n)n.focus({preventScroll:true});
+}
+
+/* ---------- modo profesional: ruta de acción ---------- */
+var R={id:"residuos"};
+function getChecks(id){var c=store("bc_chk_"+id);return Array.isArray(c)?c:[]}
+function renderRuta(){
+  var r=ROUTES.filter(function(x){return x.id===R.id})[0],ck=getChecks(r.id);
+  var chips='<div class="chips" role="group" aria-label="Tipo de problema">'+ROUTES.map(function(x){return '<button data-act="route" data-id="'+x.id+'" aria-pressed="'+(x.id===R.id)+'">'+esc(x.name)+'</button>'}).join("")+'</div>';
+  var steps='<ol class="steps">'+r.steps.map(function(s,i){return '<li class="'+(ck[i]?'done':'')+'"><input type="checkbox" id="st'+i+'" data-act="chk" data-i="'+i+'"'+(ck[i]?' checked':'')+' aria-label="Paso '+(i+1)+' hecho"><div><b>'+(i+1)+'. '+esc(s[0])+'</b>'+esc(s[1])+'</div></li>'}).join("")+'</ol>';
+  var ent='<ul class="plain">'+r.entities.map(function(e){return '<li><b>'+esc(e[0])+'.</b> '+esc(e[1])+'</li>'}).join("")+'</ul>';
+  var ev='<ul class="plain">'+r.evidence.map(function(e){return '<li>'+esc(e)+'</li>'}).join("")+'</ul>';
+  var law='<ul class="plain">'+r.law.map(function(e){return '<li>'+esc(e)+'</li>'}).join("")+'</ul>';
+  var done=ck.filter(Boolean).length;
+  $("view-ruta").innerHTML='<div class="stack">'+chips+'<div class="card stack"><div><h2 style="font-size:26px">'+esc(r.name)+'</h2><p style="margin-top:6px;max-width:68ch">'+esc(r.intro)+'</p></div><div class="mono">Avance: '+done+' de '+r.steps.length+' pasos</div>'+steps+'</div><div class="two"><div class="card"><h3>Entidades que intervienen</h3>'+ent+'</div><div class="card"><h3>Evidencias que conviene reunir</h3>'+ev+'</div></div><div class="card"><h3>Base legal de referencia</h3>'+law+'<p class="note" style="margin-top:10px">Orientación general. Las normas y los plazos cambian: confirma la versión vigente antes de presentar.</p></div><p><button class="btn" data-act="todoc">Redactar el documento</button></p></div>';
+}
+
+/* ---------- modo profesional: documento ---------- */
+var D={type:"info",v:{}};
+var FIELDS=[["nombre","Nombre completo","text"],["dni","DNI","text"],["domicilio","Domicilio","text"],["contacto","Correo o teléfono de contacto","text"],["lugar","Localidad","text"],["entidad","","text"],["asunto","Asunto (una línea)","text"]];
+function fv(k,ph){var s=(D.v[k]||"").trim();return s?s:"["+ph+"]"}
+function buildDoc(){
+  var d=DOCS.filter(function(x){return x.id===D.type})[0];
+  var fecha=new Date().toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"});
+  var who="Yo, "+fv("nombre","tu nombre completo")+", identificado(a) con DNI N.° "+fv("dni","tu DNI")+", con domicilio en "+fv("domicilio","tu domicilio")+" y contacto "+fv("contacto","correo o teléfono")+", ";
+  var pie=fv("lugar","localidad")+", "+fecha+"\n\n\n____________________\n"+fv("nombre","tu nombre completo")+"\nDNI N.° "+fv("dni","tu DNI");
+  var hechos=(D.v.hechos||"").trim(),pedido=fv("pedido","indica qué pides");
+  var t="";
+  if(D.type==="info"){
+    t="SOLICITUD DE ACCESO A LA INFORMACIÓN PÚBLICA\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"solicito, al amparo del artículo 2, inciso 5, de la Constitución Política del Perú y del TUO de la Ley N.° 27806, Ley de Transparencia y Acceso a la Información Pública, la siguiente información:\n\n"+pedido+"\n\n"+(hechos?"Contexto: "+hechos+"\n\n":"")+"Solicito que la información se entregue de la siguiente forma: "+(D.v.entrega||"copia simple en formato digital")+".\n\nQuedo atento(a) a su respuesta dentro del plazo previsto en la norma.\n\n"+pie;
+  }else if(D.type==="peticion"){
+    t="SOLICITUD\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"en ejercicio del derecho de petición (Constitución, art. 2, inciso 20, y TUO de la Ley N.° 27444), expongo lo siguiente:\n\nHECHOS\n"+fv("hechos","describe qué ocurrió, cuándo y dónde")+"\n\nPETICIÓN\n"+pedido+"\n\nAdjunto fotografías y otros documentos que respaldan lo expuesto. Solicito que se me comunique la respuesta por escrito.\n\n"+pie;
+  }else if(D.type==="ambiental"){
+    t="DENUNCIA AMBIENTAL\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"presento esta denuncia, en ejercicio de mi derecho a un ambiente equilibrado y adecuado (Constitución, art. 2, inciso 22, y Ley N.° 28611, Ley General del Ambiente).\n\nDESCRIPCIÓN DE LOS HECHOS\n"+fv("hechos","qué ocurre, desde cuándo, dónde y quién lo realiza, si lo sabes")+"\n\nSOLICITO\n"+pedido+"\n\nAdjunto fotografías, videos y otros medios que acreditan los hechos. Pido que se me informe el número de registro de esta denuncia y las acciones que se realicen.\n\n"+pie;
+  }else{
+    t="QUEJA POR VULNERACIÓN DE DERECHOS\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"presento esta queja por los siguientes hechos:\n\nHECHOS\n"+fv("hechos","fecha, hora, lugar, persona o cargo involucrado y lo ocurrido")+"\n\nSOLICITO\n"+pedido+"\n\nAdjunto los documentos y medios de prueba disponibles. Indico como testigos, si los hay, a las personas que podrán confirmar lo ocurrido. Solicito respuesta por escrito.\n\n"+pie;
+  }
+  return t;
+}
+function renderDoc(){
+  var d=DOCS.filter(function(x){return x.id===D.type})[0];
+  var chips='<div class="chips" role="group" aria-label="Tipo de documento">'+DOCS.map(function(x){return '<button data-act="dtype" data-id="'+x.id+'" aria-pressed="'+(x.id===D.type)+'">'+esc(x.name)+'</button>'}).join("")+'</div>';
+  function inp(k,label,full){return '<div'+(full?' class="full"':'')+'><label for="f-'+k+'">'+esc(label)+'</label><input id="f-'+k+'" data-f="'+k+'" value="'+esc(D.v[k]||"")+'" autocomplete="off"></div>'}
+  function ta(k,label,ph){return '<div class="full"><label for="f-'+k+'">'+esc(label)+'</label><textarea id="f-'+k+'" data-f="'+k+'" placeholder="'+esc(ph||"")+'">'+esc(D.v[k]||"")+'</textarea></div>'}
+  var form='<div class="form">'+inp("nombre","Nombre completo")+inp("dni","DNI")+inp("domicilio","Domicilio")+inp("contacto","Correo o teléfono de contacto")+inp("lugar","Localidad")+inp("entidad",d.entityLabel,true)+inp("asunto","Asunto (una línea)",true)+(D.type==="info"?'<div class="full"><label for="f-entrega">Forma de entrega</label><select id="f-entrega" data-f="entrega"><option>copia simple en formato digital</option><option>copia simple en papel</option><option>envío a mi correo electrónico</option></select></div>':'')+ta("pedido",d.askLabel,d.ph)+(D.type==="info"?ta("hechos",d.factsLabel,"Opcional"):ta("hechos",d.factsLabel,"Fecha, lugar, qué ocurrió, quién estuvo presente."))+'</div>';
+  $("view-doc").innerHTML='<div class="stack">'+chips+'<div class="two"><div class="card stack"><h3>Tus datos</h3>'+form+'</div><div class="card stack"><h3>Vista previa</h3><div class="doc" id="docout" tabindex="0"></div><p style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" data-act="copy">Copiar texto</button><span class="note" id="copymsg" aria-live="polite"></span></p><p class="note">Revisa el texto, complétalo y adjunta tus pruebas. Presenta dos copias y pide el cargo con sello y fecha de recepción.</p></div></div></div>';
+  var sel=$("f-entrega");if(sel&&D.v.entrega)sel.value=D.v.entrega;
+  $("docout").textContent=buildDoc();
+}
+function copyDoc(){
+  var out=$("docout"),msg=$("copymsg");
+  function sel(){var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+  try{navigator.clipboard.writeText(out.textContent).then(function(){msg.textContent="Texto copiado."},function(){sel();msg.textContent="Texto seleccionado. Cópialo con Ctrl+C."})}
+  catch(e){sel();msg.textContent="Texto seleccionado. Cópialo con Ctrl+C."}
+}
+
+/* ---------- modo profesional: plazos ---------- */
+var PL={kind:"10",custom:15,start:"",hol:0,ext:0};
+function ymd(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function addBiz(d,n){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());while(n>0){x.setDate(x.getDate()+1);var w=x.getDay();if(w!==0&&w!==6)n--}return x}
+function fmt(d){return d.toLocaleDateString("es-PE",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+function renderPlazo(){
+  if(!PL.start)PL.start=ymd(new Date());
+  $("view-plazo").innerHTML='<div class="two"><div class="card stack"><h3>Calcula el plazo de respuesta</h3><div class="form"><div class="full"><label for="pl-kind">Tipo de trámite</label><select id="pl-kind"><option value="10">Acceso a información pública (10 días hábiles)</option><option value="30">Petición administrativa general (30 días hábiles, orientativo)</option><option value="custom">Otro plazo (indica los días hábiles)</option></select></div><div id="pl-custom-wrap" hidden><label for="pl-custom">Días hábiles</label><input id="pl-custom" type="number" min="1" max="200" value="'+PL.custom+'"></div><div><label for="pl-start">Fecha de presentación</label><input id="pl-start" type="date" value="'+PL.start+'"></div><div><label for="pl-hol">Feriados en ese periodo</label><input id="pl-hol" type="number" min="0" max="30" value="'+PL.hol+'"></div><div><label for="pl-ext">Días hábiles de prórroga</label><input id="pl-ext" type="number" min="0" max="60" value="'+PL.ext+'"></div></div><p class="note">Los sábados y domingos se descuentan solos. Los feriados no: cuéntalos y agrégalos arriba. El día de presentación no cuenta. Si la entidad amplía el plazo, indica los días de prórroga que fundamentó por escrito.</p></div><div class="card stack" aria-live="polite" id="pl-out"></div></div>';
+  $("pl-kind").value=PL.kind;
+  $("pl-custom-wrap").hidden=PL.kind!=="custom";
+  calcPlazo();
+}
+function calcPlazo(){
+  var p=PL.start.split("-"),out=$("pl-out");
+  if(p.length!==3||!PL.start){out.innerHTML='<p>Indica la fecha de presentación.</p>';return}
+  var s=new Date(+p[0],+p[1]-1,+p[2]);
+  var base=PL.kind==="custom"?Math.max(1,PL.custom|0):+PL.kind;
+  var total=base+Math.max(0,PL.hol|0)+Math.max(0,PL.ext|0);
+  var lim=addBiz(s,total);
+  var hoy=new Date();hoy=new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate());
+  var diff=Math.round((lim-hoy)/86400000);
+  var st=diff<0?'<span class="pill down" style="color:var(--bad)">Plazo vencido hace '+(-diff)+' días</span>':diff===0?'<span class="pill" style="color:var(--warn)">Vence hoy</span>':'<span class="pill" style="color:var(--good)">Faltan '+diff+' días calendario</span>';
+  var next=diff<0?'<p>La entidad ya debió responder. Reitera por escrito, presenta una queja o usa el recurso que corresponda a tu ruta de acción (por ejemplo, apelación ante el Tribunal de Transparencia en el caso de información pública).</p>':'<p>Guarda tu cargo y vuelve a esta fecha. Si no hay respuesta, pasa al siguiente paso de tu ruta.</p>';
+  out.innerHTML='<div class="mono">Fecha límite de respuesta</div><div class="big" style="text-transform:capitalize">'+esc(fmt(lim))+'</div>'+st+'<p class="note">Se cuentan '+total+' días hábiles desde el '+esc(fmt(s))+'.</p>'+next+'<p class="note">Cálculo de apoyo. Confirma el plazo exacto y las reglas de cómputo en la norma vigente.</p>';
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener("click",function(e){
+  var el=e.target.closest("[data-act],#mode-game,#mode-pro,#g-barrio,#g-limpio,#g-ruta,#g-bolsas,#g-mitos,#p-ruta,#p-doc,#p-plazo");
+  if(!el)return;
+  var id=el.id,a=el.getAttribute("data-act");
+  if(id==="mode-game")return setMode("game");
+  if(id==="mode-pro")return setMode("pro");
+  if(id==="g-barrio")return setGameView("barrio");
+  if(id==="g-limpio")return setGameView("limpio");
+  if(id==="g-ruta")return setGameView("ruta");
+  if(id==="g-bolsas")return setGameView("bolsas");
+  if(id==="g-mitos")return setGameView("mitos");
+  if(id==="p-ruta")return setProView("ruta");
+  if(id==="p-doc"){setProView("doc");renderDoc();return}
+  if(id==="p-plazo"){setProView("plazo");renderPlazo();return}
+  if(!a)return;
+  if(extraAct(a,el))return;
+  if(["start","pick","next","topro"].indexOf(a)>=0)return gameAct(a,el);
+  if(["lstart","bin","lnext"].indexOf(a)>=0)return limpioAct(a,el);
+  if(a==="route"){R.id=el.getAttribute("data-id");renderRuta()}
+  else if(a==="chk"){return}
+  else if(a==="todoc"){var m={residuos:"peticion",contaminacion:"ambiental",derechos:"queja",informacion:"info",obra:"info",propuesta:"peticion"};D.type=m[R.id]||"peticion";setProView("doc");renderDoc()}
+  else if(a==="dtype"){D.type=el.getAttribute("data-id");renderDoc()}
+  else if(a==="copy")copyDoc();
+});
+document.addEventListener("change",function(e){
+  var el=e.target;
+  if(el.getAttribute&&el.getAttribute("data-act")==="chk"){
+    var r=ROUTES.filter(function(x){return x.id===R.id})[0],ck=getChecks(r.id).slice();
+    ck[+el.getAttribute("data-i")]=el.checked;store("bc_chk_"+r.id,ck);renderRuta();return;
+  }
+  if(el.id==="pl-kind"){PL.kind=el.value;$("pl-custom-wrap").hidden=PL.kind!=="custom";calcPlazo()}
+  else if(el.id==="f-entrega"){D.v.entrega=el.value;$("docout").textContent=buildDoc()}
+});
+document.addEventListener("input",function(e){
+  var el=e.target,f=el.getAttribute&&el.getAttribute("data-f");
+  if(f&&f!=="entrega"){D.v[f]=el.value;$("docout").textContent=buildDoc();return}
+  if(el.id==="pl-custom"){PL.custom=+el.value;calcPlazo()}
+  else if(el.id==="pl-start"){PL.start=el.value;calcPlazo()}
+  else if(el.id==="pl-hol"){PL.hol=+el.value;calcPlazo()}
+  else if(el.id==="pl-ext"){PL.ext=+el.value;calcPlazo()}
+});
+document.addEventListener("keydown",function(e){
+  if(e.key===" "&&typeof BG!=="undefined"&&BG.phase==="play"&&!$("view-bolsas").hidden&&e.target.tagName!=="BUTTON"){e.preventDefault();bgTake();return}
+  if($("view-limpio").hidden||$("game").hidden||L.phase!=="play")return;
+  var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT")return;
+  var n=+e.key;
+  if(!L.answered&&n>=1&&n<=4){limpioAct("bin",{getAttribute:function(){return BINS[n-1].k}})}
+  else if(L.answered&&e.key==="Enter"&&e.target.tagName!=="BUTTON"){limpioAct("lnext",null)}
+});
+
+/* ---------- arranque ---------- */
+renderBarrio();
+renderRuta();
+renderBanner();
+/* ---------- basura acumulada: medidor permanente y bonus de minijuegos ---------- */
+function bagsNow(){return Math.round((100-G.m.A)*4)}
+function renderBanner(){
+  var el=$("trash-banner");if(!el)return;
+  if(!$("pro").hidden){el.hidden=true;return}
+  el.hidden=false;
+  var n=bagsNow(),lvl,col;
+  if(n>=240){lvl="Crítica";col="var(--bad)"}else if(n>=160){lvl="Alta";col="var(--warn)"}else if(n>=80){lvl="Moderada";col="var(--sun)"}else{lvl="Controlada";col="var(--good)"}
+  var pct=clamp(100-G.m.A,0,100);
+  el.innerHTML='<span class="lbl">Basura acumulada en Nueva Esperanza</span><div class="bar" role="img" aria-label="Basura acumulada: '+n+' bolsas, nivel '+lvl.toLowerCase()+'"><i style="width:'+pct+'%;background:'+col+'"></i></div><span class="num">≈ '+n+' bolsas · '+lvl+'</span><span class="tip">Cada semana que pasa se acumulan 12 bolsas más. Tus decisiones y las jornadas de limpieza de los minijuegos la reducen.</span>';
+}
+function award(type,ratio){
+  G.bonus=G.bonus||{};
+  if(G.phase!=="event"&&G.phase!=="result")return "Empieza una partida en el Barrio Nueva Esperanza para que tu limpieza reduzca la basura acumulada.";
+  if(G.bonus[type]!==undefined)return "La jornada de este minijuego ya cuenta en esta partida del barrio. Puedes seguir jugando por práctica.";
+  var b=Math.round(clamp(ratio,0,1)*10);
+  G.bonus[type]=b;G.m.A=clamp(G.m.A+b,0,100);
+  renderBanner();renderBarrio();
+  return b>0?"Jornada de limpieza: se retiran ≈ "+(b*4)+" bolsas del barrio (Ambiente +"+b+").":"Esta vez no se retiraron bolsas del barrio.";
+}
+
+/* ---------- minijuego: ruta del camión (planificación) ---------- */
+var PTS=[["Colegio San Martín",2],["Mercado Central",2],["Posta de salud",2],["Esquina del pasaje 3",1],["Puente del canal",1],["Terreno baldío",1],["Paradero de la avenida",1],["Parque vecinal",1],["Calle del taller",1]];
+var RT={phase:"intro",pts:[],sel:{},budget:0,res:""};
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function rtStart(){
+  var pri=shuffle(PTS.filter(function(p){return p[1]>1})).slice(0,2),oth=shuffle(PTS.filter(function(p){return p[1]===1})).slice(0,4);
+  var pts=shuffle(pri.concat(oth)).map(function(p){return {n:p[0],w:p[1],b:rnd(6,24),m:rnd(8,22)}});
+  var tot=pts.reduce(function(s,p){return s+p.m},0);
+  RT={phase:"play",pts:pts,sel:{},budget:Math.round(tot*0.5),res:""};
+}
+function rtUsed(){var u=0,v=0,b=0;RT.pts.forEach(function(p,i){if(RT.sel[i]){u+=p.m;v+=p.b*p.w;b+=p.b}});return {u:u,v:v,b:b}}
+function rtBest(){
+  var best=0,mask=0,n=RT.pts.length;
+  for(var s=0;s<(1<<n);s++){var m=0,v=0;for(var i=0;i<n;i++)if(s&(1<<i)){m+=RT.pts[i].m;v+=RT.pts[i].b*RT.pts[i].w}if(m<=RT.budget&&v>best){best=v;mask=s}}
+  return {v:best,mask:mask};
+}
+function renderRutaJuego(){
+  var el=$("view-ruta-juego");
+  if(RT.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de planificación</div><h2>Ruta del camión</h2><p>El camión recolector no alcanza para todos los puntos de acumulación: tiene tiempo limitado. Elige qué puntos visitar para retirar el mayor valor posible. Los colegios, mercados y postas pesan doble porque ahí la basura afecta la salud de más personas.</p><p style="margin-top:18px"><button class="btn sun" data-act="rt-start">Planificar la ruta</button></p></div>';
+    return;
+  }
+  var u=rtUsed();
+  if(RT.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+RT.eff+'% de eficiencia</div><p>'+esc(RT.res)+'</p><p class="note">En la vida real, estas prioridades se piden por escrito a la municipalidad y se discuten en asamblea. Con datos de dónde y cuánto se acumula, el reclamo se puede atender mejor.</p><p><button class="btn sun" data-act="rt-start">Otra ruta</button></p></div>';
+    return;
+  }
+  var list=RT.pts.map(function(p,i){
+    var on=!!RT.sel[i],fits=on||u.u+p.m<=RT.budget;
+    return '<button class="pt" data-act="rt-toggle" data-i="'+i+'" aria-pressed="'+on+'"'+(fits?'':' disabled')+'><b>'+esc(p.n)+(p.w>1?' <span class="p2">Prioridad</span>':'')+'</b><span class="m">'+p.m+' min</span><span class="m">'+p.b+' bolsas'+(p.w>1?' × 2':'')+'</span></button>';
+  }).join("");
+  el.innerHTML='<div class="card"><div class="mono">Puntos de acumulación</div><div class="pts">'+list+'</div><div class="budget" aria-live="polite"><span>Tiempo: '+u.u+' / '+RT.budget+' min</span><span>Bolsas retiradas: '+u.b+'</span><span>Valor: '+u.v+'</span></div><p style="margin-top:14px"><button class="btn" data-act="rt-go"'+(u.u>0?'':' disabled')+'>Confirmar ruta</button></p></div>';
+}
+function rtGo(){
+  var u=rtUsed(),b=rtBest(),eff=b.v?Math.round(u.v/b.v*100):0;
+  var names=RT.pts.filter(function(_,i){return b.mask&(1<<i)}).map(function(p){return p.n}).join(", ");
+  RT.eff=eff;RT.phase="end";
+  RT.res=(eff>=100?"Elegiste la mejor ruta posible. ":"La mejor ruta posible era: "+names+". ")+"Tu ruta retiró "+u.b+" bolsas con un valor de "+u.v+" sobre "+b.v+". "+award("ruta",eff/100);
+}
+
+/* ---------- minijuego: atrapa-bolsas (reflejos) ---------- */
+var BG={phase:"intro",raf:0};
+var AW=520,AH=360;
+function renderBolsas(){
+  var el=$("view-bolsas"),best=store("bc_bolsas");
+  if(BG.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>En 30 segundos caen bolsas de basura hacia la calle. Toca cada bolsa antes de que llegue al suelo. Las rojas son residuos peligrosos: caen más rápido y valen el doble. Cada bolsa que toca el suelo se suma a la basura acumulada. También puedes recoger la bolsa más baja con la barra espaciadora.</p><p style="margin-top:18px"><button class="btn sun" data-act="bg-start">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'</div>';
+    return;
+  }
+  if(BG.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas y '+BG.missed+' llegaron al suelo. '+esc(BG.msg)+'</p><p><button class="btn sun" data-act="bg-start">Jugar otra vez</button></p></div>';
+    return;
+  }
+  el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen"></canvas><p style="margin-top:12px"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button></p></div>';
+}
+function bgStart(){
+  bgStop();
+  BG={phase:"play",raf:0,t:30,bags:[],score:0,caught:0,missed:0,spawn:.3,last:performance.now(),msg:""};
+  renderBolsas();
+  var cv=$("arena"),cs=getComputedStyle(document.documentElement);
+  function c(n){return cs.getPropertyValue(n).trim()}
+  BG.cv=cv;BG.ctx=cv.getContext("2d");
+  BG.col={bg:c("--surface2"),ground:c("--line"),n:c("--bin-black"),r:c("--bin-red"),ink:c("--ink")};
+  cv.addEventListener("pointerdown",bgPointer);
+  BG.raf=requestAnimationFrame(bgLoop);
+}
+function bgStop(){if(BG.raf)cancelAnimationFrame(BG.raf);BG.raf=0;if(BG.phase==="play")BG.phase="intro"}
+function bgPointer(e){
+  var r=BG.cv.getBoundingClientRect(),px=(e.clientX-r.left)*AW/r.width,py=(e.clientY-r.top)*AH/r.height,hit=-1,hy=-1;
+  BG.bags.forEach(function(b,i){var dx=b.x-px,dy=b.y-py;if(dx*dx+dy*dy<=(b.r+14)*(b.r+14)&&b.y>hy){hy=b.y;hit=i}});
+  if(hit>=0)bgCatch(hit);
+}
+function bgCatch(i){var b=BG.bags.splice(i,1)[0];BG.caught++;BG.score+=b.k==="r"?2:1}
+function bgTake(){if(BG.phase!=="play"||!BG.bags.length)return;var li=0;BG.bags.forEach(function(b,i){if(b.y>BG.bags[li].y)li=i});bgCatch(li)}
+function bgLoop(ts){
+  if(BG.phase!=="play")return;
+  var dt=Math.min(.05,(ts-BG.last)/1000);BG.last=ts;BG.t-=dt;BG.spawn-=dt;
+  if(BG.spawn<=0){var red=Math.random()<.2;BG.bags.push({x:30+Math.random()*(AW-60),y:-20,vy:(70+Math.random()*50+(30-BG.t)*2)*(red?1.35:1),r:18,k:red?"r":"n"});BG.spawn=.55+Math.random()*.35}
+  for(var i=BG.bags.length-1;i>=0;i--){var b=BG.bags[i];b.y+=b.vy*dt;if(b.y>AH-22){BG.bags.splice(i,1);BG.missed++}}
+  var g=BG.ctx,C=BG.col;
+  g.fillStyle=C.bg;g.fillRect(0,0,AW,AH);
+  g.fillStyle=C.ground;g.fillRect(0,AH-20,AW,20);
+  g.fillStyle=C.n;
+  for(var j=0;j<Math.min(BG.missed,40);j++){g.beginPath();g.arc((j*47)%(AW-20)+12,AH-20,7+(j%3)*2,Math.PI,0);g.fill()}
+  BG.bags.forEach(function(b){
+    g.fillStyle=b.k==="r"?C.r:C.n;g.beginPath();g.arc(b.x,b.y,b.r,0,Math.PI*2);g.fill();
+    g.fillRect(b.x-3,b.y-b.r-6,6,8);
+    if(b.k==="r"){g.fillStyle="#fff";g.font="bold 18px sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("!",b.x,b.y+1)}
+  });
+  var h=$("hud");if(h)h.innerHTML='<span>Tiempo: '+Math.max(0,Math.ceil(BG.t))+' s</span><span>Puntos: '+BG.score+'</span><span>Al suelo: '+BG.missed+'</span>';
+  if(BG.t<=0){bgEnd();return}
+  BG.raf=requestAnimationFrame(bgLoop);
+}
+function bgEnd(){
+  BG.raf=0;BG.phase="end";
+  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0;
+  var b=store("bc_bolsas");if(b===null||BG.score>b)store("bc_bolsas",BG.score);
+  BG.msg=award("bolsas",ratio);
+  renderBolsas();
+}
+
+/* ---------- minijuego: mitos y datos (verdadero o falso) ---------- */
+var MITOS=[
+ ["Quemar la basura en la calle es una forma segura de eliminarla.",false,"El humo contiene sustancias tóxicas que enferman, sobre todo a niños y adultos mayores, y la quema puede ser sancionada."],
+ ["La basura acumulada atrae roedores e insectos que pueden transmitir enfermedades.",true,"Por eso un basural es un tema de salud pública y no solo de limpieza."],
+ ["Los restos de comida y de poda se pueden convertir en compost.",true,"Los residuos orgánicos van en el contenedor marrón y pueden volver como abono."],
+ ["Si cada familia separa sus residuos, llegan menos al botadero.",true,"Separar en origen facilita el reciclaje y reduce lo que se entierra o se acumula."],
+ ["Botar basura en un terreno baldío no afecta a nadie, porque nadie vive ahí.",false,"Los terrenos baldíos se vuelven botaderos, atraen plagas y contaminan el suelo y el agua cercana."],
+ ["Puedes pedir por escrito a la municipalidad los horarios y las rutas del camión recolector.",true,"Es una petición válida y, si no te responden, queda constancia de que lo pediste."],
+ ["Las pilas y los focos ahorradores pueden ir con la basura común.",false,"Son residuos peligrosos: llévalos a un punto de acopio autorizado (contenedor rojo)."],
+ ["Los líquidos que sueltan los residuos acumulados pueden contaminar quebradas y acequias.",true,"Ese líquido arrastra contaminantes. Por eso un basural junto al agua es una urgencia ambiental."],
+ ["Un reclamo por un basural solo sirve si lo presenta una autoridad, no los vecinos.",false,"Cualquier persona puede presentar una petición o una denuncia ambiental."],
+ ["Un reclamo con fotos con fecha y firmas de vecinos es más difícil de ignorar.",true,"La evidencia y el respaldo colectivo ayudan a que la entidad responda."]
+];
+var MT={phase:"intro",i:0,score:0,answered:false,items:[],ok:false,msg:""};
+function renderMitos(){
+  var el=$("view-mitos");
+  if(MT.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de conocimiento</div><h2>Mitos y datos</h2><p>Ocho afirmaciones sobre la basura acumulada y lo que podemos hacer. Di si cada una es verdadera o falsa y lee la explicación. Cada respuesta correcta suma a tu jornada de limpieza.</p><p style="margin-top:18px"><button class="btn sun" data-act="mt-start">Empezar</button></p></div>';
+    return;
+  }
+  if(MT.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MT.score+' de 8</div><p>'+esc(MT.msg)+'</p><p><button class="btn sun" data-act="mt-start">Jugar otra vez</button></p></div>';
+    return;
+  }
+  var it=MT.items[MT.i];
+  var fb=MT.answered?'<span class="'+(MT.ok?'ok':'no')+'">'+(MT.ok?'Correcto. ':'No exactamente. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="mt-next" style="margin-left:8px">'+(MT.i+1>=8?'Ver resultado':'Siguiente')+'</button>':'';
+  el.innerHTML='<div class="card"><div class="round">'+MT.items.map(function(_,i){return '<i class="'+(i<=MT.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Afirmación '+(MT.i+1)+' de 8 · Aciertos '+MT.score+'</div><div class="item" style="font-size:clamp(20px,3.6vw,28px)">'+esc(it[0])+'</div><div class="tf"><button class="btn" data-act="mt" data-v="1"'+(MT.answered?' disabled':'')+'>Verdadero</button><button class="btn ghost" data-act="mt" data-v="0"'+(MT.answered?' disabled':'')+'>Falso</button></div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
+}
+
+/* ---------- atajos del modo profesional (caso: basura acumulada) ---------- */
+function basuraDoc(){
+  D.type="peticion";
+  D.v.asunto="Acumulación de residuos sólidos y falta de recojo en [calle o pasaje]";
+  D.v.hechos="Desde hace [N] días se acumulan residuos sólidos en [dirección] porque el camión recolector no pasa. Esto atrae roedores, genera malos olores y afecta a [N] familias, entre ellas niños y adultos mayores. Se adjuntan fotografías con fecha y firmas de vecinos.";
+  D.v.pedido="Que se reanude el recojo de residuos, se limpie el punto crítico y se nos informe el horario y las rutas del servicio.";
+}
+
+/* ---------- despacho de acciones extra ---------- */
+function extraAct(a,el){
+  if(a==="rt-start"){rtStart();renderRutaJuego();return true}
+  if(a==="rt-toggle"){var i=+el.getAttribute("data-i");if(RT.sel[i])delete RT.sel[i];else RT.sel[i]=true;renderRutaJuego();return true}
+  if(a==="rt-go"){rtGo();renderRutaJuego();return true}
+  if(a==="bg-start"){bgStart();return true}
+  if(a==="bg-take"){bgTake();return true}
+  if(a==="mt-start"){MT={phase:"play",i:0,score:0,answered:false,items:shuffle(MITOS).slice(0,8),ok:false,msg:""};renderMitos();return true}
+  if(a==="mt"&&!MT.answered){var it=MT.items[MT.i],v=el.getAttribute("data-v")==="1";MT.ok=v===it[1];MT.answered=true;if(MT.ok)MT.score++;renderMitos();var n=document.querySelector('#view-mitos [data-act="mt-next"]');if(n)n.focus({preventScroll:true});return true}
+  if(a==="mt-next"){MT.i++;MT.answered=false;if(MT.i>=8){MT.phase="end";MT.msg=(MT.score>=7?"Muy bien informado. ":"Repasa las explicaciones. ")+award("mitos",MT.score/8)}renderMitos();return true}
+  if(a==="basura-ruta"){R.id="residuos";setProView("ruta");renderRuta();return true}
+  if(a==="basura-doc"){basuraDoc();setProView("doc");renderDoc();return true}
+  return false;
+}
+</script>
+
+</body></html>
