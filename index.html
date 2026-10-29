@@ -1,6 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Barrio Común</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
 /* Concepto: afiche de asamblea vecinal. Fondo frío, tinta oscura, azul cobalto cívico y un amarillo de señalización para el juego. El juego es tablero + tarjeta; el modo profesional es formulario + hoja de ruta. */
@@ -8,6 +11,7 @@
   --bg:#EEF2F1; --surface:#FFFFFF; --surface2:#E3EAEA; --ink:#14232B; --muted:#52656E; --line:#C7D3D3;
   --accent:#2349D8; --accent-ink:#FFFFFF; --sun:#F2B21A; --sun-ink:#14232B;
   --good:#1E7F48; --bad:#C23B2E; --warn:#9A6A0B;
+  --hero:#14232B; --hero-fg:#EEF2F1; --hero-mute:#A9BBC2; --hero-line:#2B4048; --crown:#E0A210; --lata:#9AA7AE;
   --bin-green:#2E8B57; --bin-brown:#8A5A3C; --bin-black:#2B2F33; --bin-red:#C23B2E;
   --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
   --f-body:'Public Sans','Segoe UI',system-ui,sans-serif;
@@ -17,12 +21,15 @@
   --bg:#0E1A20; --surface:#16262E; --surface2:#1E333C; --ink:#E6EEF0; --muted:#9FB2BA; --line:#2B4048;
   --accent:#7C9BFF; --accent-ink:#0E1A20; --sun:#F4C14B; --sun-ink:#14232B;
   --good:#4FC27F; --bad:#FF7E70; --warn:#E8B04A;
+  --hero:#0A1318; --hero-fg:#E6EEF0; --hero-mute:#9FB2BA; --hero-line:#25393F; --crown:#F4C14B; --lata:#7F8E96;
   --bin-green:#3FA56C; --bin-brown:#A9744F; --bin-black:#4A5258; --bin-red:#D9564A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E1A20; --surface:#16262E; --surface2:#1E333C; --ink:#E6EEF0; --muted:#9FB2BA; --line:#2B4048;
   --accent:#7C9BFF; --accent-ink:#0E1A20; --sun:#F4C14B; --sun-ink:#14232B;
   --good:#4FC27F; --bad:#FF7E70; --warn:#E8B04A;
+  --hero:#0A1318; --hero-fg:#E6EEF0; --hero-mute:#9FB2BA; --hero-line:#25393F; --crown:#F4C14B; --lata:#7F8E96;
   --bin-green:#3FA56C; --bin-brown:#A9744F; --bin-black:#4A5258; --bin-red:#D9564A; color-scheme:dark}
+[hidden]{display:none!important}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
   padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -126,51 +133,238 @@ ul.plain{margin:6px 0 0;padding-left:18px}
 .arena{width:100%;max-width:520px;height:auto;display:block;border-radius:12px;background:var(--surface2);touch-action:manipulation;cursor:crosshair}
 .hud{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px;font-family:var(--f-mono);font-size:13px}
 .tf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.ic{width:1.15em;height:1.15em;vertical-align:-.2em;flex:none}
+.hero{background:var(--hero);color:var(--hero-fg);border-radius:20px;padding:clamp(20px,5vw,44px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;margin-top:20px}
+@media (max-width:780px){.hero{grid-template-columns:minmax(0,1fr)}}
+.hero h1{font-size:clamp(40px,8vw,72px);font-weight:800;letter-spacing:-.03em}
+.hero .tag{color:var(--sun);margin-bottom:10px}
+.hero p.lead{margin-top:14px;max-width:46ch;color:var(--hero-mute);font-size:17px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn.xl{padding:16px 40px;font-size:20px;font-family:var(--f-display);font-weight:800;min-height:56px;border-radius:14px}
+.btn.hghost{background:transparent;color:var(--hero-fg);border:1.5px solid var(--hero-line)}
+.hero .row2{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:22px}
+.hero .row2 .mono{color:var(--hero-mute)}
+.hero .seg{background:var(--hero-line)}
+.hero .seg button{color:var(--hero-fg);min-height:40px;padding:6px 14px}
+.hero .seg button[aria-pressed="true"]{background:var(--hero-fg);color:var(--hero)}
+.hero .scene{background:var(--hero-line)}
+.hero .foot{margin-top:18px;font-size:13px;color:var(--hero-mute);max-width:52ch}
+.howto{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.authbox{max-width:480px;margin:24px auto 0}
+.authbox form{display:grid;gap:14px;margin-top:14px}
+.err{color:var(--bad);font-weight:600;min-height:22px;font-size:14px}
+.chkrow{display:flex;align-items:center;gap:10px;font-weight:500}
+.chkrow input{width:20px;height:20px;min-height:0;flex:none}
+.chkrow label{margin:0;font-weight:500}
+.linkbtn{background:none;border:0;padding:8px 0;color:var(--accent);font-weight:600;text-decoration:underline;min-height:40px}
+.acclist{display:flex;flex-wrap:wrap;gap:8px}
+.acclist button{border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 14px;font-weight:600;min-height:40px}
+.apphead{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding-block:14px 8px}
+.stats{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.stat{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;min-height:36px}
+.stat b{font-weight:500}
+.stat.lv{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stat .ic.crown{color:var(--ink)}
+.menubtn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 14px 4px 4px;min-height:44px;font-weight:600}
+.av{width:36px;height:36px;border-radius:50%;display:inline-grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:800;font-size:16px;flex:none}
+.av.big{width:84px;height:84px;font-size:36px}
+.av.f1{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--ink)}
+.av.f2{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink),0 0 0 6px var(--bg),0 0 0 8px var(--accent)}
+.av.f3{outline:3px dashed var(--ink);outline-offset:3px}
+.av.f4{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--crown)}
+.xpline{display:grid;gap:4px;margin-bottom:12px}
+.xpline .bar{height:8px}
+.xpline .bar i{background:var(--accent)}
+.xpline .mono{display:flex;justify-content:space-between;color:var(--muted)}
+.menu{position:absolute;right:0;top:100%;z-index:20;width:min(320px,100%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 12px 32px rgba(0,0,0,.18);display:grid;gap:12px}
+.menu .seg{display:flex}
+.menu .seg button{flex:1;padding:8px 6px}
+.menu h3{font-size:14px}
+.menu .item2{display:flex;justify-content:space-between;gap:8px}
+.tab-badge{display:inline-block;background:var(--sun);color:var(--sun-ink);border-radius:99px;padding:0 7px;margin-left:6px;font-size:12px;font-weight:700}
+.toasts{position:fixed;left:0;right:0;bottom:max(16px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:50;pointer-events:none;padding-inline:16px}
+.toast{background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 18px;max-width:min(520px,100%);font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.rw{display:flex;flex-wrap:wrap;gap:6px;margin-block:4px}
+.rw .pill{font-family:var(--f-mono);font-size:12px;background:var(--surface2)}
+.pill.crown{background:var(--crown);color:#14232B}
+.lvhead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.lvbig{font-family:var(--f-display);font-weight:800;font-size:clamp(44px,9vw,72px);line-height:1;letter-spacing:-.03em}
+.lvgrid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+@media (max-width:620px){.lvgrid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.lv{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;min-height:48px;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;position:relative;padding:6px 2px}
+.lv.done{background:var(--surface2);color:var(--muted)}
+.lv.ready{background:var(--sun);color:var(--sun-ink);border-color:var(--sun);font-weight:700}
+.lv.cur{border-color:var(--accent);border-width:3px;font-weight:700}
+.lv.locked{opacity:.65}
+.lv.mile::after{content:"";position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.lv[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:1px}
+.subtabs{display:flex;flex-wrap:wrap;gap:8px}
+.subtabs button{border:0;background:transparent;padding:8px 14px;border-radius:99px;font-weight:600;min-height:44px}
+.subtabs button[aria-pressed="true"]{background:var(--surface2);box-shadow:inset 0 -3px 0 var(--accent)}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl th,.tbl td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.tblwrap{overflow-x:auto}
+.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.shopitem{border:1.5px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px;justify-items:start;background:var(--surface)}
+.shopitem.eq{border-color:var(--accent)}
+.shopitem .cost{font-family:var(--f-mono);font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.danger{color:var(--bad);border-color:var(--bad)}
+.dirsec{display:grid;gap:10px}
+.ph{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.ph h3{font-size:17px}
+.ph .nums{display:grid;gap:6px;justify-items:end}
+.ph .num{font-family:var(--f-mono);font-weight:500;font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ph .cp{border:1.5px solid var(--line);background:var(--surface2);border-radius:8px;padding:4px 10px;font-size:12px;min-height:32px}
+.ph .src{grid-column:1/-1;font-size:12px;color:var(--muted)}
+.ph a{color:var(--accent);word-break:break-word}
+@media (max-width:520px){.ph{grid-template-columns:minmax(0,1fr)}.ph .nums{justify-items:start}}
+.warnbox{border-left:4px solid var(--warn);background:var(--surface2);padding:10px 14px;border-radius:8px;font-size:14px}
+.chkgrid{display:flex;flex-wrap:wrap;gap:8px 16px}
+.progtxt{font-size:13px;color:var(--muted)}
+.docbtns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sec{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<style>body{margin:0}img{max-width:100%}</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
 <div class="wrap">
-  <header class="top">
-    <div class="brand"><b>Barrio Común</b><span class="mono">Ciudadanía en acción</span></div>
-    <div class="seg" role="group" aria-label="Modo">
-      <button id="mode-game" aria-pressed="true">Juego</button>
-      <button id="mode-pro" aria-pressed="false">Modo profesional</button>
-    </div>
-  </header>
 
-  <div id="trash-banner" class="trash"></div>
+  <section id="splash" aria-label="Inicio">
+    <div class="hero">
+      <div>
+        <div class="mono tag">Ciudadanía en acción</div>
+        <h1>Barrio Común</h1>
+        <p class="lead">Aprende a participar, a exigir lo que te corresponde y a cuidar tu entorno. Juega, sube de nivel y usa las herramientas reales para reclamar por la basura, los derechos y los asuntos públicos.</p>
+        <div class="actions">
+          <button class="btn sun xl" data-act="open">Abrir</button>
+          <button class="btn hghost" data-act="splash-phones">Teléfonos útiles</button>
+        </div>
+        <p id="splash-hello" class="mono" style="margin-top:14px;color:var(--sun)" hidden></p>
+        <div class="row2">
+          <span class="mono">Tema</span>
+          <div class="seg" role="group" aria-label="Tema de la aplicación">
+            <button data-act="theme" data-v="light" aria-pressed="false">Claro</button>
+            <button data-act="theme" data-v="dark" aria-pressed="false">Oscuro</button>
+            <button data-act="theme" data-v="auto" aria-pressed="true">Automático</button>
+          </div>
+        </div>
+        <p class="foot">Cada cuenta guarda su nivel, sus latas rotas, sus coronas y sus compras. Todo se guarda en este dispositivo y no pedimos correo ni datos personales.</p>
+      </div>
+      <div id="splash-scene"></div>
+    </div>
+    <div class="howto">
+      <div class="mono">Cómo se juega</div>
+      <div class="how" style="margin-top:10px">
+        <div><b>Juega</b>Toma decisiones en el barrio y completa cinco minijuegos sobre residuos y ciudadanía.</div>
+        <div><b>Sube de nivel</b>Ganas experiencia hasta el nivel 100 y reclamas recompensas en el Journey.</div>
+        <div><b>Junta latas rotas</b>Es la moneda del juego. Úsala para pistas y para personalizar tu perfil.</div>
+        <div><b>Gana coronas</b>Cada victoria en un juego suma una corona.</div>
+      </div>
+    </div>
+  </section>
 
-  <main id="game">
-    <div class="sub" role="group" aria-label="Juegos">
-      <button id="g-barrio" aria-pressed="true">Barrio Nueva Esperanza</button>
-      <button id="g-limpio" aria-pressed="false">Punto limpio</button>
-      <button id="g-ruta" aria-pressed="false">Ruta del camión</button>
-      <button id="g-bolsas" aria-pressed="false">Atrapa-bolsas</button>
-      <button id="g-mitos" aria-pressed="false">Mitos y datos</button>
-    </div>
-    <section id="view-barrio"></section>
-    <section id="view-limpio" hidden></section>
-    <section id="view-ruta-juego" hidden></section>
-    <section id="view-bolsas" hidden></section>
-    <section id="view-mitos" hidden></section>
-  </main>
+  <section id="auth" hidden aria-label="Cuenta"></section>
 
-  <main id="pro" hidden>
-    <div class="purpose" style="margin-bottom:18px">
-      <div class="mono">Modo profesional</div>
-      <h2>De "esto está mal" a un trámite que sí avanza</h2>
-      <p>Elige tu problema, sigue la ruta con las entidades que corresponden, redacta el documento y calcula hasta cuándo pueden responderte. Es una guía de orientación y no reemplaza a un abogado. Las referencias legales corresponden al Perú; confirma que sigan vigentes antes de presentar.</p>
-      <p style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="basura-ruta">Basura acumulada en mi calle: ver la ruta</button><button class="btn ghost" style="color:var(--bg);border-color:var(--bg)" data-act="basura-doc">Redactar el reclamo de recojo</button></p>
+  <section id="screen-phones" hidden aria-label="Teléfonos útiles">
+    <p style="margin-block:18px 4px"><button class="linkbtn" data-act="phones-back">‹ Volver</button></p>
+    <div id="phones-public"></div>
+  </section>
+
+  <div id="app" hidden>
+    <header class="apphead">
+      <div class="menubtn-wrap" style="display:flex;align-items:center;gap:12px">
+        <button class="menubtn" id="menu-btn" data-act="menu" aria-expanded="false" aria-controls="menu">
+          <span class="av" id="hud-av" aria-hidden="true">?</span><span id="hud-name">Invitado</span>
+        </button>
+      </div>
+      <div class="stats" aria-label="Tu progreso">
+        <span class="stat lv" title="Nivel"><b id="hud-level">Nv 1</b></span>
+        <span class="stat" title="Latas rotas">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l1 3-1.5 2 1.5 3-1.5 2 1.5 3-1 4H7l-1-3 1.5-2L6 12l1.5-2L6 8z" fill="var(--lata)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 7h8M8.5 12l7 1" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+          <b id="hud-latas">0</b><span class="sr" style="position:absolute;left:-9999px">latas rotas</span>
+        </span>
+        <span class="stat" title="Coronas">
+          <svg class="ic crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <b id="hud-crowns">0</b><span class="sr" style="position:absolute;left:-9999px">coronas</span>
+        </span>
+      </div>
+      <div id="menu" class="menu" hidden>
+        <div>
+          <h3 style="margin-bottom:8px">Tema</h3>
+          <div class="seg" role="group" aria-label="Tema de la aplicación">
+            <button data-act="theme" data-v="light" aria-pressed="false">Claro</button>
+            <button data-act="theme" data-v="dark" aria-pressed="false">Oscuro</button>
+            <button data-act="theme" data-v="auto" aria-pressed="true">Auto</button>
+          </div>
+        </div>
+        <button class="btn ghost" data-act="menu-phones">Teléfonos útiles</button>
+        <button class="btn ghost" data-act="menu-profile">Mi perfil</button>
+        <button class="btn ghost" data-act="logout" id="menu-logout">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="xpline">
+      <div class="bar" role="img" id="xpbar" aria-label="Experiencia"><i id="xpfill" style="width:0%"></i></div>
+      <div class="mono"><span id="hud-xp">0 / 25 XP</span><span id="hud-guest" hidden>Invitado: tu progreso no se guarda</span></div>
     </div>
-    <div class="sub" role="group" aria-label="Herramientas">
-      <button id="p-ruta" aria-pressed="true">Ruta de acción</button>
-      <button id="p-doc" aria-pressed="false">Redactar documento</button>
-      <button id="p-plazo" aria-pressed="false">Plazos</button>
+
+    <div class="seg" role="group" aria-label="Secciones" style="margin-bottom:14px;display:flex;width:100%;max-width:480px">
+      <button id="mode-game" aria-pressed="true" style="flex:1">Juego</button>
+      <button id="mode-journey" aria-pressed="false" style="flex:1">Journey<span id="journey-badge" class="tab-badge" hidden>0</span></button>
+      <button id="mode-pro" aria-pressed="false" style="flex:1">Profesional</button>
     </div>
-    <section id="view-ruta"></section>
-    <section id="view-doc" hidden></section>
-    <section id="view-plazo" hidden></section>
-  </main>
+
+    <div id="trash-banner" class="trash"></div>
+
+    <main id="game">
+      <div class="sub" role="group" aria-label="Juegos">
+        <button id="g-barrio" aria-pressed="true">Barrio Nueva Esperanza</button>
+        <button id="g-limpio" aria-pressed="false">Punto limpio</button>
+        <button id="g-ruta" aria-pressed="false">Ruta del camión</button>
+        <button id="g-bolsas" aria-pressed="false">Atrapa-bolsas</button>
+        <button id="g-mitos" aria-pressed="false">Mitos y datos</button>
+      </div>
+      <section id="view-barrio"></section>
+      <section id="view-limpio" hidden></section>
+      <section id="view-ruta-juego" hidden></section>
+      <section id="view-bolsas" hidden></section>
+      <section id="view-mitos" hidden></section>
+    </main>
+
+    <main id="journey" hidden>
+      <div class="subtabs" role="group" aria-label="Journey" style="margin-bottom:14px">
+        <button id="j-camino" aria-pressed="true">Camino</button>
+        <button id="j-victorias" aria-pressed="false">Victorias</button>
+        <button id="j-tienda" aria-pressed="false">Tienda</button>
+        <button id="j-perfil" aria-pressed="false">Perfil</button>
+      </div>
+      <section id="view-journey"></section>
+    </main>
+
+    <main id="pro" hidden>
+      <div class="purpose" style="margin-bottom:18px">
+        <div class="mono">Modo profesional</div>
+        <h2>De "esto está mal" a un trámite que sí avanza</h2>
+        <p>Elige tu problema, sigue la ruta con las entidades que corresponden, redacta el documento y calcula hasta cuándo pueden responderte. Es una guía de orientación y no reemplaza a un abogado. Las referencias legales corresponden al Perú; confirma que sigan vigentes antes de presentar.</p>
+        <p style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="basura-ruta">Basura acumulada en mi calle: ver la ruta</button><button class="btn ghost" style="color:var(--bg);border-color:var(--bg)" data-act="basura-doc">Redactar el reclamo de recojo</button></p>
+      </div>
+      <div class="sub" role="group" aria-label="Herramientas">
+        <button id="p-ruta" aria-pressed="true">Ruta de acción</button>
+        <button id="p-doc" aria-pressed="false">Redactar documento</button>
+        <button id="p-plazo" aria-pressed="false">Plazos</button>
+        <button id="p-tel" aria-pressed="false">Teléfonos y canales</button>
+      </div>
+      <section id="view-ruta"></section>
+      <section id="view-doc" hidden></section>
+      <section id="view-plazo" hidden></section>
+      <section id="view-tel" hidden></section>
+    </main>
+  </div>
 </div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
 <script>
 /* Eventos del juego. Efectos: [Participación, Derechos, Ambiente, Confianza] */
 var EVENTS = [
@@ -333,14 +527,6 @@ var ROUTES = [
   law:["Constitución, art. 2 inc. 17 (participación)","Ley 26300, Derechos de Participación y Control Ciudadanos","Ley 28056, Presupuesto Participativo","Ley 27972, Orgánica de Municipalidades"]}
 ];
 
-/* Tipos de documento */
-var DOCS = [
- {id:"info", name:"Solicitud de acceso a la información pública", entityLabel:"Entidad destinataria (por ejemplo, Municipalidad Distrital de ...)", askLabel:"Información que solicitas (sé específico)", factsLabel:"Contexto (opcional)", ph:"Ej.: Copia del expediente técnico y del cronograma de la obra de la vereda del pasaje 3, y el monto pagado a la fecha."},
- {id:"peticion", name:"Petición o reclamo ante la municipalidad", entityLabel:"Entidad destinataria", askLabel:"Qué pides que se haga", factsLabel:"Hechos", ph:"Ej.: Que se reanude el recojo de residuos en el pasaje 3 y se informe el horario de rutas."},
- {id:"ambiental", name:"Denuncia ambiental", entityLabel:"Entidad destinataria (OEFA u otra autoridad ambiental)", askLabel:"Qué pides que se haga", factsLabel:"Descripción de los hechos", ph:"Ej.: Que se realice una inspección y se ordene el cese del vertimiento."},
- {id:"queja", name:"Queja por vulneración de derechos", entityLabel:"Entidad o institución destinataria", askLabel:"Qué solicitas", factsLabel:"Hechos", ph:"Ej.: Que se investigue la negativa de atención y se garantice la atención prioritaria."}
-];
-
 /* Punto limpio: código de colores (verde, marrón, negro y rojo) */
 var BINS = [
  {k:"g", n:"Verde", s:"Aprovechables"},
@@ -368,11 +554,353 @@ var ITEMS = [
  ["Cerámica rota","n","Los cerámicos son no aprovechables."],
  ["Paño húmedo","n","Los paños húmedos son residuos sanitarios."]
 ];
+/* ===== núcleo: cuentas, progreso, niveles y recompensas ===== */
+var APP={screen:"splash",authMode:"login",jtab:"camino",sel:0,P:null,user:null,rec:null,guest:false,remembered:null,theme:"auto",busy:false,back:"splash"};
+var AUTH={fails:0,until:0};
+var MAXL=100;
+var GAMES=[
+ {k:"barrio",n:"Barrio Nueva Esperanza",win:"Terminar como Barrio organizado o ejemplar (240 puntos o más de 400).",fmt:function(v){return v+" / 400"}},
+ {k:"limpio",n:"Punto limpio",win:"Acertar 10 o más de 12 residuos.",fmt:function(v){return v+" / 12"}},
+ {k:"ruta",n:"Ruta del camión",win:"Lograr 85 % de eficiencia o más.",fmt:function(v){return v+" %"}},
+ {k:"bolsas",n:"Atrapa-bolsas",win:"Recoger 20 bolsas o más y al menos el 75 % de las que caen.",fmt:function(v){return v+" pts"}},
+ {k:"mitos",n:"Mitos y datos",win:"Acertar 7 o más de 8.",fmt:function(v){return v+" / 8"}}
+];
+var COLORS={c0:["Cobalto","#2349D8",0,0],c1:["Verde reciclaje","#1E7F48",20,0],c2:["Marrón compost","#8A5A3C",20,0],c3:["Rojo alerta","#B3382C",30,0],c4:["Grafito","#3B4650",30,0],c5:["Violeta cívico","#6A4BC0",45,5]};
+var FRAMES={f0:["Sin marco",0,0],f1:["Aro simple",40,0],f2:["Aro doble",80,10],f3:["Aro punteado",120,20],f4:["Aro dorado",250,30]};
+var TITLES={5:"Vecino curioso",10:"Vecino activo",20:"Promotor de barrio",30:"Vigilante ciudadano",40:"Guardián de la limpieza",50:"Líder vecinal",60:"Defensor de derechos",70:"Fiscalizador cívico",80:"Cuidador del ambiente",90:"Referente ciudadano",100:"Leyenda del barrio"};
+var HINT_COST=15;
+
+/* ---------- niveles ---------- */
+function xpNeed(L){return 25+3*(L-1)}
+var CUM=[0,0];
+(function(){for(var L=2;L<=MAXL;L++)CUM[L]=CUM[L-1]+xpNeed(L-1)})();
+function levelOf(xp){var L=1;while(L<MAXL&&xp>=CUM[L+1])L++;return L}
+function rewardOf(L){var l=10+Math.floor(L/5);if(L%5===0)l+=15;if(L%10===0)l+=30;if(L===MAXL)l+=300;return {latas:l,title:TITLES[L]||""}}
+
+/* ---------- almacenamiento seguro ---------- */
+function lsGet(k){try{var r=localStorage.getItem(k);return r===null?null:JSON.parse(r)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+function ukey(n){return "bc_u_"+String(n).trim().toLowerCase()}
+function userList(){var l=lsGet("bc_users");return Array.isArray(l)?l:[]}
+
+function newProgress(){
+  return {xp:0,claimed:1,latas:0,titles:[],
+    crowns:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
+    plays:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
+    best:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
+    checks:{},once:{},owned:["c0","f0"],equip:{c:"c0",f:"f0",t:""},
+    contacts:[],draft:{},theme:"",day:"",streak:0,hints:0};
+}
+function fillDefaults(p,d){
+  if(!p||typeof p!=="object")return d;
+  Object.keys(d).forEach(function(k){
+    if(p[k]===undefined||p[k]===null)p[k]=d[k];
+    else if(d[k]&&typeof d[k]==="object"&&!Array.isArray(d[k]))fillDefaults(p[k],d[k]);
+  });
+  return p;
+}
+APP.P=newProgress();
+
+/* ---------- contraseñas ---------- */
+function canCrypto(){return !!(window.crypto&&window.crypto.subtle&&window.crypto.getRandomValues&&window.TextEncoder)}
+function b64(buf){var s="",a=new Uint8Array(buf);for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]);return btoa(s)}
+function unb64(s){var b=atob(s),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function hashPw(pw,salt,it){
+  var enc=new TextEncoder();
+  return crypto.subtle.importKey("raw",enc.encode(pw),"PBKDF2",false,["deriveBits"]).then(function(k){
+    return crypto.subtle.deriveBits({name:"PBKDF2",salt:salt,iterations:it,hash:"SHA-256"},k,256);
+  }).then(b64);
+}
+function fail(msg){var e=new Error(msg);e.user=true;return e}
+function checkName(n){
+  if(!/^[A-Za-z0-9ÁÉÍÓÚÜÑáéíóúüñ ._-]{3,20}$/.test(n))return "El usuario debe tener de 3 a 20 caracteres: letras, números, espacio, punto, guion o guion bajo.";
+  return "";
+}
+function register(name,pw){
+  name=name.trim();
+  var e=checkName(name);if(e)return Promise.reject(fail(e));
+  if(pw.length<6)return Promise.reject(fail("La contraseña debe tener al menos 6 caracteres."));
+  if(pw.toLowerCase()===name.toLowerCase())return Promise.reject(fail("La contraseña no puede ser igual al usuario."));
+  if(!canCrypto())return Promise.reject(fail("Este navegador no permite crear cuentas seguras. Puedes jugar como invitado."));
+  var list=userList();
+  if(list.some(function(n){return n.toLowerCase()===name.toLowerCase()}))return Promise.reject(fail("Ese usuario ya existe en este dispositivo. Elige otro o ingresa."));
+  var salt=crypto.getRandomValues(new Uint8Array(16)),it=150000;
+  return hashPw(pw,salt,it).then(function(h){
+    var rec={name:name,salt:b64(salt),hash:h,it:it,created:Date.now(),P:newProgress()};
+    if(!lsSet(ukey(name),rec))throw fail("No se pudo guardar la cuenta: el navegador bloquea el almacenamiento. Puedes jugar como invitado.");
+    list.push(name);lsSet("bc_users",list);
+    return rec;
+  });
+}
+function login(name,pw){
+  var now=Date.now();
+  if(AUTH.until>now)return Promise.reject(fail("Demasiados intentos. Espera "+Math.ceil((AUTH.until-now)/1000)+" segundos."));
+  var rec=lsGet(ukey(name));
+  if(!rec||!rec.hash)return Promise.reject(wrong());
+  if(!canCrypto())return Promise.reject(fail("Este navegador no permite ingresar a cuentas seguras."));
+  return hashPw(pw,unb64(rec.salt),rec.it).then(function(h){
+    if(h!==rec.hash)throw wrong();
+    AUTH.fails=0;return rec;
+  });
+}
+function wrong(){
+  AUTH.fails++;
+  if(AUTH.fails>=5){AUTH.until=Date.now()+30000;AUTH.fails=0;return fail("Demasiados intentos. Espera 30 segundos.")}
+  return fail("Usuario o contraseña incorrectos.");
+}
+
+/* ---------- sesión ---------- */
+function save(){
+  if(APP.guest||!APP.user||!APP.rec)return;
+  APP.rec.P=APP.P;
+  lsSet(ukey(APP.user),APP.rec);
+}
+function ymdLocal(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function startSession(rec,remember,guest){
+  APP.guest=!!guest;
+  APP.rec=guest?null:rec;
+  APP.user=guest?null:rec.name;
+  APP.P=guest?newProgress():fillDefaults(rec.P,newProgress());
+  if(!guest){if(remember)lsSet("bc_session",rec.name);else lsDel("bc_session")}
+  resetGames();
+  if(APP.P.theme&&!guest)setTheme(APP.P.theme,true);
+  enterApp();
+  if(!guest)dailyBonus();
+}
+function logout(){
+  if(typeof bgStop==="function")bgStop();
+  lsDel("bc_session");APP.remembered=null;
+  APP.user=null;APP.rec=null;APP.guest=false;APP.P=newProgress();
+  hideMenu();showScreen("splash");
+}
+function dailyBonus(){
+  var P=APP.P,today=ymdLocal(new Date());
+  if(P.day===today)return;
+  var streak=1;
+  if(P.day){
+    var a=P.day.split("-"),prev=new Date(+a[0],+a[1]-1,+a[2]),t=new Date();
+    var diff=Math.round((new Date(t.getFullYear(),t.getMonth(),t.getDate())-prev)/86400000);
+    if(diff===1)streak=(P.streak||0)+1;
+  }
+  P.day=today;P.streak=streak;
+  var xp=10+Math.min(streak,10),la=5+Math.min(streak,10);
+  gain(xp,la);
+  toast("Racha de "+streak+(streak===1?" día":" días")+": +"+xp+" XP y +"+la+" latas rotas.");
+}
+
+/* ---------- experiencia, latas y coronas ---------- */
+function totalCrowns(){var c=APP.P.crowns;return Object.keys(c).reduce(function(s,k){return s+(c[k]||0)},0)}
+function pending(){var L=levelOf(APP.P.xp),n=0,la=0;for(var i=APP.P.claimed+1;i<=L;i++){n++;la+=rewardOf(i).latas}return {n:n,latas:la}}
+function gain(xp,latas){
+  var P=APP.P,before=levelOf(P.xp);
+  P.xp+=Math.max(0,xp|0);P.latas+=Math.max(0,latas|0);
+  var after=levelOf(P.xp);
+  save();renderHud();
+  if(after>before)toast("Subiste al nivel "+after+". Tienes recompensas por reclamar en Journey.");
+  return {up:after>before,level:after};
+}
+function once(key,xp,latas){
+  var P=APP.P;if(P.once[key])return false;
+  P.once[key]=1;gain(xp,latas);
+  toast("Primera vez: +"+xp+" XP y +"+latas+" latas rotas.");
+  return true;
+}
+function reward(game,xp,latas,win,score){
+  var P=APP.P;
+  P.plays[game]=(P.plays[game]||0)+1;
+  if(score>(P.best[game]||0))P.best[game]=score;
+  if(win){P.crowns[game]=(P.crowns[game]||0)+1;xp+=10;latas+=10}
+  var g=gain(xp,latas);
+  return {xp:xp,latas:latas,win:win,up:g.up,level:g.level};
+}
+function rwHTML(r){
+  if(!r)return "";
+  return '<div class="rw"><span class="pill">+'+r.xp+' XP</span><span class="pill">+'+r.latas+' latas rotas</span>'+(r.win?'<span class="pill crown">+1 corona</span>':'')+(r.up?'<span class="pill">Nivel '+r.level+'</span>':'')+'</div>'+(APP.guest?'<p class="note">Eres invitado: este progreso no se guardará. Crea una cuenta para conservarlo.</p>':'');
+}
+function claimAll(){
+  var P=APP.P,L=levelOf(P.xp),sum=0,ts=[];
+  for(var i=P.claimed+1;i<=L;i++){var r=rewardOf(i);sum+=r.latas;if(r.title){ts.push(r.title);if(P.titles.indexOf(r.title)<0)P.titles.push(r.title)}}
+  if(L<=P.claimed)return;
+  P.claimed=L;P.latas+=sum;
+  if(ts.length)P.equip.t=ts[ts.length-1];
+  save();renderHud();renderJourney();
+  toast("Recompensas reclamadas: +"+sum+" latas rotas"+(ts.length?" y el título "+ts[ts.length-1]:"")+".");
+}
+
+/* ---------- tema ---------- */
+function setTheme(t,silent){
+  if(t!=="light"&&t!=="dark")t="auto";
+  APP.theme=t;
+  var r=document.documentElement;
+  if(t==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",t);
+  lsSet("bc_theme",t);
+  if(!silent&&APP.P&&!APP.guest){APP.P.theme=t;save()}
+  var bs=document.querySelectorAll?document.querySelectorAll('[data-act="theme"]'):[];
+  for(var i=0;i<bs.length;i++)bs[i].setAttribute("aria-pressed",bs[i].getAttribute("data-v")===t?"true":"false");
+}
+
+/* ---------- avisos ---------- */
+function toast(msg){
+  var box=$("toasts"),d=document.createElement("div");
+  d.className="toast";d.textContent=msg;box.appendChild(d);
+  setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d)},4800);
+}
+
+/* ---------- cabecera de progreso ---------- */
+var AVC=function(){return (COLORS[APP.P.equip.c]||COLORS.c0)[1]};
+function avatarHTML(big){
+  var name=APP.guest?"I":(APP.user||"?"),ini=name.charAt(0).toUpperCase();
+  return '<span class="av '+(big?'big ':'')+APP.P.equip.f+'" style="background:'+AVC()+'" aria-hidden="true">'+esc(ini)+'</span>';
+}
+function renderHud(){
+  var P=APP.P;if(!P)return;
+  var L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L);
+  var av=$("hud-av");
+  av.className="av "+P.equip.f;av.style.background=AVC();
+  av.textContent=(APP.guest?"I":(APP.user||"?")).charAt(0).toUpperCase();
+  $("hud-name").textContent=APP.guest?"Invitado":APP.user;
+  $("hud-level").textContent="Nv "+L;
+  $("hud-latas").textContent=P.latas;
+  $("hud-crowns").textContent=totalCrowns();
+  $("xpfill").style.width=(L>=MAXL?100:Math.round(cur/need*100))+"%";
+  $("xpbar").setAttribute("aria-label","Experiencia: "+(L>=MAXL?"nivel máximo":cur+" de "+need));
+  $("hud-xp").textContent=L>=MAXL?"Nivel máximo · "+P.xp+" XP":cur+" / "+need+" XP para el nivel "+(L+1);
+  $("hud-guest").hidden=!APP.guest;
+  var pd=pending(),bd=$("journey-badge");
+  bd.hidden=pd.n===0;bd.textContent=pd.n;
+  $("menu-logout").textContent=APP.guest?"Salir":"Cerrar sesión";
+}
+
+/* ---------- pantallas ---------- */
+var SCREENS={splash:"splash",auth:"auth",phones:"screen-phones",app:"app"};
+function showScreen(s){
+  APP.screen=s;
+  Object.keys(SCREENS).forEach(function(k){$(SCREENS[k]).hidden=k!==s});
+  window.scrollTo(0,0);
+  if(s==="splash")renderSplash();
+  else if(s==="auth")renderAuth();
+  else if(s==="phones")renderPhones();
+  else if(s==="app"){renderHud();setMode(APP.mode||"game")}
+}
+function enterApp(){
+  renderBarrio();renderRuta();renderBanner();
+  if(!$("view-doc").hidden)renderDoc();
+  showScreen("app");
+}
+function renderSplash(){
+  $("splash-scene").innerHTML=scene({P:85,D:75,A:92,C:85});
+  var h=$("splash-hello");
+  if(APP.remembered){h.hidden=false;h.textContent="Hola de nuevo, "+APP.remembered.name+". Toca Abrir para continuar."}
+  else h.hidden=true;
+  setTheme(APP.theme,true);
+}
+function openApp(){
+  if(APP.remembered){startSession(APP.remembered,true,false);return}
+  APP.authMode=userList().length?"login":"register";
+  showScreen("auth");
+}
+
+/* ---------- cuenta: ingreso y registro ---------- */
+function renderAuth(){
+  var reg=APP.authMode==="register",users=userList();
+  var accs=(!reg&&users.length)?'<div><div class="mono" style="margin-bottom:8px">Cuentas en este dispositivo</div><div class="acclist">'+users.map(function(n){return '<button type="button" data-act="pickacc" data-n="'+esc(n)+'">'+esc(n)+'</button>'}).join("")+'</div></div>':'';
+  $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="auth-back">‹ Volver al inicio</button></p>'
+   +'<div class="card authbox"><div class="mono">'+(reg?'Cuenta nueva':'Ingresar')+'</div><h2 style="font-size:30px;margin-top:4px">'+(reg?'Crea tu cuenta':'Bienvenido de nuevo')+'</h2>'
+   +'<p style="margin-top:8px;color:var(--muted)">'+(reg?'Elige un usuario y una contraseña. Con ellos guardarás tu nivel, tus latas rotas, tus coronas y tus compras.':'Ingresa con tu usuario y contraseña para continuar tu progreso.')+'</p>'
+   +accs
+   +'<form id="auth-form" novalidate><div><label for="au-name">Usuario</label><input id="au-name" autocomplete="username" maxlength="20" autocapitalize="off" spellcheck="false"></div>'
+   +'<div><label for="au-pw">Contraseña</label><input id="au-pw" type="password" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'
+   +(reg?'<div><label for="au-pw2">Repite la contraseña</label><input id="au-pw2" type="password" autocomplete="new-password"></div>':'')
+   +'<div class="chkrow"><input type="checkbox" id="au-show" data-act="showpw"><label for="au-show">Mostrar contraseña</label></div>'
+   +'<div class="chkrow"><input type="checkbox" id="au-rem"><label for="au-rem">Mantener la sesión en este dispositivo</label></div>'
+   +'<div class="err" id="au-msg" role="alert"></div>'
+   +'<button class="btn" id="au-go" type="submit">'+(reg?'Crear cuenta y abrir':'Ingresar')+'</button></form>'
+   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="authmode">'+(reg?'Ya tengo cuenta':'Crear una cuenta nueva')+'</button><button class="linkbtn" data-act="guest">Entrar como invitado</button></p>'
+   +'<p class="note">Tu cuenta y tu progreso se guardan solo en este dispositivo y navegador. No pedimos correo ni datos personales. No hay recuperación de contraseña: si la olvidas tendrás que crear otra cuenta. No uses una contraseña que uses en otros sitios.</p>'
+   +(canCrypto()?'':'<p class="warnbox">Este navegador no permite crear cuentas seguras. Puedes entrar como invitado.</p>')+'</div>';
+}
+function doAuth(){
+  if(APP.busy)return;
+  var reg=APP.authMode==="register",n=$("au-name").value.trim(),pw=$("au-pw").value,rem=$("au-rem").checked,msg=$("au-msg"),btn=$("au-go");
+  msg.textContent="";
+  if(!n||!pw){msg.textContent="Escribe tu usuario y tu contraseña.";return}
+  if(reg&&$("au-pw2").value!==pw){msg.textContent="Las contraseñas no coinciden.";return}
+  APP.busy=true;btn.disabled=true;btn.textContent="Verificando…";
+  var p=reg?register(n,pw):login(n,pw);
+  p.then(function(rec){APP.busy=false;startSession(rec,rem,false);toast(reg?"Cuenta creada. Bienvenido, "+rec.name+".":"Hola, "+rec.name+".")})
+   .catch(function(e){APP.busy=false;btn.disabled=false;btn.textContent=reg?"Crear cuenta y abrir":"Ingresar";msg.textContent=e&&e.user?e.message:"No se pudo completar la acción. Inténtalo de nuevo."});
+}
+function deleteAccount(){
+  var n=APP.user;
+  lsDel(ukey(n));lsSet("bc_users",userList().filter(function(x){return x!==n}));
+  toast("Cuenta eliminada.");logout();
+}
+
+/* ---------- menú ---------- */
+function hideMenu(){var m=$("menu");if(m){m.hidden=true;$("menu-btn").setAttribute("aria-expanded","false")}}
+function toggleMenu(){var m=$("menu"),open=m.hidden;m.hidden=!open;$("menu-btn").setAttribute("aria-expanded",open?"true":"false")}
+
+/* ---------- Journey ---------- */
+function renderJourney(){
+  var P=APP.P,t=APP.jtab,el=$("view-journey");
+  setPressed(["j-camino","j-victorias","j-tienda","j-perfil"],"j-"+t);
+  if(t==="camino")el.innerHTML=jCamino();
+  else if(t==="victorias")el.innerHTML=jVictorias();
+  else if(t==="tienda")el.innerHTML=jTienda();
+  else el.innerHTML=jPerfil();
+}
+function jCamino(){
+  var P=APP.P,L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L),pd=pending(),sel=APP.sel||Math.min(MAXL,L+1);
+  var next=null;for(var i=L+1;i<=MAXL;i++){if(TITLES[i]||i%5===0){next=i;break}}
+  var tiles="";
+  for(var n=1;n<=MAXL;n++){
+    var st=n===1?"done":n<=P.claimed?"done":n<=L?"ready":"locked";
+    tiles+='<button class="lv '+st+(n===L?' cur':'')+(TITLES[n]?' mile':'')+'" data-act="lvsel" data-n="'+n+'" aria-pressed="'+(n===sel)+'" aria-label="Nivel '+n+', '+(st==="done"?'reclamado':st==="ready"?'recompensa lista':'bloqueado')+'">'+n+'</button>';
+  }
+  var r=rewardOf(sel);
+  var det='<div class="card" style="margin-top:14px"><div class="mono">Nivel '+sel+'</div><div style="margin-top:4px"><b>Recompensa:</b> +'+(sel===1?0:r.latas)+' latas rotas'+(r.title&&sel>1?' y el título <b>'+esc(r.title)+'</b>':'')+'.</div><p class="note" style="margin-top:4px">'+(sel===1?'Es el nivel de inicio.':'Experiencia total necesaria: '+CUM[sel]+' XP.')+(sel<=L?'':' Te faltan '+(CUM[sel]-P.xp)+' XP.')+'</p></div>';
+  return '<div class="card stack"><div class="lvhead"><div class="lvbig" aria-label="Nivel '+L+'">'+L+'</div><div><div class="mono">Nivel actual de '+MAXL+'</div><div style="font-weight:600;margin-top:2px">'+(L>=MAXL?'Nivel máximo alcanzado':cur+' de '+need+' XP para el nivel '+(L+1))+'</div><div class="bar" style="margin-top:8px"><i style="width:'+(L>=MAXL?100:Math.round(cur/need*100))+'%;background:var(--accent)"></i></div></div></div>'
+   +(pd.n?'<div class="warnbox" style="border-color:var(--sun)"><b>'+pd.n+(pd.n===1?' recompensa lista':' recompensas listas')+':</b> +'+pd.latas+' latas rotas. <button class="btn sun" style="margin-left:8px" data-act="claim">Reclamar</button></div>':'<p class="note">No tienes recompensas pendientes.'+(next?' La próxima está en el nivel '+next+'.':'')+'</p>')
+   +'<div><div class="mono" style="margin-bottom:8px">Camino de 100 niveles · el punto marca un título</div><div class="lvgrid">'+tiles+'</div></div></div>'+det
+   +'<div class="card" style="margin-top:14px"><h3>Cómo ganar experiencia</h3><ul class="plain"><li>Completar los juegos y minijuegos: cada uno da XP y latas rotas.</li><li>Ganar un juego da una corona y un bonus.</li><li>Usar por primera vez cada herramienta del modo profesional.</li><li>Entrar cada día: la racha suma más premio.</li></ul></div>';
+}
+function jVictorias(){
+  var P=APP.P;
+  var rows=GAMES.map(function(g){
+    return '<tr><td><b>'+esc(g.n)+'</b><div class="note">'+esc(g.win)+'</div></td><td>'+(P.plays[g.k]||0)+'</td><td>'+(P.crowns[g.k]||0)+'</td><td>'+(P.best[g.k]?g.fmt(P.best[g.k]):'—')+'</td></tr>';
+  }).join("");
+  return '<div class="card stack"><div class="lvhead"><div class="lvbig" style="display:flex;align-items:center;gap:10px"><svg class="ic" style="width:.8em;height:.8em;color:var(--ink)" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'+totalCrowns()+'</div><div><div class="mono">Coronas ganadas</div><div class="note">Cada victoria en un juego suma una corona.</div></div></div><div class="tblwrap"><table class="tbl"><thead><tr><th>Juego y condición de victoria</th><th>Jugadas</th><th>Coronas</th><th>Mejor marca</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function jTienda(){
+  var P=APP.P,L=levelOf(P.xp);
+  function item(kind,id,def){
+    var owned=P.owned.indexOf(id)>=0,eq=P.equip[kind]===id,cost=def[kind==="c"?2:1],min=def[kind==="c"?3:2];
+    var pv=kind==="c"?'<span class="av" style="background:'+def[1]+'">A</span>':'<span class="av f'+id.slice(1)+'" style="background:'+AVC()+'">A</span>';
+    var btn=eq?'<span class="pill">En uso</span>':owned?'<button class="btn ghost" data-act="equip" data-k="'+kind+'" data-id="'+id+'">Usar</button>':(L<min?'<span class="note">Nivel '+min+' necesario</span>':'<button class="btn" data-act="buy" data-k="'+kind+'" data-id="'+id+'"'+(P.latas<cost?' disabled':'')+'>Comprar</button>');
+    return '<div class="shopitem'+(eq?' eq':'')+'">'+pv+'<b>'+esc(def[0])+'</b>'+(owned?'':'<span class="cost">'+cost+' latas rotas</span>')+btn+'</div>';
+  }
+  var cs=Object.keys(COLORS).map(function(id){return item("c",id,COLORS[id])}).join("");
+  var fs=Object.keys(FRAMES).map(function(id){return item("f",id,FRAMES[id])}).join("");
+  return '<div class="card stack"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="stat"><b>'+P.latas+'</b> latas rotas</span><span class="note">Gana latas jugando y reclamando recompensas.</span></div>'
+   +'<div><div class="sec">Colores del avatar</div><div class="shopgrid" style="margin-top:8px">'+cs+'</div></div>'
+   +'<div><div class="sec">Marcos</div><div class="shopgrid" style="margin-top:8px">'+fs+'</div></div>'
+   +'<div><div class="sec">Pistas del barrio</div><p style="margin-top:6px">Dentro de cada decisión del juego Barrio Nueva Esperanza puedes descartar una opción incorrecta por '+HINT_COST+' latas rotas. Se pagan en el momento de usarla.</p></div></div>';
+}
+function jPerfil(){
+  var P=APP.P;
+  if(APP.guest)return '<div class="card stack"><h3>Estás como invitado</h3><p>Tu progreso de esta sesión no se guarda. Crea una cuenta para conservar tu nivel, tus latas rotas, tus coronas y tus compras.</p><p><button class="btn" data-act="guest-register">Crear una cuenta</button></p></div>';
+  var opts='<option value="">Sin título</option>'+P.titles.map(function(t){return '<option value="'+esc(t)+'"'+(P.equip.t===t?' selected':'')+'>'+esc(t)+'</option>'}).join("");
+  var created=APP.rec&&APP.rec.created?new Date(APP.rec.created).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"}):"";
+  return '<div class="card stack"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">'+avatarHTML(true)+'<div><h2 style="font-size:28px">'+esc(APP.user)+'</h2><div class="note">'+(P.equip.t?esc(P.equip.t)+' · ':'')+'Nivel '+levelOf(P.xp)+(created?' · Cuenta creada el '+esc(created):'')+'</div><div class="note">Racha actual: '+(P.streak||0)+(P.streak===1?' día':' días')+'</div></div></div>'
+   +'<div><label for="sel-title">Título que se muestra</label><select id="sel-title">'+opts+'</select><p class="note" style="margin-top:6px">Los títulos se desbloquean al reclamar recompensas de niveles como el 5, 10, 20 y 30.</p></div>'
+   +'<hr class="hr"><div class="sec">Datos de la cuenta</div><p class="note">Tu cuenta vive en este dispositivo y navegador. Si borras los datos del navegador, se pierde. Tus datos de documentos (como el DNI) no se guardan.</p>'
+   +'<div class="docbtns"><button class="btn ghost" data-act="reset-ask">Reiniciar mi progreso</button><button class="btn ghost danger" data-act="del-ask">Eliminar mi cuenta</button></div><div id="confirm-box"></div></div>';
+}
 /* ---------- utilidades ---------- */
 function $(id){return document.getElementById(id)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
-function store(k,v){try{if(v===undefined){var r=localStorage.getItem(k);return r===null?null:JSON.parse(r)}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
 /* ---------- navegación ---------- */
@@ -380,9 +908,13 @@ function setPressed(ids,on){ids.forEach(function(id){$(id).setAttribute("aria-pr
 var GV={barrio:"view-barrio",limpio:"view-limpio",ruta:"view-ruta-juego",bolsas:"view-bolsas",mitos:"view-mitos"};
 function setMode(m){
   if(m!=="game"&&typeof bgStop==="function")bgStop();
-  $("game").hidden=m!=="game";$("pro").hidden=m!=="pro";
-  setPressed(["mode-game","mode-pro"],m==="game"?"mode-game":"mode-pro");
+  APP.mode=m;
+  $("game").hidden=m!=="game";$("pro").hidden=m!=="pro";$("journey").hidden=m!=="journey";
+  setPressed(["mode-game","mode-journey","mode-pro"],"mode-"+m);
+  hideMenu();
   renderBanner();
+  if(m==="journey")renderJourney();
+  if(m==="pro"&&!$("view-tel").hidden)renderPhones();
 }
 function setGameView(v){
   if(v!=="bolsas")bgStop();
@@ -394,12 +926,13 @@ function setGameView(v){
   else if(v==="mitos")renderMitos();
 }
 function setProView(v){
-  ["ruta","doc","plazo"].forEach(function(k){$("view-"+k).hidden=k!==v});
-  setPressed(["p-ruta","p-doc","p-plazo"],"p-"+v);
+  ["ruta","doc","plazo","tel"].forEach(function(k){$("view-"+k).hidden=k!==v});
+  setPressed(["p-ruta","p-doc","p-plazo","p-tel"],"p-"+v);
+  if(v==="tel")renderPhones();
 }
 
 /* ---------- juego del barrio ---------- */
-var G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{}};
+var G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null};
 
 function scene(m){
   var h="",i;
@@ -442,22 +975,22 @@ function sidePanel(){
 
 function mainPanel(){
   if(G.phase==="intro"){
-    var best=store("bc_best");
+    var best=APP.P.best.barrio;
     return '<div class="purpose"><div class="mono">Propósito del juego</div><h2>Que tu barrio aprenda a cuidarse y a exigir</h2><p>Nueva Esperanza es un barrio ficticio con problemas muy reales: basura, información que no llega, derechos que se pasan por alto. Tu misión es guiar a los vecinos durante 10 decisiones para que participen, pidan lo que les corresponde por los canales correctos y cuiden su entorno. Ojo: cada semana que pasa se acumulan 12 bolsas de basura más, y los cuatro minijuegos de limpieza te ayudan a retirarlas.</p><div class="how"><div><b>Participación</b>Cuánta gente se involucra.</div><div><b>Derechos</b>Cuánto se conoce y se exige.</div><div><b>Ambiente</b>Limpieza y cuidado del entorno.</div><div><b>Confianza</b>Cuánto se cree entre vecinos y con las entidades.</div></div><p style="margin-top:18px"><button class="btn sun" data-act="start">Empezar</button></p>'+(best?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 400</p>':'')+'</div>';
   }
   if(G.phase==="end"){
     var tot=G.m.P+G.m.D+G.m.A+G.m.C,tier=TIERS[0];
     TIERS.forEach(function(t){if(tot>=t.min)tier=t});
-    var eco=(store("bc_limpio")||0)>=10;
-    return '<div class="card stack"><div class="mono">Resultado final</div><div class="big">'+esc(tier.name)+'</div><p>'+esc(tier.msg)+'</p><p class="mono">Basura acumulada al final: ≈ '+bagsNow()+' bolsas · Puntaje: '+tot+' / 400 · Sellos: '+G.seals.length+' de '+EVENTS.length+(eco?' · Sello Eco del Punto limpio':'')+'</p><p>Cada decisión del juego tiene un equivalente real. Abre el <b>Modo profesional</b> para ver la ruta de acción, redactar el documento y calcular los plazos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="start">Jugar otra vez</button><button class="btn ghost" data-act="topro">Ir al modo profesional</button></p></div>';
+    var eco=(APP.P.best.limpio||0)>=10;
+    return '<div class="card stack"><div class="mono">Resultado final</div><div class="big">'+esc(tier.name)+'</div><p>'+esc(tier.msg)+'</p><p class="mono">Basura acumulada al final: ≈ '+bagsNow()+' bolsas · Puntaje: '+tot+' / 400 · Sellos: '+G.seals.length+' de '+EVENTS.length+(eco?' · Sello Eco del Punto limpio':'')+'</p><div class="rwbox">'+rwHTML(G.rw)+'</div><p>Cada decisión del juego tiene un equivalente real. Abre el <b>Modo profesional</b> para ver la ruta de acción, redactar el documento y calcular los plazos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="start">Jugar otra vez</button><button class="btn ghost" data-act="topro">Ir al modo profesional</button></p></div>';
   }
   var ev=EVENTS[G.round];
   var bar='<div class="round">'+EVENTS.map(function(_,i){return '<i class="'+(i<=G.round?'on':'')+'"></i>'}).join("")+'</div>';
   var head=bar+'<div class="mono">Decisión '+(G.round+1)+' de '+EVENTS.length+' · '+esc(ev.tag)+'</div><h2 style="margin-block:6px 10px;font-size:clamp(24px,4vw,32px)">'+esc(ev.title)+'</h2><p>'+esc(ev.text)+'</p>';
   var ch='<div class="choices">'+G.order.map(function(idx){
-    var c=ev.choices[idx];
-    return '<button class="choice'+(G.pick===idx?' pick':'')+'" data-act="pick" data-i="'+idx+'"'+(G.phase==="result"?' disabled':'')+'>'+esc(c.t)+'</button>';
-  }).join("")+'</div>';
+    var c=ev.choices[idx],off=G.disc.indexOf(idx)>=0;
+    return '<button class="choice'+(G.pick===idx?' pick':'')+'" data-act="pick" data-i="'+idx+'"'+(G.phase==="result"||off?' disabled':'')+(off?' style="opacity:.45;text-decoration:line-through"':'')+'>'+esc(c.t)+'</button>';
+  }).join("")+'</div>'+(G.phase==="event"?'<p style="margin-top:12px"><button class="btn ghost" data-act="hint"'+(G.disc.length||APP.P.latas<HINT_COST?' disabled':'')+'>Descartar una opción incorrecta ('+HINT_COST+' latas rotas)</button>'+(G.disc.length?' <span class="note">Ya usaste la pista en esta decisión.</span>':(APP.P.latas<HINT_COST?' <span class="note">Te faltan latas rotas.</span>':''))+'</p>':'');
   var res="";
   if(G.phase==="result"){
     var c=ev.choices[G.pick],names=["Participación","Derechos","Ambiente","Confianza"];
@@ -471,12 +1004,19 @@ function renderBarrio(){
   renderBanner();
   $("view-barrio").innerHTML='<div class="grid">'+sidePanel()+'<div>'+mainPanel()+'</div></div>';
 }
-function startEvent(){G.order=shuffle([0,1,2]);G.pick=-1}
+function startEvent(){G.order=shuffle([0,1,2]);G.pick=-1;G.disc=[]}
 function gameAct(a,el){
-  if(a==="start"){G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"event",pick:-1,order:[],bonus:{}};startEvent()}
+  if(a==="start"){G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"event",pick:-1,order:[],bonus:{},xp:0,disc:[],rw:null};startEvent()}
+  else if(a==="hint"&&G.phase==="event"){
+    if(G.disc.length||APP.P.latas<HINT_COST)return;
+    var ev0=EVENTS[G.round],bad=[0,1,2].filter(function(x){return !ev0.choices[x].best});
+    G.disc.push(bad[Math.floor(Math.random()*bad.length)]);
+    APP.P.latas-=HINT_COST;APP.P.hints=(APP.P.hints||0)+1;save();renderHud();
+  }
   else if(a==="pick"&&G.phase==="event"){
     var i=+el.getAttribute("data-i"),ev=EVENTS[G.round],c=ev.choices[i];
-    G.pick=i;G.phase="result";
+    if(G.disc.indexOf(i)>=0)return;
+    G.pick=i;G.phase="result";G.xp+=c.best?4:1;
     ["P","D","A","C"].forEach(function(k,j){G.m[k]=clamp(G.m[k]+c.d[j],0,100)});
     G.m.A=clamp(G.m.A-3,0,100);
     if(c.best&&G.seals.indexOf(ev.seal)<0)G.seals.push(ev.seal);
@@ -484,8 +1024,9 @@ function gameAct(a,el){
     G.round++;
     if(G.round>=EVENTS.length){
       G.phase="end";
-      var tot=G.m.P+G.m.D+G.m.A+G.m.C,b=store("bc_best")||0;
-      if(tot>b)store("bc_best",tot);
+      var tot=G.m.P+G.m.D+G.m.A+G.m.C,ti=0;
+      TIERS.forEach(function(t,ix){if(tot>=t.min)ti=ix});
+      G.rw=reward("barrio",G.xp+20+ti*10,5+ti*10+G.seals.length*2,ti>=2,tot);
     }else{G.phase="event";startEvent()}
   }else if(a==="topro"){setMode("pro");window.scrollTo(0,0);return}
   renderBarrio();
@@ -496,14 +1037,14 @@ function gameAct(a,el){
 /* ---------- minijuego: punto limpio ---------- */
 var L={phase:"intro",i:0,score:0,streak:0,answered:false,items:[],last:null};
 function renderLimpio(){
-  var el=$("view-limpio"),best=store("bc_limpio");
+  var el=$("view-limpio"),best=APP.P.best.limpio||null;
   if(L.phase==="intro"){
     el.innerHTML='<div class="purpose"><div class="mono">Minijuego</div><h2>Punto limpio</h2><p>Llegan 12 residuos al punto de acopio del barrio. Elige el contenedor correcto según el código de colores peruano: verde para aprovechables, marrón para orgánicos, negro para no aprovechables y rojo para peligrosos. Si aciertas 10 o más, ganas el Sello Eco.</p><p style="margin-top:18px"><button class="btn sun" data-act="lstart">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 12</p>':'')+'</div>';
     return;
   }
   if(L.phase==="end"){
     var eco=L.score>=10;
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+L.score+' de 12</div><p>'+(eco?'Ganaste el Sello Eco. Ya sabes separar bien los residuos.':L.score>=7?'Vas bien. Repasa los residuos peligrosos y los no aprovechables.':'Hay que practicar un poco más. Intenta de nuevo y lee los consejos.')+'</p><p>'+esc(L.msg||"")+'</p><p class="note">Revisa siempre las indicaciones de tu municipalidad: los programas locales pueden agrupar los residuos de forma distinta.</p><p><button class="btn sun" data-act="lstart">Jugar otra vez</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+L.score+' de 12</div><p>'+(eco?'Ganaste el Sello Eco. Ya sabes separar bien los residuos.':L.score>=7?'Vas bien. Repasa los residuos peligrosos y los no aprovechables.':'Hay que practicar un poco más. Intenta de nuevo y lee los consejos.')+'</p><p>'+esc(L.msg||"")+'</p>'+rwHTML(L.rw)+'<p class="note">Revisa siempre las indicaciones de tu municipalidad: los programas locales pueden agrupar los residuos de forma distinta.</p><p><button class="btn sun" data-act="lstart">Jugar otra vez</button></p></div>';
     return;
   }
   var it=L.items[L.i];
@@ -521,7 +1062,7 @@ function limpioAct(a,el){
     L.i++;L.answered=false;
     if(L.i>=12){
       L.phase="end";
-      var b=store("bc_limpio");if(b===null||L.score>b)store("bc_limpio",L.score);
+      L.rw=reward("limpio",L.score*3,L.score,L.score>=10,L.score);
       L.msg=award("limpio",L.score/12);
     }
   }
@@ -531,7 +1072,7 @@ function limpioAct(a,el){
 
 /* ---------- modo profesional: ruta de acción ---------- */
 var R={id:"residuos"};
-function getChecks(id){var c=store("bc_chk_"+id);return Array.isArray(c)?c:[]}
+function getChecks(id){var c=APP.P.checks[id];return Array.isArray(c)?c:[]}
 function renderRuta(){
   var r=ROUTES.filter(function(x){return x.id===R.id})[0],ck=getChecks(r.id);
   var chips='<div class="chips" role="group" aria-label="Tipo de problema">'+ROUTES.map(function(x){return '<button data-act="route" data-id="'+x.id+'" aria-pressed="'+(x.id===R.id)+'">'+esc(x.name)+'</button>'}).join("")+'</div>';
@@ -541,45 +1082,6 @@ function renderRuta(){
   var law='<ul class="plain">'+r.law.map(function(e){return '<li>'+esc(e)+'</li>'}).join("")+'</ul>';
   var done=ck.filter(Boolean).length;
   $("view-ruta").innerHTML='<div class="stack">'+chips+'<div class="card stack"><div><h2 style="font-size:26px">'+esc(r.name)+'</h2><p style="margin-top:6px;max-width:68ch">'+esc(r.intro)+'</p></div><div class="mono">Avance: '+done+' de '+r.steps.length+' pasos</div>'+steps+'</div><div class="two"><div class="card"><h3>Entidades que intervienen</h3>'+ent+'</div><div class="card"><h3>Evidencias que conviene reunir</h3>'+ev+'</div></div><div class="card"><h3>Base legal de referencia</h3>'+law+'<p class="note" style="margin-top:10px">Orientación general. Las normas y los plazos cambian: confirma la versión vigente antes de presentar.</p></div><p><button class="btn" data-act="todoc">Redactar el documento</button></p></div>';
-}
-
-/* ---------- modo profesional: documento ---------- */
-var D={type:"info",v:{}};
-var FIELDS=[["nombre","Nombre completo","text"],["dni","DNI","text"],["domicilio","Domicilio","text"],["contacto","Correo o teléfono de contacto","text"],["lugar","Localidad","text"],["entidad","","text"],["asunto","Asunto (una línea)","text"]];
-function fv(k,ph){var s=(D.v[k]||"").trim();return s?s:"["+ph+"]"}
-function buildDoc(){
-  var d=DOCS.filter(function(x){return x.id===D.type})[0];
-  var fecha=new Date().toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"});
-  var who="Yo, "+fv("nombre","tu nombre completo")+", identificado(a) con DNI N.° "+fv("dni","tu DNI")+", con domicilio en "+fv("domicilio","tu domicilio")+" y contacto "+fv("contacto","correo o teléfono")+", ";
-  var pie=fv("lugar","localidad")+", "+fecha+"\n\n\n____________________\n"+fv("nombre","tu nombre completo")+"\nDNI N.° "+fv("dni","tu DNI");
-  var hechos=(D.v.hechos||"").trim(),pedido=fv("pedido","indica qué pides");
-  var t="";
-  if(D.type==="info"){
-    t="SOLICITUD DE ACCESO A LA INFORMACIÓN PÚBLICA\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"solicito, al amparo del artículo 2, inciso 5, de la Constitución Política del Perú y del TUO de la Ley N.° 27806, Ley de Transparencia y Acceso a la Información Pública, la siguiente información:\n\n"+pedido+"\n\n"+(hechos?"Contexto: "+hechos+"\n\n":"")+"Solicito que la información se entregue de la siguiente forma: "+(D.v.entrega||"copia simple en formato digital")+".\n\nQuedo atento(a) a su respuesta dentro del plazo previsto en la norma.\n\n"+pie;
-  }else if(D.type==="peticion"){
-    t="SOLICITUD\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"en ejercicio del derecho de petición (Constitución, art. 2, inciso 20, y TUO de la Ley N.° 27444), expongo lo siguiente:\n\nHECHOS\n"+fv("hechos","describe qué ocurrió, cuándo y dónde")+"\n\nPETICIÓN\n"+pedido+"\n\nAdjunto fotografías y otros documentos que respaldan lo expuesto. Solicito que se me comunique la respuesta por escrito.\n\n"+pie;
-  }else if(D.type==="ambiental"){
-    t="DENUNCIA AMBIENTAL\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"presento esta denuncia, en ejercicio de mi derecho a un ambiente equilibrado y adecuado (Constitución, art. 2, inciso 22, y Ley N.° 28611, Ley General del Ambiente).\n\nDESCRIPCIÓN DE LOS HECHOS\n"+fv("hechos","qué ocurre, desde cuándo, dónde y quién lo realiza, si lo sabes")+"\n\nSOLICITO\n"+pedido+"\n\nAdjunto fotografías, videos y otros medios que acreditan los hechos. Pido que se me informe el número de registro de esta denuncia y las acciones que se realicen.\n\n"+pie;
-  }else{
-    t="QUEJA POR VULNERACIÓN DE DERECHOS\n\nSeñores\n"+fv("entidad","entidad destinataria")+"\n\nAsunto: "+fv("asunto","asunto")+"\n\n"+who+"presento esta queja por los siguientes hechos:\n\nHECHOS\n"+fv("hechos","fecha, hora, lugar, persona o cargo involucrado y lo ocurrido")+"\n\nSOLICITO\n"+pedido+"\n\nAdjunto los documentos y medios de prueba disponibles. Indico como testigos, si los hay, a las personas que podrán confirmar lo ocurrido. Solicito respuesta por escrito.\n\n"+pie;
-  }
-  return t;
-}
-function renderDoc(){
-  var d=DOCS.filter(function(x){return x.id===D.type})[0];
-  var chips='<div class="chips" role="group" aria-label="Tipo de documento">'+DOCS.map(function(x){return '<button data-act="dtype" data-id="'+x.id+'" aria-pressed="'+(x.id===D.type)+'">'+esc(x.name)+'</button>'}).join("")+'</div>';
-  function inp(k,label,full){return '<div'+(full?' class="full"':'')+'><label for="f-'+k+'">'+esc(label)+'</label><input id="f-'+k+'" data-f="'+k+'" value="'+esc(D.v[k]||"")+'" autocomplete="off"></div>'}
-  function ta(k,label,ph){return '<div class="full"><label for="f-'+k+'">'+esc(label)+'</label><textarea id="f-'+k+'" data-f="'+k+'" placeholder="'+esc(ph||"")+'">'+esc(D.v[k]||"")+'</textarea></div>'}
-  var form='<div class="form">'+inp("nombre","Nombre completo")+inp("dni","DNI")+inp("domicilio","Domicilio")+inp("contacto","Correo o teléfono de contacto")+inp("lugar","Localidad")+inp("entidad",d.entityLabel,true)+inp("asunto","Asunto (una línea)",true)+(D.type==="info"?'<div class="full"><label for="f-entrega">Forma de entrega</label><select id="f-entrega" data-f="entrega"><option>copia simple en formato digital</option><option>copia simple en papel</option><option>envío a mi correo electrónico</option></select></div>':'')+ta("pedido",d.askLabel,d.ph)+(D.type==="info"?ta("hechos",d.factsLabel,"Opcional"):ta("hechos",d.factsLabel,"Fecha, lugar, qué ocurrió, quién estuvo presente."))+'</div>';
-  $("view-doc").innerHTML='<div class="stack">'+chips+'<div class="two"><div class="card stack"><h3>Tus datos</h3>'+form+'</div><div class="card stack"><h3>Vista previa</h3><div class="doc" id="docout" tabindex="0"></div><p style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" data-act="copy">Copiar texto</button><span class="note" id="copymsg" aria-live="polite"></span></p><p class="note">Revisa el texto, complétalo y adjunta tus pruebas. Presenta dos copias y pide el cargo con sello y fecha de recepción.</p></div></div></div>';
-  var sel=$("f-entrega");if(sel&&D.v.entrega)sel.value=D.v.entrega;
-  $("docout").textContent=buildDoc();
-}
-function copyDoc(){
-  var out=$("docout"),msg=$("copymsg");
-  function sel(){var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
-  try{navigator.clipboard.writeText(out.textContent).then(function(){msg.textContent="Texto copiado."},function(){sel();msg.textContent="Texto seleccionado. Cópialo con Ctrl+C."})}
-  catch(e){sel();msg.textContent="Texto seleccionado. Cópialo con Ctrl+C."}
 }
 
 /* ---------- modo profesional: plazos ---------- */
@@ -608,66 +1110,11 @@ function calcPlazo(){
   out.innerHTML='<div class="mono">Fecha límite de respuesta</div><div class="big" style="text-transform:capitalize">'+esc(fmt(lim))+'</div>'+st+'<p class="note">Se cuentan '+total+' días hábiles desde el '+esc(fmt(s))+'.</p>'+next+'<p class="note">Cálculo de apoyo. Confirma el plazo exacto y las reglas de cómputo en la norma vigente.</p>';
 }
 
-/* ---------- eventos ---------- */
-document.addEventListener("click",function(e){
-  var el=e.target.closest("[data-act],#mode-game,#mode-pro,#g-barrio,#g-limpio,#g-ruta,#g-bolsas,#g-mitos,#p-ruta,#p-doc,#p-plazo");
-  if(!el)return;
-  var id=el.id,a=el.getAttribute("data-act");
-  if(id==="mode-game")return setMode("game");
-  if(id==="mode-pro")return setMode("pro");
-  if(id==="g-barrio")return setGameView("barrio");
-  if(id==="g-limpio")return setGameView("limpio");
-  if(id==="g-ruta")return setGameView("ruta");
-  if(id==="g-bolsas")return setGameView("bolsas");
-  if(id==="g-mitos")return setGameView("mitos");
-  if(id==="p-ruta")return setProView("ruta");
-  if(id==="p-doc"){setProView("doc");renderDoc();return}
-  if(id==="p-plazo"){setProView("plazo");renderPlazo();return}
-  if(!a)return;
-  if(extraAct(a,el))return;
-  if(["start","pick","next","topro"].indexOf(a)>=0)return gameAct(a,el);
-  if(["lstart","bin","lnext"].indexOf(a)>=0)return limpioAct(a,el);
-  if(a==="route"){R.id=el.getAttribute("data-id");renderRuta()}
-  else if(a==="chk"){return}
-  else if(a==="todoc"){var m={residuos:"peticion",contaminacion:"ambiental",derechos:"queja",informacion:"info",obra:"info",propuesta:"peticion"};D.type=m[R.id]||"peticion";setProView("doc");renderDoc()}
-  else if(a==="dtype"){D.type=el.getAttribute("data-id");renderDoc()}
-  else if(a==="copy")copyDoc();
-});
-document.addEventListener("change",function(e){
-  var el=e.target;
-  if(el.getAttribute&&el.getAttribute("data-act")==="chk"){
-    var r=ROUTES.filter(function(x){return x.id===R.id})[0],ck=getChecks(r.id).slice();
-    ck[+el.getAttribute("data-i")]=el.checked;store("bc_chk_"+r.id,ck);renderRuta();return;
-  }
-  if(el.id==="pl-kind"){PL.kind=el.value;$("pl-custom-wrap").hidden=PL.kind!=="custom";calcPlazo()}
-  else if(el.id==="f-entrega"){D.v.entrega=el.value;$("docout").textContent=buildDoc()}
-});
-document.addEventListener("input",function(e){
-  var el=e.target,f=el.getAttribute&&el.getAttribute("data-f");
-  if(f&&f!=="entrega"){D.v[f]=el.value;$("docout").textContent=buildDoc();return}
-  if(el.id==="pl-custom"){PL.custom=+el.value;calcPlazo()}
-  else if(el.id==="pl-start"){PL.start=el.value;calcPlazo()}
-  else if(el.id==="pl-hol"){PL.hol=+el.value;calcPlazo()}
-  else if(el.id==="pl-ext"){PL.ext=+el.value;calcPlazo()}
-});
-document.addEventListener("keydown",function(e){
-  if(e.key===" "&&typeof BG!=="undefined"&&BG.phase==="play"&&!$("view-bolsas").hidden&&e.target.tagName!=="BUTTON"){e.preventDefault();bgTake();return}
-  if($("view-limpio").hidden||$("game").hidden||L.phase!=="play")return;
-  var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT")return;
-  var n=+e.key;
-  if(!L.answered&&n>=1&&n<=4){limpioAct("bin",{getAttribute:function(){return BINS[n-1].k}})}
-  else if(L.answered&&e.key==="Enter"&&e.target.tagName!=="BUTTON"){limpioAct("lnext",null)}
-});
-
-/* ---------- arranque ---------- */
-renderBarrio();
-renderRuta();
-renderBanner();
 /* ---------- basura acumulada: medidor permanente y bonus de minijuegos ---------- */
 function bagsNow(){return Math.round((100-G.m.A)*4)}
 function renderBanner(){
   var el=$("trash-banner");if(!el)return;
-  if(!$("pro").hidden){el.hidden=true;return}
+  if($("game").hidden){el.hidden=true;return}
   el.hidden=false;
   var n=bagsNow(),lvl,col;
   if(n>=240){lvl="Crítica";col="var(--bad)"}else if(n>=160){lvl="Alta";col="var(--warn)"}else if(n>=80){lvl="Moderada";col="var(--sun)"}else{lvl="Controlada";col="var(--good)"}
@@ -708,7 +1155,7 @@ function renderRutaJuego(){
   }
   var u=rtUsed();
   if(RT.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+RT.eff+'% de eficiencia</div><p>'+esc(RT.res)+'</p><p class="note">En la vida real, estas prioridades se piden por escrito a la municipalidad y se discuten en asamblea. Con datos de dónde y cuánto se acumula, el reclamo se puede atender mejor.</p><p><button class="btn sun" data-act="rt-start">Otra ruta</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+RT.eff+'% de eficiencia</div><p>'+esc(RT.res)+'</p>'+rwHTML(RT.rw)+'<p class="note">En la vida real, estas prioridades se piden por escrito a la municipalidad y se discuten en asamblea. Con datos de dónde y cuánto se acumula, el reclamo se puede atender mejor.</p><p><button class="btn sun" data-act="rt-start">Otra ruta</button></p></div>';
     return;
   }
   var list=RT.pts.map(function(p,i){
@@ -720,7 +1167,7 @@ function renderRutaJuego(){
 function rtGo(){
   var u=rtUsed(),b=rtBest(),eff=b.v?Math.round(u.v/b.v*100):0;
   var names=RT.pts.filter(function(_,i){return b.mask&(1<<i)}).map(function(p){return p.n}).join(", ");
-  RT.eff=eff;RT.phase="end";
+  RT.eff=eff;RT.phase="end";RT.rw=reward("ruta",Math.round(eff*0.3)+(eff>=100?10:0),Math.round(eff/10),eff>=85,eff);
   RT.res=(eff>=100?"Elegiste la mejor ruta posible. ":"La mejor ruta posible era: "+names+". ")+"Tu ruta retiró "+u.b+" bolsas con un valor de "+u.v+" sobre "+b.v+". "+award("ruta",eff/100);
 }
 
@@ -728,13 +1175,13 @@ function rtGo(){
 var BG={phase:"intro",raf:0};
 var AW=520,AH=360;
 function renderBolsas(){
-  var el=$("view-bolsas"),best=store("bc_bolsas");
+  var el=$("view-bolsas"),best=APP.P.best.bolsas||null;
   if(BG.phase==="intro"){
     el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>En 30 segundos caen bolsas de basura hacia la calle. Toca cada bolsa antes de que llegue al suelo. Las rojas son residuos peligrosos: caen más rápido y valen el doble. Cada bolsa que toca el suelo se suma a la basura acumulada. También puedes recoger la bolsa más baja con la barra espaciadora.</p><p style="margin-top:18px"><button class="btn sun" data-act="bg-start">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'</div>';
     return;
   }
   if(BG.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas y '+BG.missed+' llegaron al suelo. '+esc(BG.msg)+'</p><p><button class="btn sun" data-act="bg-start">Jugar otra vez</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas y '+BG.missed+' llegaron al suelo. '+esc(BG.msg)+'</p>'+rwHTML(BG.rw)+'<p><button class="btn sun" data-act="bg-start">Jugar otra vez</button></p></div>';
     return;
   }
   el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen"></canvas><p style="margin-top:12px"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button></p></div>';
@@ -780,7 +1227,7 @@ function bgLoop(ts){
 function bgEnd(){
   BG.raf=0;BG.phase="end";
   var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0;
-  var b=store("bc_bolsas");if(b===null||BG.score>b)store("bc_bolsas",BG.score);
+  BG.rw=reward("bolsas",Math.min(40,BG.caught*2),Math.floor(BG.caught/2),BG.caught>=20&&ratio>=0.75,BG.score);
   BG.msg=award("bolsas",ratio);
   renderBolsas();
 }
@@ -806,20 +1253,12 @@ function renderMitos(){
     return;
   }
   if(MT.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MT.score+' de 8</div><p>'+esc(MT.msg)+'</p><p><button class="btn sun" data-act="mt-start">Jugar otra vez</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MT.score+' de 8</div><p>'+esc(MT.msg)+'</p>'+rwHTML(MT.rw)+'<p><button class="btn sun" data-act="mt-start">Jugar otra vez</button></p></div>';
     return;
   }
   var it=MT.items[MT.i];
   var fb=MT.answered?'<span class="'+(MT.ok?'ok':'no')+'">'+(MT.ok?'Correcto. ':'No exactamente. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="mt-next" style="margin-left:8px">'+(MT.i+1>=8?'Ver resultado':'Siguiente')+'</button>':'';
   el.innerHTML='<div class="card"><div class="round">'+MT.items.map(function(_,i){return '<i class="'+(i<=MT.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Afirmación '+(MT.i+1)+' de 8 · Aciertos '+MT.score+'</div><div class="item" style="font-size:clamp(20px,3.6vw,28px)">'+esc(it[0])+'</div><div class="tf"><button class="btn" data-act="mt" data-v="1"'+(MT.answered?' disabled':'')+'>Verdadero</button><button class="btn ghost" data-act="mt" data-v="0"'+(MT.answered?' disabled':'')+'>Falso</button></div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
-}
-
-/* ---------- atajos del modo profesional (caso: basura acumulada) ---------- */
-function basuraDoc(){
-  D.type="peticion";
-  D.v.asunto="Acumulación de residuos sólidos y falta de recojo en [calle o pasaje]";
-  D.v.hechos="Desde hace [N] días se acumulan residuos sólidos en [dirección] porque el camión recolector no pasa. Esto atrae roedores, genera malos olores y afecta a [N] familias, entre ellas niños y adultos mayores. Se adjuntan fotografías con fecha y firmas de vecinos.";
-  D.v.pedido="Que se reanude el recojo de residuos, se limpie el punto crítico y se nos informe el horario y las rutas del servicio.";
 }
 
 /* ---------- despacho de acciones extra ---------- */
@@ -831,11 +1270,545 @@ function extraAct(a,el){
   if(a==="bg-take"){bgTake();return true}
   if(a==="mt-start"){MT={phase:"play",i:0,score:0,answered:false,items:shuffle(MITOS).slice(0,8),ok:false,msg:""};renderMitos();return true}
   if(a==="mt"&&!MT.answered){var it=MT.items[MT.i],v=el.getAttribute("data-v")==="1";MT.ok=v===it[1];MT.answered=true;if(MT.ok)MT.score++;renderMitos();var n=document.querySelector('#view-mitos [data-act="mt-next"]');if(n)n.focus({preventScroll:true});return true}
-  if(a==="mt-next"){MT.i++;MT.answered=false;if(MT.i>=8){MT.phase="end";MT.msg=(MT.score>=7?"Muy bien informado. ":"Repasa las explicaciones. ")+award("mitos",MT.score/8)}renderMitos();return true}
+  if(a==="mt-next"){MT.i++;MT.answered=false;if(MT.i>=8){MT.phase="end";MT.rw=reward("mitos",MT.score*4,MT.score*2,MT.score>=7,MT.score);MT.msg=(MT.score>=7?"Muy bien informado. ":"Repasa las explicaciones. ")+award("mitos",MT.score/8)}renderMitos();return true}
   if(a==="basura-ruta"){R.id="residuos";setProView("ruta");renderRuta();return true}
   if(a==="basura-doc"){basuraDoc();setProView("doc");renderDoc();return true}
   return false;
 }
+/* ===== documentos mejorados ===== */
+var D={type:"residuos",v:{},ch:{},an:{},modo:"ind",ready:false};
+var COMMON=[["nombre","Nombre completo"],["dni","DNI"],["domicilio","Domicilio"],["contacto","Correo o teléfono de contacto"],["localidad","Localidad (ciudad o distrito)"]];
+function dv(k,ph){var s=(D.v[k]||"").trim();return s?s:"["+ph+"]"}
+function op(k){return (D.v[k]||"").trim()}
+function chosen(k){var m=D.ch[k]||{};return Object.keys(m).filter(function(o){return m[o]}).join(", ")}
+function numLines(k,ph){
+  var t=op(k);if(!t)return "["+ph+"]";
+  return t.split("\n").map(function(x){return x.trim()}).filter(Boolean).map(function(x,i){return (i+1)+". "+x}).join("\n");
+}
+var DOCS=[
+{id:"residuos",name:"Reclamo por basura acumulada",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ... (Gerencia de Servicios Públicos)",req:1},
+  {k:"direccion",l:"Dirección del punto con basura",ph:"Pasaje 3, cuadra 2, Barrio Nueva Esperanza",req:1},
+  {k:"dias",l:"Días sin recojo",t:"num",ph:"14",req:1},
+  {k:"familias",l:"Familias afectadas (aprox.)",t:"num",ph:"40"},
+  {k:"riesgos",l:"Problemas que genera",t:"chk",o:["roedores e insectos","malos olores","riesgo de enfermedades","quema de basura","obstrucción de la vía o la acequia","cercanía a un colegio, mercado o posta"]},
+  {k:"detalle",l:"Detalle adicional (opcional)",t:"area",ph:"Ya se avisó por teléfono el ... sin respuesta."},
+  {k:"pedido",l:"Qué pides",t:"area",req:1,def:"Que se programe el recojo inmediato de los residuos acumulados, se limpie el punto crítico y se nos informe por escrito el horario y la ruta del servicio de recojo en nuestra zona."}],
+ anexos:["Fotografías con fecha y hora","Lista de vecinos con firmas","Copia de mi DNI"],
+ nota:"Guarda el cargo con sello y fecha. Si pasa el plazo sin respuesta, usa el modelo de queja por defectos de tramitación y denuncia ante la OEFA con tu cargo anexado.",
+ title:"RECLAMO POR ACUMULACIÓN DE RESIDUOS SÓLIDOS Y FALTA DE RECOJO",
+ asu:function(){return "Acumulación de residuos sólidos en "+dv("direccion","dirección")},
+ intro:"en ejercicio del derecho de petición y como usuario(a) del servicio de limpieza pública, expongo lo siguiente:",
+ secs:function(){
+  var h="En "+dv("direccion","dirección")+" se acumulan residuos sólidos desde hace "+dv("dias","N")+" días sin que se realice el recojo.";
+  if(op("familias"))h+=" Esta situación afecta a aproximadamente "+op("familias")+" familias.";
+  var r=chosen("riesgos");if(r)h+=" Entre los problemas que genera: "+r+".";
+  if(op("detalle"))h+="\n"+op("detalle");
+  return [["HECHOS",h],["PETICIÓN",dv("pedido","qué pides")],["BASE LEGAL DE REFERENCIA","La limpieza pública y el recojo de residuos son funciones de la municipalidad (Ley N.° 27972, Ley Orgánica de Municipalidades, y Decreto Legislativo N.° 1278, Ley de Gestión Integral de Residuos Sólidos)."]];
+ },
+ cierre:"Solicito que se me comunique la respuesta por escrito y las acciones que se tomen."},
+{id:"info",name:"Acceso a información pública",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ...",req:1},
+  {k:"asunto",l:"Asunto",ph:"Solicitud de información sobre la obra de la vereda",req:1},
+  {k:"pedido",l:"Información que solicitas",t:"area",ph:"Expediente técnico, cronograma y monto pagado de la obra...",req:1},
+  {k:"periodo",l:"Periodo de la información (opcional)",ph:"Enero de 2025 a la fecha"},
+  {k:"entrega",l:"Forma de entrega",t:"sel",o:["copia simple en formato digital","copia simple en papel","envío a mi correo electrónico"]},
+  {k:"contexto",l:"Contexto (opcional)",t:"area"}],
+ anexos:["Copia de mi DNI"],
+ nota:"No necesitas explicar para qué quieres la información. Pide el cargo con fecha de recepción y calcula el plazo en la pestaña Plazos.",
+ title:"SOLICITUD DE ACCESO A LA INFORMACIÓN PÚBLICA",
+ intro:"solicito, al amparo del artículo 2, inciso 5, de la Constitución Política del Perú y del TUO de la Ley N.° 27806, Ley de Transparencia y Acceso a la Información Pública, la siguiente información:",
+ secs:function(){return [["",dv("pedido","información que solicitas")+(op("periodo")?"\nPeriodo: "+op("periodo"):"")],["CONTEXTO",op("contexto")],["FORMA DE ENTREGA","Solicito que la información se entregue mediante "+(op("entrega")||"copia simple en formato digital")+"."]]},
+ cierre:"Quedo atento(a) a su respuesta dentro del plazo previsto en la norma."},
+{id:"peticion",name:"Petición ante la municipalidad",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ...",req:1},
+  {k:"asunto",l:"Asunto",ph:"Solicitud de mantenimiento de la vía",req:1},
+  {k:"hechos",l:"Hechos",t:"area",ph:"Qué ocurre, desde cuándo, dónde y a quiénes afecta.",req:1},
+  {k:"pedido",l:"Qué pides",t:"area",ph:"Que se realice ...",req:1}],
+ anexos:["Fotografías con fecha y hora","Copia de mi DNI"],
+ nota:"Pide una respuesta por escrito y guarda el cargo con fecha de recepción.",
+ title:"SOLICITUD",
+ intro:"en ejercicio del derecho de petición (Constitución Política, artículo 2, inciso 20, y TUO de la Ley N.° 27444), expongo lo siguiente:",
+ secs:function(){return [["HECHOS",dv("hechos","hechos")],["PETICIÓN",dv("pedido","qué pides")]]},
+ cierre:"Solicito que se me comunique la respuesta por escrito."},
+{id:"ambiental",name:"Denuncia ambiental",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"OEFA u otra autoridad ambiental competente",req:1},
+  {k:"lugar",l:"Lugar donde ocurre",ph:"Quebrada ..., a la altura de ...",req:1},
+  {k:"actividad",l:"Actividad o presunto responsable (si lo sabes)",ph:"Taller mecánico, planta, botadero..."},
+  {k:"desde",l:"Desde cuándo ocurre",ph:"Hace tres semanas"},
+  {k:"efectos",l:"Efectos que observas",t:"chk",o:["agua","aire","suelo","ruido","salud de las personas","animales o cultivos"]},
+  {k:"hechos",l:"Descripción de los hechos",t:"area",req:1},
+  {k:"pedido",l:"Qué pides",t:"area",req:1,def:"Que se realice una inspección, se verifique el cumplimiento de la norma ambiental y se ordenen las medidas que correspondan."}],
+ anexos:["Fotografías y videos con fecha","Ubicación o coordenadas aproximadas","Copia de mi DNI"],
+ nota:"En la denuncia en línea de la OEFA puedes adjuntar fotos y marcar el punto en el mapa. Copia este texto en el campo de descripción.",
+ title:"DENUNCIA AMBIENTAL",
+ asu:function(){return "Denuncia ambiental en "+dv("lugar","lugar")},
+ intro:"presento esta denuncia en ejercicio de mi derecho a un ambiente equilibrado y adecuado (Constitución Política, artículo 2, inciso 22, y Ley N.° 28611, Ley General del Ambiente):",
+ secs:function(){return [["UBICACIÓN",dv("lugar","lugar")],["PRESUNTO RESPONSABLE",op("actividad")],["DESDE CUÁNDO",op("desde")],["EFECTOS OBSERVADOS",chosen("efectos")],["DESCRIPCIÓN DE LOS HECHOS",dv("hechos","hechos")],["SOLICITO",dv("pedido","qué pides")]]},
+ cierre:"Pido que se me informe el número de registro de esta denuncia y las acciones que se realicen."},
+{id:"derechos",name:"Queja por vulneración de derechos",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Establecimiento de salud, UGEL, municipalidad...",req:1},
+  {k:"derecho",l:"Derecho afectado",t:"sel",o:["Salud","Educación","Trato digno y no discriminación","Servicios básicos","Debido procedimiento","Otro"]},
+  {k:"fechahecho",l:"Fecha de los hechos",t:"date"},
+  {k:"lugarhecho",l:"Lugar de los hechos",ph:"Consultorio de emergencia"},
+  {k:"personas",l:"Cargos o personas involucradas",ph:"Personal de admisión"},
+  {k:"hechos",l:"Hechos",t:"area",req:1,ph:"Qué pasó, en qué orden y qué se negó o se hizo."},
+  {k:"pedido",l:"Qué solicitas",t:"area",req:1,ph:"Que se investigue y se garantice la atención."}],
+ anexos:["Documentos o recetas","Nombres y contactos de testigos","Copia de mi DNI"],
+ nota:"Para salud, puedes presentar también el reclamo ante SUSALUD. Para otros casos, la Defensoría del Pueblo puede intervenir.",
+ title:"QUEJA POR VULNERACIÓN DE DERECHOS",
+ asu:function(){return "Queja por vulneración del derecho a "+(op("derecho")||"[derecho afectado]").toLowerCase()},
+ intro:"presento esta queja por los hechos que expongo a continuación:",
+ secs:function(){
+  var fl=[];if(op("fechahecho")){var p=op("fechahecho").split("-");fl.push(new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"}))}
+  if(op("lugarhecho"))fl.push(op("lugarhecho"));
+  return [["DERECHO AFECTADO",op("derecho")||"Salud"],["FECHA Y LUGAR",fl.join(", ")],["CARGOS O PERSONAS INVOLUCRADAS",op("personas")],["HECHOS",dv("hechos","hechos")],["SOLICITO",dv("pedido","qué solicitas")]];
+ },
+ cierre:"Solicito respuesta por escrito y que se deje constancia de esta queja."},
+{id:"apelacion",name:"Apelación por falta de respuesta",
+ fields:[
+  {k:"entidad",l:"Entidad que no respondió",ph:"Municipalidad Distrital de ...",req:1},
+  {k:"fechasol",l:"Fecha en que presentaste la solicitud",t:"date",req:1},
+  {k:"cargo",l:"N.° de registro o cargo",ph:"Expediente 2026-001234"},
+  {k:"situacion",l:"Situación",t:"sel",o:["no recibí respuesta dentro del plazo","me denegaron la información","me entregaron información incompleta"]},
+  {k:"original",l:"Información que pediste",t:"area",req:1},
+  {k:"fund",l:"Fundamentos (opcional)",t:"area",ph:"La información es pública porque ..."}],
+ anexos:["Copia de mi solicitud con el cargo","Respuesta o denegatoria de la entidad, si existe","Copia de mi DNI"],
+ nota:"Confirma ante qué instancia y dentro de qué plazo se presenta este recurso según la norma vigente y lo que indique la entidad en su respuesta.",
+ title:"RECURSO DE APELACIÓN POR FALTA DE RESPUESTA O DENEGATORIA DE ACCESO A LA INFORMACIÓN PÚBLICA",
+ addr:function(){return "Tribunal de Transparencia y Acceso a la Información Pública\n(Entidad que no respondió: "+dv("entidad","entidad")+")"},
+ asu:function(){return "Recurso de apelación contra "+dv("entidad","entidad")},
+ intro:"interpongo recurso de apelación, conforme al TUO de la Ley N.° 27806 y su Reglamento, por los siguientes motivos:",
+ secs:function(){
+  var f=op("fechasol")?(function(){var p=op("fechasol").split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"})})():"[fecha]";
+  return [["SOLICITUD ORIGINAL","Presenté el "+f+" una solicitud de acceso a la información pública"+(op("cargo")?" con registro N.° "+op("cargo"):"")+" ante "+dv("entidad","entidad")+", en la que pedí: "+dv("original","información que pediste")],["SITUACIÓN","A la fecha "+(op("situacion")||"no recibí respuesta dentro del plazo")+"."],["FUNDAMENTOS",op("fund")],["PETITORIO","Solicito que se declare fundado el recurso y se ordene la entrega de la información solicitada."]];
+ },
+ cierre:"Pido que se tenga por presentado el recurso y se resuelva conforme a ley."},
+{id:"queja",name:"Queja por defectos de tramitación",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ...",req:1},
+  {k:"tramite",l:"Trámite o solicitud (N.° de expediente o cargo)",req:1},
+  {k:"fechapres",l:"Fecha en que lo presentaste",t:"date"},
+  {k:"defecto",l:"Defecto que reclamas",t:"sel",o:["no responden y el plazo ya venció","me piden requisitos que no corresponden","el trámite está paralizado sin motivo","otro defecto"]},
+  {k:"detalle",l:"Detalle",t:"area"},
+  {k:"pedido",l:"Qué pides",t:"area",req:1,def:"Que se subsane el defecto indicado y se resuelva mi solicitud en el menor plazo posible."}],
+ anexos:["Copia de mi solicitud con el cargo","Copia de mi DNI"],
+ nota:"La queja se presenta para pedir que se corrija un defecto del trámite. No reemplaza a la apelación contra la decisión final.",
+ title:"QUEJA POR DEFECTOS DE TRAMITACIÓN",
+ asu:function(){return "Queja por defectos de tramitación del expediente "+dv("tramite","trámite")},
+ intro:"formulo queja por defectos de tramitación (TUO de la Ley N.° 27444, artículo 169) respecto del trámite que indico a continuación:",
+ secs:function(){
+  var f=op("fechapres")?(function(){var p=op("fechapres").split("-");return " presentado el "+new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"})})():"";
+  return [["TRÁMITE",dv("tramite","trámite")+f],["DEFECTO","Reclamo que "+(op("defecto")||"no responden y el plazo ya venció")+"."],["DETALLE",op("detalle")],["SOLICITO",dv("pedido","qué pides")]];
+ },
+ cierre:"Solicito que se me comunique lo resuelto por escrito."},
+{id:"firmas",name:"Petición vecinal con firmas",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ...",req:1},
+  {k:"asunto",l:"Asunto",ph:"Solicitud vecinal de recojo de residuos",req:1},
+  {k:"hechos",l:"Hechos",t:"area",req:1},
+  {k:"pedido",l:"Qué piden los vecinos",t:"area",req:1},
+  {k:"nfirmas",l:"Líneas de firma",t:"sel",o:["10","20","30"]}],
+ anexos:["Fotografías con fecha y hora"],
+ nota:"Imprime la hoja de firmas y pide a cada vecino su nombre, DNI, dirección y firma. Una petición con respaldo colectivo es más difícil de ignorar.",
+ title:"PETICIÓN VECINAL",
+ intro:"en representación de los vecinos que firman al final de este documento, y en ejercicio del derecho de petición, expongo lo siguiente:",
+ secs:function(){return [["HECHOS",dv("hechos","hechos")],["PETICIÓN",dv("pedido","qué piden los vecinos")]]},
+ cierre:"Solicitamos respuesta por escrito, dirigida a la persona que presenta este documento.",
+ extra:function(){
+  var n=+(op("nfirmas")||10),o=["LISTA DE FIRMAS","N.° | NOMBRE COMPLETO | DNI | DIRECCIÓN | FIRMA"];
+  for(var i=1;i<=n;i++)o.push(i+". ________________  ________  ________________  ________");
+  return o;
+ }},
+{id:"audiencia",name:"Solicitud de audiencia",
+ fields:[
+  {k:"entidad",l:"Autoridad o dependencia",ph:"Alcalde o alcaldesa de la Municipalidad de ...",req:1},
+  {k:"tema",l:"Tema que quieren tratar",t:"area",req:1},
+  {k:"participantes",l:"Personas que asistirían",t:"num",ph:"5"},
+  {k:"fechas",l:"Fechas u horarios que te convienen",ph:"Martes o jueves por la tarde"}],
+ anexos:["Copia de mi DNI"],
+ nota:"Pide una fecha concreta y que te la confirmen por escrito. Lleva el tema ordenado y tus pruebas.",
+ title:"SOLICITUD DE AUDIENCIA",
+ asu:function(){return "Solicitud de audiencia"},
+ intro:"solicito una reunión para tratar el siguiente tema:",
+ secs:function(){return [["TEMA",dv("tema","tema")],["PARTICIPANTES",op("participantes")?op("participantes")+" vecinos y vecinas":""],["DISPONIBILIDAD",op("fechas")]]},
+ cierre:"Agradeceré que se me indique fecha, hora y lugar de la reunión."},
+{id:"obra",name:"Denuncia por obra pública",
+ fields:[
+  {k:"entidad",l:"Entidad destinataria",ph:"Contraloría General de la República",req:1},
+  {k:"obra",l:"Nombre de la obra",ph:"Mejoramiento de veredas del pasaje 3",req:1},
+  {k:"ejecutor",l:"Entidad o empresa que la ejecuta (si lo sabes)"},
+  {k:"ubicacion",l:"Ubicación",req:1},
+  {k:"estado",l:"Situación observada",t:"sel",o:["paralizada","abandonada","con avance menor al informado","sin cartel de obra","con materiales deficientes"]},
+  {k:"desde",l:"Desde cuándo",ph:"Hace seis meses"},
+  {k:"hechos",l:"Hechos",t:"area",req:1},
+  {k:"pruebas",l:"Pruebas que tienes (opcional)",t:"area"}],
+ anexos:["Fotografías con fecha y hora","Documentos obtenidos por transparencia","Copia de mi DNI"],
+ nota:"La Contraloría recibe denuncias por su plataforma web. Copia este texto en el formulario y adjunta tus pruebas. Si hay un posible delito, comunícalo también al Ministerio Público.",
+ title:"DENUNCIA POR PRESUNTA IRREGULARIDAD EN OBRA PÚBLICA",
+ asu:function(){return "Presunta irregularidad en la obra "+dv("obra","obra")},
+ intro:"pongo en su conocimiento los siguientes hechos sobre una obra pública:",
+ secs:function(){return [["OBRA",dv("obra","obra")],["EJECUTOR",op("ejecutor")],["UBICACIÓN",dv("ubicacion","ubicación")],["SITUACIÓN OBSERVADA",(op("estado")||"paralizada")+(op("desde")?", "+op("desde"):"")],["HECHOS",dv("hechos","hechos")],["PRUEBAS",op("pruebas")]]},
+ cierre:"Solicito que se evalúe la denuncia y se me informe el número de registro y el estado del caso."},
+{id:"acta",name:"Acta de asamblea vecinal",acta:true,
+ fields:[
+  {k:"org",l:"Junta, comité o sector",ph:"Junta Vecinal Nueva Esperanza",req:1},
+  {k:"lugarasa",l:"Lugar de la asamblea",req:1},
+  {k:"fechaasa",l:"Fecha de la asamblea",t:"date",req:1},
+  {k:"hora",l:"Hora",ph:"6:00 p. m."},
+  {k:"convoc",l:"Cómo se convocó",ph:"volantes, grupo de WhatsApp y aviso en la bodega"},
+  {k:"asistentes",l:"Cantidad de asistentes",t:"num"},
+  {k:"preside",l:"Quién presidió"},
+  {k:"secretaria",l:"Quién actuó como secretario(a)"},
+  {k:"agenda",l:"Temas tratados (uno por línea)",t:"area"},
+  {k:"acuerdos",l:"Acuerdos (uno por línea)",t:"area",req:1}],
+ anexos:["Lista de asistentes con firmas"],
+ nota:"Un acta con acuerdos claros y firmas sirve como respaldo de tu petición ante la municipalidad."}
+];
+function curDef(){return DOCS.filter(function(x){return x.id===D.type})[0]||DOCS[0]}
+function fechaTxt(){
+  var s=D.v.fecha;if(s){var p=s.split("-");if(p.length===3)return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"})}
+  return "[fecha]";
+}
+function whoTxt(){
+  var b="Yo, "+dv("nombre","tu nombre completo")+", identificado(a) con DNI N.° "+dv("dni","tu DNI");
+  if(D.modo==="rep")b+=", en mi calidad de "+dv("cargo","tu cargo")+" de "+dv("org2","nombre de la organización vecinal");
+  return b+", con domicilio en "+dv("domicilio","tu domicilio")+" y contacto "+dv("contacto","correo o teléfono")+",";
+}
+function pieTxt(){
+  var l=dv("localidad","localidad")+", "+fechaTxt()+"\n\n\n____________________\n"+dv("nombre","tu nombre completo")+"\nDNI N.° "+dv("dni","tu DNI");
+  if(D.modo==="rep")l+="\n"+dv("cargo","tu cargo")+" de "+dv("org2","organización");
+  return l;
+}
+function anexosSel(def){return def.anexos.filter(function(_,i){return D.an[i]!==false})}
+function buildDoc(){
+  var def=curDef(),o=[];
+  if(def.acta){
+    o.push("ACTA DE ASAMBLEA VECINAL","");
+    var f=op("fechaasa")?(function(){var p=op("fechaasa").split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"})})():"[fecha]";
+    o.push("En "+dv("lugarasa","lugar")+", el "+f+(op("hora")?", a las "+op("hora"):"")+", se reunieron "+(op("asistentes")||"[N]")+" vecinos y vecinas de "+dv("org","junta, comité o sector")+(op("convoc")?", convocados mediante "+op("convoc"):"")+"."+(op("preside")?" Presidió la reunión "+op("preside")+".":"")+(op("secretaria")?" Actuó como secretario(a) "+op("secretaria")+".":""),"");
+    if(op("agenda")){o.push("AGENDA",numLines("agenda","temas"),"")}
+    o.push("ACUERDOS",numLines("acuerdos","acuerdos"),"");
+    o.push("No habiendo más temas que tratar, se levanta la sesión y firman los asistentes en la lista adjunta.","");
+    var an=anexosSel(def);if(an.length){o.push("ANEXOS");an.forEach(function(a,i){o.push((i+1)+". "+a)});o.push("")}
+    o.push(pieTxt());
+    return o.join("\n");
+  }
+  o.push(def.title,"","Señores");
+  o.push(def.addr?def.addr():dv("entidad","entidad destinataria"),"");
+  o.push("Asunto: "+(def.asu?def.asu():dv("asunto","asunto")),"");
+  o.push(whoTxt()+" "+def.intro,"");
+  def.secs().forEach(function(s){if(!s[1])return;if(s[0])o.push(s[0]);o.push(s[1]);o.push("")});
+  if(def.cierre)o.push(def.cierre,"");
+  if(def.extra){def.extra().forEach(function(x){o.push(x)});o.push("")}
+  var an2=anexosSel(def);if(an2.length){o.push("ANEXOS");an2.forEach(function(a,i){o.push((i+1)+". "+a)});o.push("")}
+  o.push(pieTxt());
+  return o.join("\n");
+}
+function docReq(){
+  var def=curDef(),r=[];
+  COMMON.forEach(function(c){r.push([c[0],c[1]])});
+  if(D.modo==="rep"){r.push(["org2","Nombre de la organización"]);r.push(["cargo","Tu cargo"])}
+  def.fields.forEach(function(f){if(f.req)r.push([f.k,f.l])});
+  return r;
+}
+function docMissing(){return docReq().filter(function(x){return !op(x[0])}).map(function(x){return x[1]})}
+function docFieldHTML(f){
+  var id="d-"+f.k,lab='<label for="'+id+'">'+esc(f.l)+(f.req?' <span aria-hidden="true">*</span>':'')+'</label>',val=D.v[f.k]||"";
+  if(f.t==="area")return '<div class="full">'+lab+'<textarea id="'+id+'" data-f="'+f.k+'" placeholder="'+esc(f.ph||"")+'">'+esc(val)+'</textarea></div>';
+  if(f.t==="sel")return '<div>'+lab+'<select id="'+id+'" data-f="'+f.k+'">'+f.o.map(function(o){return '<option'+(val===o?' selected':'')+'>'+esc(o)+'</option>'}).join("")+'</select></div>';
+  if(f.t==="chk"){
+    return '<div class="full"><div class="sec" style="margin:0 0 6px">'+esc(f.l)+'</div><div class="chkgrid">'+f.o.map(function(o,i){return '<div class="chkrow"><input type="checkbox" id="'+id+'-'+i+'" data-ch="'+f.k+'" data-o="'+esc(o)+'"'+((D.ch[f.k]||{})[o]?' checked':'')+'><label for="'+id+'-'+i+'">'+esc(o)+'</label></div>'}).join("")+'</div></div>';
+  }
+  var type=f.t==="num"?'number" min="0':f.t==="date"?'date':'text';
+  return '<div>'+lab+'<input id="'+id+'" type="'+type+'" data-f="'+f.k+'" value="'+esc(val)+'" placeholder="'+esc(f.ph||"")+'" autocomplete="off"></div>';
+}
+function docDefaults(){
+  var def=curDef();
+  def.fields.forEach(function(f){if(f.def&&D.v[f.k]===undefined)D.v[f.k]=f.def});
+  if(!D.v.fecha)D.v.fecha=ymdLocal(new Date());
+}
+function docPrefill(){
+  if(D.ready)return;D.ready=true;
+  var d=APP.P&&APP.P.draft||{};
+  ["nombre","domicilio","contacto","localidad","org2","cargo"].forEach(function(k){if(d[k]&&!D.v[k])D.v[k]=d[k]});
+}
+function renderDoc(){
+  docPrefill();docDefaults();
+  var def=curDef();
+  var chips='<div class="chips" role="group" aria-label="Tipo de documento">'+DOCS.map(function(x){return '<button data-act="dtype" data-id="'+x.id+'" aria-pressed="'+(x.id===D.type)+'">'+esc(x.name)+'</button>'}).join("")+'</div>';
+  function inp(k,label,req,full){return '<div'+(full?' class="full"':'')+'><label for="c-'+k+'">'+esc(label)+(req?' <span aria-hidden="true">*</span>':'')+'</label><input id="c-'+k+'" data-f="'+k+'" value="'+esc(D.v[k]||"")+'" autocomplete="off"'+(k==="dni"?' inputmode="numeric" maxlength="12"':'')+'></div>'}
+  var modo='<div class="full"><div class="sec" style="margin:0 0 6px">Presento este documento</div><div class="chips" role="group" aria-label="Quién presenta"><button data-act="dmodo" data-m="ind" aria-pressed="'+(D.modo==="ind")+'">A título personal</button><button data-act="dmodo" data-m="rep" aria-pressed="'+(D.modo==="rep")+'">En representación de una organización vecinal</button></div></div>';
+  var repf=D.modo==="rep"?inp("org2","Nombre de la organización",1)+inp("cargo","Tu cargo",1):'';
+  var common='<div class="sec">Tus datos</div><div class="form">'+COMMON.map(function(c){return inp(c[0],c[1],1)}).join("")+'<div><label for="c-fecha">Fecha del documento</label><input id="c-fecha" type="date" data-f="fecha" value="'+esc(D.v.fecha||"")+'"></div>'+modo+repf+'</div>';
+  var typef='<div class="sec">'+esc(def.name)+'</div><div class="form">'+def.fields.map(docFieldHTML).join("")+'</div>';
+  var anex='<div class="sec">Anexos que presentarás</div><div class="chkgrid">'+def.anexos.map(function(a,i){return '<div class="chkrow"><input type="checkbox" id="an-'+i+'" data-an="'+i+'"'+(D.an[i]!==false?' checked':'')+'><label for="an-'+i+'">'+esc(a)+'</label></div>'}).join("")+'</div>';
+  var canDl=!!(window.claude&&window.claude.use);
+  $("view-doc").innerHTML='<div class="stack">'+chips+'<div class="two"><div class="card stack">'+common+typef+anex+'<p class="docbtns"><button class="btn ghost" data-act="savedraft">Guardar mis datos para próximos documentos</button></p><p class="note">Se guardan nombre, domicilio, contacto y localidad en tu cuenta de este dispositivo. El DNI nunca se guarda.</p></div>'
+   +'<div class="card stack"><div class="progtxt" id="docprog" aria-live="polite"></div><div class="doc" id="docout" tabindex="0"></div><div class="docbtns"><button class="btn" data-act="copy">Copiar texto</button>'+(canDl?'<button class="btn ghost" data-act="dl-docx">Descargar Word</button><button class="btn ghost" data-act="dl-txt">Descargar texto</button>':'')+'</div><span class="note" id="copymsg" aria-live="polite"></span><div class="warnbox">'+esc(def.nota)+'</div><p class="note">Este modelo es una guía y no reemplaza la asesoría de un abogado. Revisa el texto, completa los espacios entre corchetes y adjunta tus pruebas. Presenta dos copias y pide el cargo con sello y fecha de recepción.</p></div></div></div>';
+  refreshDoc();
+}
+function refreshDoc(){
+  var out=$("docout");if(!out)return;
+  out.textContent=buildDoc();
+  var req=docReq(),miss=docMissing(),pg=$("docprog");
+  if(pg)pg.textContent=miss.length?"Completados "+(req.length-miss.length)+" de "+req.length+" campos obligatorios. Falta: "+miss.join(", ")+".":"Todos los campos obligatorios están completos ("+req.length+" de "+req.length+").";
+}
+function docAward(){
+  var def=curDef();
+  if(docMissing().length){toast("Completa los campos obligatorios para ganar experiencia con este documento.");return}
+  once("doc_"+def.id,15,10);
+}
+function copyText(txt,okMsg,failMsg){
+  function fb(){toast(failMsg||"No se pudo copiar. Selecciona el texto y cópialo con Ctrl+C.")}
+  try{navigator.clipboard.writeText(txt).then(function(){toast(okMsg||"Texto copiado.")},fb)}catch(e){fb()}
+}
+function copyDoc(){
+  var txt=$("docout").textContent;
+  try{
+    navigator.clipboard.writeText(txt).then(function(){$("copymsg").textContent="Texto copiado.";docAward()},function(){selDoc()});
+  }catch(e){selDoc()}
+}
+function selDoc(){
+  var out=$("docout");
+  try{var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}
+  $("copymsg").textContent="Texto seleccionado. Cópialo con Ctrl+C.";
+}
+function xmlEsc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function docxParts(text){
+  var body="";
+  text.split("\n").forEach(function(ln,i){
+    if(ln===""){body+="<w:p/>";return}
+    var head=i===0||(ln===ln.toUpperCase()&&/^[A-ZÁÉÍÓÚÑ ]{4,}$/.test(ln));
+    body+='<w:p>'+(i===0?'<w:pPr><w:jc w:val="center"/></w:pPr>':'')+'<w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>'+(head?'<w:b/>':'')+'<w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">'+xmlEsc(ln)+'</w:t></w:r></w:p>';
+  });
+  var H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  return {
+    ct:H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>',
+    rels:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>',
+    doc:H+'<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+body+'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1417" w:right="1417" w:bottom="1417" w:left="1417" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>'
+  };
+}
+function docxBlob(text){
+  var p=docxParts(text),z=new JSZip();
+  z.file("[Content_Types].xml",p.ct);z.file("_rels/.rels",p.rels);z.file("word/document.xml",p.doc);
+  return z.generateAsync({type:"blob",mimeType:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+}
+function saveFile(name,data){
+  var c=window.claude;
+  if(!c||!c.use){toast("La descarga no está disponible aquí. Usa Copiar texto.");return Promise.resolve(false)}
+  return c.use("downloads").then(function(d){
+    if(!d){toast("La descarga no está disponible aquí. Usa Copiar texto.");return false}
+    return d.save({filename:name,data:data}).then(function(){toast("Archivo listo.");return true});
+  }).catch(function(e){if(!(e&&e.code==="declined"))toast("No se pudo guardar el archivo. Usa Copiar texto.");return false});
+}
+function dlName(ext){return "documento-"+curDef().id+"."+ext}
+function downloadDoc(kind){
+  var txt=$("docout").textContent;
+  if(kind==="txt"){saveFile(dlName("txt"),txt).then(function(ok){if(ok)docAward()});return}
+  if(typeof JSZip==="undefined"){toast("No se pudo preparar el archivo Word. Descarga el texto o cópialo.");return}
+  docxBlob(txt).then(function(b){return saveFile(dlName("docx"),b)}).then(function(ok){if(ok)docAward()}).catch(function(){toast("No se pudo preparar el archivo Word.")});
+}
+function basuraDoc(){
+  D.type="residuos";D.v.asunto="";D.v.hechos="";
+}
+/* ===== directorio de teléfonos y canales ===== */
+var PHCAT=[["all","Todos"],["emerg","Emergencias"],["der","Derechos y fiscalización"],["salud","Salud"],["amb","Ambiente y residuos"],["muni","Municipalidades"],["mis","Mis contactos"]];
+var PHF="all";
+var PH=[
+ {c:"emerg",n:"Policía Nacional del Perú",nums:[["105","Emergencias policiales"]],d:"Delitos, robos, amenazas y hechos en curso.",s:"Infobae, 26 de junio de 2026."},
+ {c:"emerg",n:"Bomberos Voluntarios",nums:[["116","Emergencias"]],d:"Incendios, accidentes, fugas de gas y rescates.",s:"Infobae, 26 de junio de 2026."},
+ {c:"emerg",n:"SAMU (Ministerio de Salud)",nums:[["106","Urgencias médicas"]],d:"Urgencias médicas antes de llegar al hospital. Servicio gratuito.",s:"Infobae, 26 de junio de 2026."},
+ {c:"emerg",n:"Línea 100 (Ministerio de la Mujer)",nums:[["100","Orientación gratuita"]],d:"Orientación gratuita y confidencial ante violencia familiar o sexual.",s:"Infobae, 26 de junio de 2026."},
+ {c:"emerg",n:"Número único de emergencias",nums:[["911","En fase de pruebas"]],d:"Funciona en pruebas en Lima Metropolitana y el Callao. Los demás números siguen vigentes.",s:"Infobae, 26 de junio de 2026."},
+ {c:"emerg",n:"Policía de Carreteras y EsSalud",nums:[["110","Policía de Carreteras"],["117","EsSalud (asegurados)"]],d:"Emergencias en vías nacionales y emergencias médicas para asegurados.",s:"Infobae, 26 de junio de 2026."},
+ {c:"der",n:"Fiscalía de la Nación (Ministerio Público)",nums:[["0800-00-205","Gratuito, 24 horas"],["(01) 625-5555","Central en Lima"]],d:"Denuncias penales y consulta de casos fiscales.",s:"Trámites Perú, que cita gob.pe/mpfn (actualizado el 26 de mayo de 2026). Confirma en el sitio oficial.",links:[["Sitio oficial","https://www.gob.pe/mpfn"]]},
+ {c:"der",n:"Defensoría del Pueblo",nums:[["0800-15-170","Línea gratuita"],["(01) 311-0300","Central"],["947 951 412","WhatsApp"]],d:"Queja ante la vulneración de derechos por entidades públicas. Correo: consulta@defensoria.gob.pe",s:"Sitio oficial de la Defensoría del Pueblo, sección Contacto.",links:[["Contacto","https://www.defensoria.gob.pe/contacto/"]]},
+ {c:"der",n:"Contraloría General de la República",nums:[],d:"Denuncias de presuntas irregularidades con fondos públicos por su plataforma web. No encontramos una línea telefónica verificada.",s:"Infobae, 16 de enero de 2025.",links:[["Plataforma de denuncias","https://denunciaweb.contraloria.gob.pe"]]},
+ {c:"salud",n:"SUSALUD",nums:[["113 opción 7","Gratuito, 24 horas"],["955 557 000","WhatsApp"],["952 842 623","WhatsApp"]],d:"Consultas, reclamos y denuncias por la atención en salud.",s:"Guía de Perú Gestiona, un sitio de terceros: confirma los números en el sitio oficial.",links:[["Registro de casos","https://sitr.susalud.gob.pe"]]},
+ {c:"amb",n:"OEFA (denuncias ambientales)",nums:[["0800 100 58","Línea gratuita de información"]],d:"Denuncia ambiental por internet, anónima o con tus datos, con fotos y ubicación en el mapa.",s:"ProActivo, 30 de junio de 2025. Confirma en el sitio oficial.",links:[["Denuncia en línea (SINADA)","https://www.oefa.gob.pe/sinada/"]]}
+];
+function phonesHTML(){
+  var cats='<div class="chips" role="group" aria-label="Categoría">'+PHCAT.map(function(c){return '<button data-act="phcat" data-v="'+c[0]+'" aria-pressed="'+(PHF===c[0])+'">'+c[1]+'</button>'}).join("")+'</div>';
+  function card(p){
+    var nums=p.nums.map(function(n){return '<div><div class="num">'+esc(n[0])+'</div><div class="note">'+esc(n[1])+'</div><button class="cp" data-act="copyn" data-v="'+esc(n[0])+'" aria-label="Copiar '+esc(n[0])+'">Copiar</button></div>'}).join("");
+    var links=(p.links||[]).map(function(l){return '<a href="'+esc(l[1])+'" target="_blank" rel="noopener noreferrer">'+esc(l[0])+'</a>'}).join(" · ");
+    return '<div class="ph"><div><h3>'+esc(p.n)+'</h3><p style="margin-top:4px">'+esc(p.d)+'</p>'+(links?'<p style="margin-top:6px">'+links+'</p>':'')+'</div><div class="nums">'+nums+'</div>'+(p.s?'<div class="src">Fuente: '+esc(p.s)+'</div>':'')+'</div>';
+  }
+  var out='<div class="stack"><div><h2 style="font-size:28px">Teléfonos y canales</h2><p style="margin-top:6px;max-width:68ch">Números de emergencia, fiscalización y protección de derechos del Perú. Revisados el 28 de octubre de 2026 en fuentes oficiales y de prensa.</p></div><div class="warnbox">Los números pueden cambiar. Confirma antes de usarlos. En una emergencia llama primero a la Policía (105) o al SAMU (106).</div>'+cats;
+  var list=PH.filter(function(p){return PHF==="all"||p.c===PHF});
+  if(PHF!=="muni"&&PHF!=="mis")out+='<div class="dirsec">'+list.map(card).join("")+'</div>';
+  if(PHF==="all"||PHF==="muni"){
+    out+='<div class="card stack"><h3>Municipalidades</h3><p>No existe un número único para todas las municipalidades. Para encontrar el de la tuya:</p><ul class="plain"><li>Busca tu municipalidad en <a href="https://www.gob.pe" target="_blank" rel="noopener noreferrer">gob.pe</a> y entra a su portal institucional.</li><li>Revisa la sección Contacto o el Portal de Transparencia de la entidad.</li><li>Pregunta en su mesa de partes y pide el nombre de quién responde.</li></ul><p><b>Dependencias que conviene ubicar:</b> Gerencia de Servicios Públicos o Limpieza Pública (recojo de residuos), Oficina de Participación Vecinal, Serenazgo y la DEMUNA (defensoría del niño y adolescente).</p><p class="note">Guarda los números que encuentres en Mis contactos.</p></div>';
+  }
+  if(PHF==="all"||PHF==="mis"){
+    var logged=APP.user&&!APP.guest,cs=APP.P.contacts||[];
+    out+='<div class="card stack"><h3>Mis contactos</h3>';
+    if(!logged)out+='<p>Ingresa con tu cuenta para guardar los números de tu municipalidad, tu serenazgo o tu junta vecinal.</p>';
+    else{
+      out+=(cs.length?'<div class="dirsec">'+cs.map(function(c,i){return '<div class="ph"><div><h3>'+esc(c.n)+'</h3>'+(c.d?'<p class="note">'+esc(c.d)+'</p>':'')+'</div><div class="nums"><div class="num">'+esc(c.t)+'</div><button class="cp" data-act="copyn" data-v="'+esc(c.t)+'">Copiar</button><button class="cp" data-act="delct" data-i="'+i+'">Quitar</button></div></div>'}).join("")+'</div>':'<p class="note">Aún no tienes contactos guardados.</p>')
+       +'<div class="form"><div><label for="ct-n">Nombre</label><input id="ct-n" maxlength="60" placeholder="Municipalidad de ..."></div><div><label for="ct-t">Teléfono</label><input id="ct-t" maxlength="20" inputmode="tel" placeholder="(01) 000-0000"></div><div class="full"><label for="ct-d">Nota (opcional)</label><input id="ct-d" maxlength="100" placeholder="Gerencia de Servicios Públicos"></div></div><div class="err" id="ct-msg" role="alert"></div><p><button class="btn" data-act="addct">Guardar contacto</button></p>';
+    }
+    out+='</div>';
+  }
+  return out+'</div>';
+}
+function renderPhones(){
+  var target=APP.screen==="phones"?$("phones-public"):$("view-tel");
+  var other=APP.screen==="phones"?$("view-tel"):$("phones-public");
+  other.innerHTML="";
+  target.innerHTML=phonesHTML();
+}
+function addContact(){
+  var n=$("ct-n").value.trim(),t=$("ct-t").value.trim(),d=$("ct-d").value.trim(),msg=$("ct-msg");
+  if(!n){msg.textContent="Escribe el nombre del contacto.";return}
+  if(!/^[0-9+()\- ]{3,20}$/.test(t)){msg.textContent="Escribe un teléfono válido: números, espacios, guiones, paréntesis o +.";return}
+  if((APP.P.contacts||[]).length>=30){msg.textContent="Llegaste al máximo de 30 contactos. Quita alguno.";return}
+  APP.P.contacts.push({n:n,t:t,d:d});save();
+  once("contact",5,3);
+  renderPhones();
+}
+/* ---------- eventos ---------- */
+var NAV_IDS="#mode-game,#mode-journey,#mode-pro,#g-barrio,#g-limpio,#g-ruta,#g-bolsas,#g-mitos,#p-ruta,#p-doc,#p-plazo,#p-tel,#j-camino,#j-victorias,#j-tienda,#j-perfil";
+var DOCMAP={residuos:"residuos",contaminacion:"ambiental",derechos:"derechos",informacion:"info",obra:"obra",propuesta:"firmas"};
+function buyItem(kind,id){
+  var P=APP.P,def=kind==="c"?COLORS[id]:FRAMES[id];if(!def)return;
+  var cost=def[kind==="c"?2:1],min=def[kind==="c"?3:2];
+  if(P.owned.indexOf(id)>=0)return;
+  if(levelOf(P.xp)<min){toast("Necesitas el nivel "+min+".");return}
+  if(P.latas<cost){toast("Te faltan latas rotas.");return}
+  P.latas-=cost;P.owned.push(id);P.equip[kind]=id;save();renderHud();renderJourney();
+  toast("Compraste "+def[0]+" y lo estás usando.");
+}
+function confirmBox(html){var b=$("confirm-box");if(b)b.innerHTML=html}
+function handleAct(a,el){
+  var v=el.getAttribute("data-v");
+  switch(a){
+   case "open":return openApp();
+   case "splash-phones":APP.back="splash";return showScreen("phones");
+   case "phones-back":return showScreen(APP.back||"splash");
+   case "menu":return toggleMenu();
+   case "menu-phones":hideMenu();setMode("pro");return setProView("tel");
+   case "menu-profile":hideMenu();setMode("journey");APP.jtab="perfil";return renderJourney();
+   case "logout":return logout();
+   case "theme":return setTheme(v);
+   case "auth-back":return showScreen("splash");
+   case "authmode":APP.authMode=APP.authMode==="register"?"login":"register";return renderAuth();
+   case "guest":return startSession(null,false,true);
+   case "pickacc":$("au-name").value=el.getAttribute("data-n");return $("au-pw").focus();
+   case "showpw":var t=el.checked?"text":"password";["au-pw","au-pw2"].forEach(function(i){if($(i))$(i).type=t});return;
+   case "claim":return claimAll();
+   case "lvsel":APP.sel=+el.getAttribute("data-n");return renderJourney();
+   case "buy":return buyItem(el.getAttribute("data-k"),el.getAttribute("data-id"));
+   case "equip":APP.P.equip[el.getAttribute("data-k")]=el.getAttribute("data-id");save();renderHud();return renderJourney();
+   case "guest-register":APP.authMode="register";return showScreen("auth");
+   case "reset-ask":return confirmBox('<div class="warnbox">Se borrarán tu nivel, tus latas rotas, tus coronas y tus compras. <button class="btn ghost danger" data-act="reset-do" style="margin-left:8px">Sí, reiniciar</button></div>');
+   case "reset-do":var th=APP.P.theme;APP.P=newProgress();APP.P.theme=th;save();resetGames();renderHud();renderJourney();return toast("Progreso reiniciado.");
+   case "del-ask":return confirmBox('<div class="warnbox">Se eliminará la cuenta "'+esc(APP.user)+'" de este dispositivo y no se puede deshacer. <button class="btn ghost danger" data-act="del-do" style="margin-left:8px">Sí, eliminar</button></div>');
+   case "del-do":return deleteAccount();
+   case "phcat":PHF=v;return renderPhones();
+   case "copyn":return copyText(v,"Número copiado.","No se pudo copiar. Selecciona el número.");
+   case "addct":return addContact();
+   case "delct":APP.P.contacts.splice(+el.getAttribute("data-i"),1);save();return renderPhones();
+   case "route":R.id=el.getAttribute("data-id");return renderRuta();
+   case "chk":return;
+   case "todoc":D.type=DOCMAP[R.id]||"peticion";setProView("doc");return renderDoc();
+   case "dtype":D.type=el.getAttribute("data-id");return renderDoc();
+   case "dmodo":D.modo=el.getAttribute("data-m");return renderDoc();
+   case "copy":return copyDoc();
+   case "dl-docx":return downloadDoc("docx");
+   case "dl-txt":return downloadDoc("txt");
+   case "savedraft":
+     APP.P.draft={};["nombre","domicilio","contacto","localidad","org2","cargo"].forEach(function(k){if(op(k))APP.P.draft[k]=op(k)});
+     save();return toast(APP.guest?"Entras como invitado: crea una cuenta para guardar tus datos.":"Datos guardados en tu cuenta de este dispositivo.");
+  }
+  if(["start","pick","next","topro","hint"].indexOf(a)>=0)return gameAct(a,el);
+  if(["lstart","bin","lnext"].indexOf(a)>=0)return limpioAct(a,el);
+  if(extraAct(a,el))return;
+}
+document.addEventListener("click",function(e){
+  var m=$("menu");
+  if(m&&!m.hidden&&!e.target.closest("#menu")&&!e.target.closest("#menu-btn"))hideMenu();
+  var el=e.target.closest("[data-act],"+NAV_IDS);
+  if(!el)return;
+  var id=el.id,a=el.getAttribute("data-act");
+  if(id){
+    if(id.indexOf("mode-")===0)return setMode(id.slice(5));
+    if(id.indexOf("g-")===0)return setGameView(id.slice(2));
+    if(id==="p-ruta")return setProView("ruta");
+    if(id==="p-doc"){setProView("doc");renderDoc();return}
+    if(id==="p-plazo"){setProView("plazo");renderPlazo();return}
+    if(id==="p-tel")return setProView("tel");
+    if(id.indexOf("j-")===0){APP.jtab=id.slice(2);APP.sel=0;return renderJourney()}
+  }
+  if(a)handleAct(a,el);
+});
+document.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(e.target&&e.target.id==="auth-form")doAuth();
+});
+document.addEventListener("change",function(e){
+  var el=e.target,g=function(k){return el.getAttribute&&el.getAttribute(k)};
+  if(g("data-act")==="chk"){
+    var r=ROUTES.filter(function(x){return x.id===R.id})[0],ck=getChecks(r.id).slice();
+    var ix=+g("data-i");ck[ix]=el.checked;APP.P.checks[r.id]=ck;save();
+    if(el.checked)once("step_"+r.id+"_"+ix,3,1);
+    renderRuta();return;
+  }
+  if(g("data-ch")){var k=g("data-ch");D.ch[k]=D.ch[k]||{};D.ch[k][g("data-o")]=el.checked;refreshDoc();return}
+  if(g("data-an")!==null&&g("data-an")!==undefined&&el.type==="checkbox"){D.an[+g("data-an")]=el.checked;refreshDoc();return}
+  if(g("data-f")&&el.tagName==="SELECT"){D.v[g("data-f")]=el.value;refreshDoc();return}
+  if(el.id==="sel-title"){APP.P.equip.t=el.value;save();renderHud();return}
+  if(el.id==="pl-kind"){PL.kind=el.value;$("pl-custom-wrap").hidden=PL.kind!=="custom";calcPlazo();once("plazo",8,5)}
+});
+document.addEventListener("input",function(e){
+  var el=e.target,f=el.getAttribute&&el.getAttribute("data-f");
+  if(f&&el.tagName!=="SELECT"){D.v[f]=el.value;refreshDoc();return}
+  var hit=true;
+  if(el.id==="pl-custom")PL.custom=+el.value;
+  else if(el.id==="pl-start")PL.start=el.value;
+  else if(el.id==="pl-hol")PL.hol=+el.value;
+  else if(el.id==="pl-ext")PL.ext=+el.value;
+  else hit=false;
+  if(hit){calcPlazo();once("plazo",8,5)}
+});
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){hideMenu();return}
+  if(e.key===" "&&typeof BG!=="undefined"&&BG.phase==="play"&&!$("view-bolsas").hidden&&e.target.tagName!=="BUTTON"){e.preventDefault();bgTake();return}
+  if($("app").hidden||$("game").hidden||$("view-limpio").hidden||L.phase!=="play")return;
+  var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT")return;
+  var n=+e.key;
+  if(!L.answered&&n>=1&&n<=4){limpioAct("bin",{getAttribute:function(){return BINS[n-1].k}})}
+  else if(L.answered&&e.key==="Enter"&&e.target.tagName!=="BUTTON"){limpioAct("lnext",null)}
+});
+
+/* ---------- reinicio de partidas y arranque ---------- */
+function resetGames(){
+  if(typeof bgStop==="function")bgStop();
+  G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null};
+  L={phase:"intro",i:0,score:0,streak:0,answered:false,items:[],last:null};
+  RT={phase:"intro",pts:[],sel:{},budget:0,res:""};
+  MT={phase:"intro",i:0,score:0,answered:false,items:[],ok:false,msg:""};
+  BG={phase:"intro",raf:0};
+  D.v={};D.ch={};D.an={};D.ready=false;D.modo="ind";D.type="residuos";
+  setGameView("barrio");
+}
+(function boot(){
+  var th=lsGet("bc_theme");
+  APP.theme=(th==="light"||th==="dark")?th:"auto";
+  setTheme(APP.theme,true);
+  var s=lsGet("bc_session");
+  if(s){var rec=lsGet(ukey(s));if(rec&&rec.hash)APP.remembered=rec}
+  resetGames();
+  renderBarrio();renderRuta();renderBanner();
+  showScreen("splash");
+})();
 </script>
 
-</body></html>
+</body>
+</html>
