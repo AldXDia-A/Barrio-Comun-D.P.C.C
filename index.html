@@ -1,12 +1,9 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Barrio Común</title>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}</style>
+<title>Colegio Limpio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
-/* Concepto: afiche de asamblea vecinal. Fondo frío, tinta oscura, azul cobalto cívico y un amarillo de señalización para el juego. El juego es tablero + tarjeta; el modo profesional es formulario + hoja de ruta. */
+/* Concepto: Colegio Limpio, un afiche escolar. Fondo frío, tinta oscura, azul cobalto cívico y un amarillo de señalización para el juego. El juego es tablero + tarjeta; el modo profesional es formulario + hoja de ruta. */
 :root{
   --bg:#EEF2F1; --surface:#FFFFFF; --surface2:#E3EAEA; --ink:#14232B; --muted:#52656E; --line:#C7D3D3;
   --accent:#2349D8; --accent-ink:#FFFFFF; --sun:#F2B21A; --sun-ink:#14232B;
@@ -225,19 +222,93 @@ ul.plain{margin:6px 0 0;padding-left:18px}
 .docbtns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .sec{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---- colegio limpio: tokens nuevos ---- */
+:root{--coin:#E0A210;
+  --sc-sky:#BFE0F5;--sc-cloud:#FFFFFF;--sc-mt:#3F8B52;--sc-mt2:#6AA77C;--sc-tw:#7A8790;--sc-floor:#C9CFCF;--sc-walk:#E1E5E3;
+  --sc-cream:#EFE6D2;--sc-brick:#B5483A;--sc-glass:#3C5B73;--sc-slab:#D9CFB8;--sc-void:#2D3E4A;--sc-yel:#E3B94B;--sc-vent:#C99A2C;--sc-roof:#8F4A3A;--sc-truss:#6F3A2E;--sc-col:#C23B2E;--sc-board:#F7F3E6;--sc-string:#5E6B73;--sc-court:#FFFFFF;--sc-sign:#2E7D4F;--sc-post:#6B6B6B;--sc-pot:#9A5B3A;--sc-tree:#2E8B57;--sc-tree2:#3FA56C;--sc-trash:#2B2F33;--sc-can:#B9C2C8;--sc-shield:#C23B2E;
+  --m-g:#2E8B57;--m-b:#8A5A3C;--m-n:#3A4046;--m-r:#C23B2E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--coin:#F4C14B;
+  --sc-sky:#1D3A52;--sc-cloud:#3A5671;--sc-mt:#24553A;--sc-mt2:#2F6B4A;--sc-tw:#6A7983;--sc-floor:#3B484E;--sc-walk:#4A585E;
+  --sc-cream:#8F8A7C;--sc-brick:#8A3A31;--sc-glass:#22394A;--sc-slab:#77725F;--sc-void:#18252E;--sc-yel:#9E8036;--sc-vent:#7E6422;--sc-roof:#6B3A30;--sc-truss:#4E2A22;--sc-col:#9A3228;--sc-board:#C9C4B4;--sc-string:#9FB2BA;--sc-court:#9FB2BA;--sc-sign:#2A6E48;--sc-post:#8A9399;--sc-pot:#7A4A30;--sc-tree:#2F7F52;--sc-tree2:#3FA56C;--sc-trash:#C5CDD2;--sc-can:#8A969D;--sc-shield:#C23B2E}}
+:root[data-theme="dark"]{--coin:#F4C14B;
+  --sc-sky:#1D3A52;--sc-cloud:#3A5671;--sc-mt:#24553A;--sc-mt2:#2F6B4A;--sc-tw:#6A7983;--sc-floor:#3B484E;--sc-walk:#4A585E;
+  --sc-cream:#8F8A7C;--sc-brick:#8A3A31;--sc-glass:#22394A;--sc-slab:#77725F;--sc-void:#18252E;--sc-yel:#9E8036;--sc-vent:#7E6422;--sc-roof:#6B3A30;--sc-truss:#4E2A22;--sc-col:#9A3228;--sc-board:#C9C4B4;--sc-string:#9FB2BA;--sc-court:#9FB2BA;--sc-sign:#2A6E48;--sc-post:#8A9399;--sc-pot:#7A4A30;--sc-tree:#2F7F52;--sc-tree2:#3FA56C;--sc-trash:#C5CDD2;--sc-can:#8A969D;--sc-shield:#C23B2E}
+/* escena del colegio */
+.scene .sc-sky{fill:var(--sc-sky)} .scene .sc-cloud{fill:var(--sc-cloud);opacity:.9} .scene .sc-mt{fill:var(--sc-mt)} .scene .sc-mt2{fill:var(--sc-mt2)}
+.scene .sc-tw{stroke:var(--sc-tw);stroke-width:1.2;fill:none} .scene .sc-floor{fill:var(--sc-floor)} .scene .sc-walk{fill:var(--sc-walk)}
+.scene .sc-cream{fill:var(--sc-cream)} .scene .sc-brick{fill:var(--sc-brick)} .scene .sc-glass{fill:var(--sc-glass)} .scene .sc-slab{fill:var(--sc-slab)} .scene .sc-void{fill:var(--sc-void);opacity:.55}
+.scene .sc-yel{fill:var(--sc-yel)} .scene .sc-vent{fill:var(--sc-vent)} .scene .sc-ventline{fill:var(--sc-yel)} .scene .sc-roof{fill:var(--sc-roof)} .scene .sc-truss{stroke:var(--sc-truss);stroke-width:1.4;fill:none}
+.scene .sc-col{fill:var(--sc-col)} .scene .sc-board{fill:var(--sc-board)} .scene .sc-string{stroke:var(--sc-string);stroke-width:.8;fill:none}
+.scene .sc-court{stroke:var(--sc-court);stroke-width:1.4;fill:none;opacity:.8} .scene .sc-sign{fill:var(--sc-sign)} .scene .sc-signtxt{fill:#fff;font:700 5.6px var(--f-body)} .scene .sc-post{fill:var(--sc-post)}
+.scene .sc-pot{fill:var(--sc-pot)} .scene .sc-tree{fill:var(--sc-tree)} .scene .sc-tree2{fill:var(--sc-tree2)} .scene .sc-trash{fill:var(--sc-trash)} .scene .sc-can{fill:var(--sc-can)}
+.scene .sc-shield{fill:var(--sc-shield)} .scene .sc-heart{fill:#fff}
+.scene{background:var(--sc-sky)} .hero .scene{background:var(--sc-sky)}
+/* mascotas y perfil */
+.avwrap{display:inline-flex;align-items:flex-end;gap:2px}
+.petbox{display:inline-grid;place-items:center;border-radius:50%;background:#F3F1EA;flex:none;overflow:hidden}
+.pet{display:block}
+.petbox.idle .pet{animation:petbob 2.4s ease-in-out infinite}
+@keyframes petbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@media (prefers-reduced-motion: reduce){.petbox.idle .pet{animation:none}.scene g{transition:none}}
+#hud-pet{display:inline-flex}
+.av.f5{box-shadow:0 0 0 3px var(--bg),0 0 0 6px #2E9B55,0 0 0 8px var(--bg)}
+.av.f6{box-shadow:0 0 0 3px var(--bg),0 0 0 6px #7A45C9,0 0 0 9px var(--crown)}
+.av.f7{box-shadow:0 0 0 3px var(--bg),0 0 0 5px #19D3C5,0 0 12px 4px #19D3C5}
+.av.f8{isolation:isolate;box-shadow:0 0 0 3px var(--bg),0 0 0 7px transparent;background-clip:padding-box;outline:4px solid transparent;border:0;position:relative}
+.av.f8::after{content:"";position:absolute;inset:-7px;border-radius:50%;z-index:-1;background:conic-gradient(#d93636,#e8a21a,#2e9b55,#2a6fd6,#7a45c9,#d93636)}
+.av{position:relative}
+/* ruleta */
+.roulette{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:22px;align-items:center}
+@media (max-width:700px){.roulette{grid-template-columns:minmax(0,1fr)}}
+.wheelsvg{width:100%;max-width:320px;height:auto;display:block;margin-inline:auto}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.legend li{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:10px;align-items:center}
+.sw{width:18px;height:18px;border-radius:4px;display:inline-block;border:1px solid var(--line)}
+.spinres{font-weight:600}
+.rwbox{margin-block:6px}
+.sr{position:absolute;left:-9999px}
+/* memoria */
+.mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+@media (max-width:520px){.mgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mcard{min-height:84px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface2);display:grid;place-items:center;padding:8px;font-weight:600;font-size:15px;text-align:center;line-height:1.2}
+.mcard small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;margin-bottom:3px}
+.mcard.up{color:#fff;border-color:transparent}
+.mcard.up.mg{background:var(--m-g)} .mcard.up.mb{background:var(--m-b)} .mcard.up.mn{background:var(--m-n)} .mcard.up.mr{background:var(--m-r)}
+.mcard.done{opacity:.55}
+.mcard[disabled]{cursor:default}
+/* ordena el proceso */
+.osteps{display:grid;gap:8px}
+.ostep{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:center;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;min-height:52px}
+.ostep b{font-family:var(--f-mono);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--surface2)}
+.ostep.on{border-color:var(--accent)} .ostep.on b{background:var(--accent);color:var(--accent-ink)}
+.ostep.ok{border-color:var(--good)} .ostep.no{border-color:var(--bad)}
+.ostep[disabled]{opacity:1;cursor:default}
+/* presupuesto */
+.budget{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-family:var(--f-mono);font-size:13px}
+/* caza-residuos */
+.pgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px;border-radius:12px;background:var(--sc-floor)}
+@media (max-width:520px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pcell{min-height:64px;border-radius:12px;border:2px dashed rgba(0,0,0,.18);background:rgba(255,255,255,.18);font-weight:700;font-size:14px;color:#14232B;touch-action:manipulation}
+.pcell.on{border-style:solid;border-color:transparent;animation:pop .12s ease-out}
+.pcell.on.w{background:#F2B21A} .pcell.on.p{background:#C23B2E;color:#fff} .pcell.on.x{background:#2A6FD6;color:#fff}
+@keyframes pop{from{transform:scale(.8)}to{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){.pcell.on{animation:none}}
+.arena{max-width:560px}
+.purpose .chips button{color:var(--ink)}
+.purpose .chips button[aria-pressed="true"]{background:var(--sun);color:var(--sun-ink);border-color:var(--sun)}
+.purpose input[type=number]{color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px;font:inherit}
+.purpose label{color:var(--bg)}
+.purpose summary{cursor:pointer}
 </style>
-<style>body{margin:0}img{max-width:100%}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-</head>
-<body>
 <div class="wrap">
 
   <section id="splash" aria-label="Inicio">
     <div class="hero">
       <div>
         <div class="mono tag">Ciudadanía en acción</div>
-        <h1>Barrio Común</h1>
-        <p class="lead">Aprende a participar, a exigir lo que te corresponde y a cuidar tu entorno. Juega, sube de nivel y usa las herramientas reales para reclamar por la basura, los derechos y los asuntos públicos.</p>
+        <h1>Colegio Limpio</h1>
+        <p class="lead">Cuida el Colegio Sagrada Familia, aprende a participar, a exigir lo que te corresponde y a manejar bien los residuos. Juega, sube de nivel y usa las herramientas reales para reclamar por la basura, los derechos y los asuntos públicos.</p>
         <div class="actions">
           <button class="btn sun xl" data-act="open">Abrir</button>
           <button class="btn hghost" data-act="splash-phones">Teléfonos útiles</button>
@@ -251,17 +322,17 @@ ul.plain{margin:6px 0 0;padding-left:18px}
             <button data-act="theme" data-v="auto" aria-pressed="true">Automático</button>
           </div>
         </div>
-        <p class="foot">Cada cuenta guarda su nivel, sus latas rotas, sus coronas y sus compras. Todo se guarda en este dispositivo y no pedimos correo ni datos personales.</p>
+        <p class="foot">Cada cuenta guarda su nivel, sus latas rotas, sus monedas, sus coronas, sus mascotas y sus compras. Todo se guarda en este dispositivo y no pedimos correo ni datos personales.</p>
       </div>
       <div id="splash-scene"></div>
     </div>
     <div class="howto">
       <div class="mono">Cómo se juega</div>
       <div class="how" style="margin-top:10px">
-        <div><b>Juega</b>Toma decisiones en el barrio y completa cinco minijuegos sobre residuos y ciudadanía.</div>
+        <div><b>Juega</b>Toma decisiones en el colegio y completa ocho minijuegos sobre la basura y la ciudadanía.</div>
         <div><b>Sube de nivel</b>Ganas experiencia hasta el nivel 100 y reclamas recompensas en el Journey.</div>
-        <div><b>Junta latas rotas</b>Es la moneda del juego. Úsala para pistas y para personalizar tu perfil.</div>
-        <div><b>Gana coronas</b>Cada victoria en un juego suma una corona.</div>
+        <div><b>Junta latas y monedas</b>Las latas rotas sirven para pistas, la ruleta y la tienda. Las monedas, más difíciles de ganar, compran mascotas y skips.</div>
+        <div><b>Gana coronas</b>Cada victoria suma una corona y te da 10 monedas.</div>
       </div>
     </div>
   </section>
@@ -277,7 +348,7 @@ ul.plain{margin:6px 0 0;padding-left:18px}
     <header class="apphead">
       <div class="menubtn-wrap" style="display:flex;align-items:center;gap:12px">
         <button class="menubtn" id="menu-btn" data-act="menu" aria-expanded="false" aria-controls="menu">
-          <span class="av" id="hud-av" aria-hidden="true">?</span><span id="hud-name">Invitado</span>
+          <span class="av" id="hud-av" aria-hidden="true">?</span><span id="hud-pet" aria-hidden="true"></span><span id="hud-name">Invitado</span>
         </button>
       </div>
       <div class="stats" aria-label="Tu progreso">
@@ -285,6 +356,14 @@ ul.plain{margin:6px 0 0;padding-left:18px}
         <span class="stat" title="Latas rotas">
           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l1 3-1.5 2 1.5 3-1.5 2 1.5 3-1 4H7l-1-3 1.5-2L6 12l1.5-2L6 8z" fill="var(--lata)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 7h8M8.5 12l7 1" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
           <b id="hud-latas">0</b><span class="sr" style="position:absolute;left:-9999px">latas rotas</span>
+        </span>
+        <span class="stat" title="Monedas">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="var(--coin)" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+          <b id="hud-coins">0</b><span class="sr" style="position:absolute;left:-9999px">monedas</span>
+        </span>
+        <span class="stat" title="Skips">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5l9 7-9 7zM13 5l9 7-9 7z" fill="var(--accent)" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          <b id="hud-skips">0</b><span class="sr" style="position:absolute;left:-9999px">skips</span>
         </span>
         <span class="stat" title="Coronas">
           <svg class="ic crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
@@ -321,17 +400,25 @@ ul.plain{margin:6px 0 0;padding-left:18px}
 
     <main id="game">
       <div class="sub" role="group" aria-label="Juegos">
-        <button id="g-barrio" aria-pressed="true">Barrio Nueva Esperanza</button>
+        <button id="g-colegio" aria-pressed="true">Colegio Sagrada Familia</button>
         <button id="g-limpio" aria-pressed="false">Punto limpio</button>
         <button id="g-ruta" aria-pressed="false">Ruta del camión</button>
         <button id="g-bolsas" aria-pressed="false">Atrapa-bolsas</button>
         <button id="g-mitos" aria-pressed="false">Mitos y datos</button>
+        <button id="g-memoria" aria-pressed="false">Memoria de residuos</button>
+        <button id="g-orden" aria-pressed="false">Ordena el proceso</button>
+        <button id="g-presup" aria-pressed="false">Presupuesto limpio</button>
+        <button id="g-patio" aria-pressed="false">Caza-residuos</button>
       </div>
-      <section id="view-barrio"></section>
+      <section id="view-colegio"></section>
       <section id="view-limpio" hidden></section>
       <section id="view-ruta-juego" hidden></section>
       <section id="view-bolsas" hidden></section>
       <section id="view-mitos" hidden></section>
+      <section id="view-memoria" hidden></section>
+      <section id="view-orden" hidden></section>
+      <section id="view-presup" hidden></section>
+      <section id="view-patio" hidden></section>
     </main>
 
     <main id="journey" hidden>
@@ -339,6 +426,7 @@ ul.plain{margin:6px 0 0;padding-left:18px}
         <button id="j-camino" aria-pressed="true">Camino</button>
         <button id="j-victorias" aria-pressed="false">Victorias</button>
         <button id="j-tienda" aria-pressed="false">Tienda</button>
+        <button id="j-ruleta" aria-pressed="false">Ruleta</button>
         <button id="j-perfil" aria-pressed="false">Perfil</button>
       </div>
       <section id="view-journey"></section>
@@ -349,7 +437,7 @@ ul.plain{margin:6px 0 0;padding-left:18px}
         <div class="mono">Modo profesional</div>
         <h2>De "esto está mal" a un trámite que sí avanza</h2>
         <p>Elige tu problema, sigue la ruta con las entidades que corresponden, redacta el documento y calcula hasta cuándo pueden responderte. Es una guía de orientación y no reemplaza a un abogado. Las referencias legales corresponden al Perú; confirma que sigan vigentes antes de presentar.</p>
-        <p style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="basura-ruta">Basura acumulada en mi calle: ver la ruta</button><button class="btn ghost" style="color:var(--bg);border-color:var(--bg)" data-act="basura-doc">Redactar el reclamo de recojo</button></p>
+        <p style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="basura-ruta">Basura acumulada cerca del colegio o de mi calle: ver la ruta</button><button class="btn ghost" style="color:var(--bg);border-color:var(--bg)" data-act="basura-doc">Redactar el reclamo de recojo</button></p>
       </div>
       <div class="sub" role="group" aria-label="Herramientas">
         <button id="p-ruta" aria-pressed="true">Ruta de acción</button>
@@ -366,90 +454,90 @@ ul.plain{margin:6px 0 0;padding-left:18px}
 </div>
 <div id="toasts" class="toasts" aria-live="polite"></div>
 <script>
-/* Eventos del juego. Efectos: [Participación, Derechos, Ambiente, Confianza] */
-var EVENTS = [
- {tag:"Residuos", seal:"Sello Limpieza", title:"El montón de la esquina",
-  text:"En el pasaje 3 la basura lleva dos semanas acumulada y el camión recolector no pasa. Los perros rompen las bolsas y ya hay moscas. ¿Qué haces?",
-  learn:"El recojo de residuos domiciliarios es un servicio que presta la municipalidad. Una carta con firmas y fotos deja constancia, obliga a responder y sirve de prueba si luego hay que acudir a la OEFA. Quemar basura contamina el aire y es sancionable.",
-  choices:[
-   {t:"Quemar la basura esta noche para salir del problema.", d:[-4,-3,-14,-8], out:"El humo enferma a los niños y los vecinos se enojan. El problema vuelve en una semana.", best:false},
-   {t:"Juntar firmas y fotos, y pedir por escrito el recojo y el horario de rutas.", d:[10,4,12,8], out:"La municipalidad responde con un cronograma. Aparece un primer grupo de vecinos que quiere seguir colaborando.", best:true},
-   {t:"Esperar a que alguien más reclame.", d:[-6,0,-6,-4], out:"Pasa otra semana. Cada vecino piensa que le toca a otro.", best:false}]},
- {tag:"Participación", seal:"Sello Convocatoria", title:"Asamblea casi vacía",
-  text:"Convocaste una reunión vecinal y llegaron seis personas. Hay decisiones importantes por tomar y tres de los presentes quieren decidir todo ya.",
-  learn:"Una decisión colectiva vale por quienes pudieron participar. Convocar con tiempo, por varios medios y en horarios distintos amplía la participación. La Ley 26300 y la Ley 27972 reconocen mecanismos de participación como el cabildo abierto.",
-  choices:[
-   {t:"Decidir con los seis y avisar después.", d:[-8,-4,0,-8], out:"Varias familias sienten que las ignoraron y no vuelven.", best:false},
-   {t:"Reprogramar. Pasar volante casa por casa, usar el grupo de WhatsApp y ofrecer dos horarios.", d:[14,3,0,10], out:"La siguiente reunión reúne a más de treinta personas, incluidas varias mujeres y adultos mayores.", best:true},
-   {t:"Cancelar todo: nadie se interesa.", d:[-10,0,0,-6], out:"La poca energía que había se apaga.", best:false}]},
- {tag:"Transparencia", seal:"Sello Transparencia", title:"¿En qué se gasta el dinero?",
-  text:"La municipalidad anunció obras para la zona, pero nadie sabe cuáles, cuánto cuestan ni cuándo empiezan. Circulan sospechas.",
-  learn:"Toda persona puede pedir información a una entidad pública sin explicar para qué la quiere (Constitución, art. 2 inc. 5, y Ley de Transparencia). La entidad debe responder en el plazo que fija la norma. Pide siempre que quede constancia de la fecha de presentación.",
-  choices:[
-   {t:"Presentar una solicitud de acceso a la información pública, con cargo de recepción.", d:[8,12,0,10], out:"Recibes el cronograma y el presupuesto de las obras. Ahora la asamblea discute con datos.", best:true},
-   {t:"Publicar en redes que hay corrupción.", d:[2,-6,0,-10], out:"Se arma pelea, pero sin pruebas la denuncia pierde fuerza y tu credibilidad también.", best:false},
-   {t:"Pedir el dato como favor a un conocido en la municipalidad.", d:[-2,-4,0,-4], out:"Te dan una versión parcial y sin documento. Otros vecinos siguen sin enterarse.", best:false}]},
- {tag:"Presupuesto", seal:"Sello Presupuesto", title:"Taller de presupuesto participativo",
-  text:"Se abre el proceso para decidir en qué invertir. Hay un taller el sábado y la plaza de la zona compite con otras diez.",
-  learn:"El presupuesto participativo permite que la población priorice proyectos junto con el gobierno local (Ley 28056). Las propuestas con diagnóstico, fotos, costo estimado y firmas son más difíciles de ignorar.",
-  choices:[
-   {t:"Llevar una propuesta con diagnóstico, fotos y 40 firmas.", d:[12,4,6,8], out:"Tu proyecto entra a la lista priorizada y se forma un comité de vigilancia con vecinos voluntarios.", best:true},
-   {t:"Ir al taller, sentarte atrás y escuchar.", d:[2,0,0,0], out:"Aprendes cómo funciona, pero tu zona queda sin propuesta.", best:false},
-   {t:"No ir: eso siempre lo deciden los de arriba.", d:[-8,-4,-2,-4], out:"Se aprueban proyectos de otras zonas. Dejar de asistir también es una decisión.", best:false}]},
- {tag:"Derechos", seal:"Sello Derechos", title:"Don Mateo y la posta",
-  text:"Don Mateo, adulto mayor, fue rechazado en el establecimiento de salud por no tener su documento a la mano. Estaba con dolor y regresó a casa sin atención.",
-  learn:"La atención de salud no puede negarse por un trámite documentario en una urgencia. SUSALUD recibe quejas de usuarios de servicios de salud y la Defensoría del Pueblo interviene ante la vulneración de derechos. Tu queja gana fuerza con fecha, hora, nombre del servicio y testigos.",
-  choices:[
-   {t:"Acompañarlo, anotar lo ocurrido con fecha y hora y presentar una queja escrita al establecimiento y a SUSALUD o la Defensoría.", d:[6,14,0,10], out:"Le dan cita prioritaria y el establecimiento corrige su protocolo de ingreso.", best:true},
-   {t:"Decirle que insista otro día.", d:[-2,-8,0,-4], out:"Don Mateo se siente un estorbo. El caso queda sin registro.", best:false},
-   {t:"Insultar al personal en un video para redes.", d:[0,-4,0,-10], out:"El video se vuelve viral, pero el personal se pone a la defensiva y el reclamo se pierde en la discusión.", best:false}]},
- {tag:"Ambiente", seal:"Sello Ambiental", title:"Aceite en la quebrada",
-  text:"Un taller mecánico vierte aceite y agua sucia a la quebrada donde juegan los niños. El agua huele mal y hay peces muertos.",
-  learn:"La OEFA y las autoridades ambientales locales reciben denuncias por contaminación. Fotos con fecha, ubicación aproximada y una descripción clara ayudan a que fiscalicen. No hace falta enfrentar al responsable ni exponerte.",
-  choices:[
-   {t:"Reunir fotos con fecha y ubicación y presentar una denuncia ambiental, con copia a la municipalidad.", d:[6,8,14,6], out:"Una inspección ordena corregir el vertimiento. El taller instala una trampa de grasa.", best:true},
-   {t:"Ir a gritarle al dueño y amenazarlo.", d:[-4,-6,0,-8], out:"Terminas en un conflicto personal y el taller sigue igual.", best:false},
-   {t:"No decir nada: el taller da empleo al barrio.", d:[-6,-4,-12,-4], out:"La quebrada empeora. Los niños dejan de jugar ahí.", best:false}]},
- {tag:"Residuos", seal:"Sello Reciclador", title:"Separar en origen",
-  text:"La municipalidad lanza un programa para separar los residuos en casa. Faltan promotores que expliquen cómo hacerlo.",
-  learn:"La Ley de Gestión Integral de Residuos Sólidos promueve la segregación en la fuente. Separar aprovechables, orgánicos, no aprovechables y peligrosos reduce lo que va al botadero y crea trabajo para recicladores formalizados. Prueba el minijuego Punto limpio.",
-  choices:[
-   {t:"Formar una brigada de promotores vecinales y hacer una charla con el colegio.", d:[10,2,14,8], out:"Treinta familias empiezan a separar. Los niños llevan el mensaje a casa.", best:true},
-   {t:"Esperar a que la municipalidad lo haga todo.", d:[-4,0,-4,-2], out:"El programa avanza lento en tu zona.", best:false},
-   {t:"Pagar a alguien para que bote todo en un terreno baldío.", d:[-6,-4,-16,-8], out:"Aparece un nuevo botadero informal en el barrio.", best:false}]},
- {tag:"Información", seal:"Sello Verificador", title:"El rumor del mercado",
-  text:"Un audio dice que cerrarán el mercado de la zona la próxima semana. Todos lo reenvían. Hay pánico y vendedores sin dormir.",
-  learn:"Antes de compartir, verifica en la fuente oficial: la página o el comunicado de la municipalidad, o una solicitud de información. Un rumor sin verificar daña la confianza y puede afectar el sustento de familias.",
-  choices:[
-   {t:"Reenviarlo con la nota: ojo, cuidado.", d:[-4,-2,0,-12], out:"El pánico crece. Algunos vendedores rematan su mercadería.", best:false},
-   {t:"Verificar con la municipalidad, pedir el comunicado y aclarar en la asamblea y el grupo.", d:[8,6,0,14], out:"Era falso. Tu aclaración con documento calma a todos y te da prestigio de fuente confiable.", best:true},
-   {t:"Ignorarlo y esperar a que pase.", d:[-2,0,0,-4], out:"El rumor sigue circulando unos días más.", best:false}]},
- {tag:"Convivencia", seal:"Sello Acuerdo", title:"Parque o estacionamiento",
-  text:"Hay un terreno baldío. Un grupo quiere un parque para los niños y otro quiere un estacionamiento. La discusión sube de tono.",
-  learn:"Los conflictos por el uso del espacio común se resuelven mejor con reglas acordadas antes, información sobre la propiedad del terreno y acta firmada. Si el terreno es público, la decisión final depende de la autoridad competente y se puede proponer por canales de participación.",
-  choices:[
-   {t:"Acordar reglas de votación, revisar quién es el titular del terreno y votar con acta.", d:[12,6,4,10], out:"El resultado se respeta aunque no todos ganaron. El acta se envía a la municipalidad como propuesta.", best:true},
-   {t:"Que decida el vecino más antiguo.", d:[-6,-6,0,-4], out:"Los recién llegados se sienten excluidos.", best:false},
-   {t:"Dejar que cada grupo haga lo que pueda.", d:[-8,-6,-6,-8], out:"Aparece un cerco improvisado y un enfrentamiento.", best:false}]},
- {tag:"Fiscalización", seal:"Sello Vigilancia", title:"La vereda a medias",
-  text:"Hace seis meses empezó la obra de la vereda y quedó a medias. No hay cartel de obra visible, ni se sabe quién la ejecuta.",
-  learn:"Las obras públicas deben informar su costo, plazo y ejecutor. El comité de vigilancia, las solicitudes de información y las denuncias ante el órgano de control correspondiente (la Contraloría) son vías para pedir cuentas sin violencia.",
-  choices:[
-   {t:"Pedir información del expediente, hacer seguimiento con el comité de vigilancia y comunicar el caso al órgano de control.", d:[10,8,4,12], out:"Se reactiva la obra y se publica un nuevo cronograma. El comité se convierte en un referente.", best:true},
-   {t:"Aceptar: peor es nada.", d:[-8,-6,0,-4], out:"La obra se abandona. El barrio normaliza lo incompleto.", best:false},
-   {t:"Llevarse los materiales por si acaso.", d:[-4,-10,0,-14], out:"Ahora el problema es de otro tipo: te pueden denunciar.", best:false}]}
-];
 var METERS = [
  {k:"P", n:"Participación", c:"var(--accent)"},
  {k:"D", n:"Derechos", c:"var(--sun)"},
  {k:"A", n:"Ambiente", c:"var(--good)"},
  {k:"C", n:"Confianza", c:"var(--bin-brown)"}
 ];
+/* Decisiones del Colegio Sagrada Familia. Efectos: [Participación, Derechos, Ambiente, Confianza] */
+var EVENTS = [
+ {tag:"Residuos", seal:"Sello Patio Limpio", title:"El patio después del recreo",
+  text:"Al terminar el recreo, el patio queda lleno de envolturas y botellas. Los tachos están desbordados y nadie los vacía hasta el día siguiente. ¿Qué propones?",
+  learn:"Separar los residuos en origen y repartir la responsabilidad entre todos educa más que un castigo. Brigadas rotativas, contenedores por colores y metas simples hacen que el cuidado del patio sea un hábito de toda la escuela.",
+  choices:[
+   {t:"Castigar a un salón: que limpie todo el patio una semana.", d:[-6,-4,2,-8], out:"El patio queda limpio unos días, pero los estudiantes lo viven como un castigo y el problema vuelve.", best:false},
+   {t:"Proponer en el Municipio Escolar brigadas rotativas y contenedores de colores para separar en el patio.", d:[12,2,14,8], out:"Cada salón tiene su turno y los tachos se vacían a tiempo. Los estudiantes empiezan a separar sin que nadie los obligue.", best:true},
+   {t:"Esperar a que el personal de limpieza lo resuelva solo.", d:[-4,0,-8,-4], out:"El personal no alcanza. Al día siguiente hay más basura y más moscas.", best:false}]},
+ {tag:"Participación", seal:"Sello Municipio Escolar", title:"Elecciones del Municipio Escolar",
+  text:"Se acercan las elecciones del Municipio Escolar y casi nadie quiere postular. Algunos dicen que el director debería elegir a los representantes directamente.",
+  learn:"El Municipio Escolar es un espacio para que los estudiantes participen y representen a sus compañeros. Una campaña con propuestas claras, debate y voto secreto enseña a decidir juntos y a vigilar lo que se promete.",
+  choices:[
+   {t:"Pedir que el director designe a los representantes para ahorrar tiempo.", d:[-10,-4,0,-6], out:"Nadie se siente representado. La participación cae todavía más.", best:false},
+   {t:"Organizar un debate de propuestas entre candidaturas y votar en secreto.", d:[14,4,0,10], out:"Hay seis listas, propuestas concretas y una votación con mucha participación.", best:true},
+   {t:"Cancelar las elecciones este año.", d:[-12,-4,0,-6], out:"El espacio se debilita y se pierde la costumbre de participar.", best:false}]},
+ {tag:"Derechos", seal:"Sello Buen Trato", title:"Burlas en el aula",
+  text:"Un compañero recibe burlas todos los días y ya no quiere venir al colegio. Algunos lo graban y lo comparten en redes.",
+  learn:"La violencia escolar se puede reportar. El colegio debe atender los casos y registrarlos en la plataforma SíseVe del Ministerio de Educación. La Ley 29719 promueve la convivencia sin violencia. Anotar fecha, hora y lugar ayuda a que el caso se atienda.",
+  choices:[
+   {t:"Compartir el video para que todos opinen.", d:[-4,-10,0,-12], out:"El acoso se agrava y la víctima queda más expuesta.", best:false},
+   {t:"Acompañarlo, anotar lo que ocurre y avisar al tutor y a la dirección para que se registre el caso en SíseVe.", d:[6,14,0,12], out:"Se activa el protocolo, se protege a tu compañero y se conversa con quienes lo molestaban.", best:true},
+   {t:"No decir nada: son cosas de chicos.", d:[-4,-8,0,-6], out:"Las burlas continúan. Tu compañero se siente solo.", best:false}]},
+ {tag:"Salud", seal:"Sello Agua Segura", title:"El tanque de agua",
+  text:"El agua de los servicios higiénicos huele raro. Se comenta que el tanque no se limpia desde hace meses y varios estudiantes tienen dolor de estómago.",
+  learn:"El agua segura es parte de un entorno escolar saludable. Pide la limpieza y desinfección del tanque por escrito y con fecha, y comunica el problema a la APAFA y a la red de salud si continúan los síntomas.",
+  choices:[
+   {t:"Seguir usando el agua y no hacer ruido.", d:[-4,-6,-6,-8], out:"Más estudiantes se enferman. Algunos faltan a clases.", best:false},
+   {t:"Presentar un pedido escrito a la dirección y la APAFA para limpiar y desinfectar el tanque con constancia, y avisar a la red de salud.", d:[8,8,10,12], out:"Se limpia el tanque, se coloca un cronograma de mantenimiento y los síntomas desaparecen.", best:true},
+   {t:"Que cada quien traiga agua de casa y no hablar del tema.", d:[-2,-4,-2,-4], out:"Se alivia a algunos, pero el problema de fondo sigue ahí.", best:false}]},
+ {tag:"Transparencia", seal:"Sello Cuentas Claras", title:"Las cuotas de la APAFA",
+  text:"Las familias aportaron cuotas para mejoras, pero nadie sabe en qué se gastó. Circulan rumores y algunas familias amenazan con no pagar más.",
+  learn:"Rendir cuentas fortalece la confianza. Pide por escrito un informe de ingresos y gastos y presenta el balance en una asamblea. Si hay recursos públicos de por medio, también se puede pedir información a la entidad que corresponda, como la UGEL.",
+  choices:[
+   {t:"Dejar de pagar sin avisar y comentarlo solo en el grupo de padres.", d:[-4,-4,0,-12], out:"Se crea una pelea en el grupo y el colegio no puede terminar las mejoras.", best:false},
+   {t:"Pedir por escrito el informe de ingresos y gastos y exigir que se presente en una asamblea.", d:[10,10,0,14], out:"El balance se presenta con comprobantes. Se aclaran las dudas y las familias vuelven a aportar.", best:true},
+   {t:"Difundir sospechas de robo sin pruebas.", d:[-2,-6,0,-14], out:"Se daña la reputación de personas sin pruebas y nadie escucha tu pedido de cuentas.", best:false}]},
+ {tag:"Inclusión", seal:"Sello Aula Para Todos", title:"La rampa que falta",
+  text:"Una compañera que usa silla de ruedas no puede llegar al segundo piso porque no hay rampa. Ahora debe recibir clases en la entrada.",
+  learn:"La educación inclusiva exige ajustes razonables. La Ley General de la Persona con Discapacidad (Ley 29973) protege su derecho a estudiar en condiciones de igualdad. Una petición con fotos y una propuesta concreta, dirigida a la dirección y a la UGEL, ayuda a que se resuelva.",
+  choices:[
+   {t:"Cargarla por las escaleras cada día.", d:[0,-8,0,-4], out:"Es riesgoso y la hace sentir una carga. No resuelve nada.", best:false},
+   {t:"Presentar una petición con fotos y una propuesta a la dirección y a la UGEL, y pedir mientras tanto que el aula se mueva al primer piso.", d:[10,14,0,10], out:"Se traslada el aula de inmediato y se aprueba el presupuesto para construir la rampa.", best:true},
+   {t:"Sugerir que se cambie de colegio.", d:[-4,-12,0,-8], out:"Se vulnera su derecho a estudiar donde ella decida y se pierde a una compañera.", best:false}]},
+ {tag:"Salud", seal:"Sello Kiosko Saludable", title:"El kiosko del colegio",
+  text:"El kiosko vende casi solo frituras y gaseosas. Varios estudiantes se quejan de dolor de estómago y falta de energía. La concesionaria dice que eso es lo que se vende más.",
+  learn:"La Ley 30021 promueve la alimentación saludable en niños, niñas y adolescentes, incluidos los kioskos escolares. Conviene dialogar con quien lo administra, ofrecer alternativas atractivas y acordar un plan en la APAFA o el CONEI.",
+  choices:[
+   {t:"Prohibir todo de un día para otro sin hablar con nadie.", d:[-6,0,0,-8], out:"La concesionaria se molesta y los estudiantes compran afuera, sin ningún control.", best:false},
+   {t:"Proponer en la APAFA un kiosko saludable con una prueba de productos y un acuerdo con quien lo administra.", d:[10,6,6,10], out:"Se agregan frutas, sándwiches y refrescos naturales. Las ventas se sostienen y los estudiantes están más contentos.", best:true},
+   {t:"No hacer nada: cada quien come lo que quiera.", d:[-4,-2,-2,-4], out:"Los problemas de salud continúan.", best:false}]},
+ {tag:"Información", seal:"Sello Verificador", title:"El rumor del turno tarde",
+  text:"Un audio dice que el próximo año cerrarán el turno tarde y que muchos estudiantes serán reubicados. Hay angustia en las familias y los docentes no saben qué responder.",
+  learn:"Antes de compartir un rumor, verifica con la dirección y pide el comunicado oficial. La UGEL informa los cambios en los servicios educativos. Compartir sin verificar daña la confianza y genera angustia innecesaria.",
+  choices:[
+   {t:"Reenviar el audio a todos los padres para que estén alertas.", d:[-4,-2,0,-12], out:"El pánico se extiende. Algunas familias empiezan a buscar otro colegio.", best:false},
+   {t:"Preguntar a la dirección, pedir un comunicado oficial y compartirlo en la asamblea.", d:[8,6,0,14], out:"Era falso. El comunicado calma a todos y fortalece tu credibilidad.", best:true},
+   {t:"Ignorarlo y esperar a que pase.", d:[-2,0,0,-4], out:"El rumor sigue unos días más.", best:false}]},
+ {tag:"Ambiente", seal:"Sello Huerto Escolar", title:"El terreno sin uso",
+  text:"Detrás del colegio hay un terreno vacío donde se acumulan basura y maleza. Se propone un huerto escolar con compost hecho con restos orgánicos del kiosko.",
+  learn:"Un huerto escolar convierte residuos orgánicos en abono y enseña educación ambiental. Pide autorización a la dirección, coordina con docentes de ciencias, define turnos de cuidado y asegura que el terreno sea seguro para los estudiantes.",
+  choices:[
+   {t:"Sembrar por tu cuenta sin avisar a nadie.", d:[-2,-2,2,-6], out:"Se descubre y se retiran las plantas. Pierdes confianza.", best:false},
+   {t:"Presentar un proyecto con docentes: autorización, turnos de cuidado y un compost con restos orgánicos del kiosko.", d:[12,2,14,8], out:"El huerto prospera. Los restos del kiosko se convierten en abono y las clases de ciencias lo usan todos los días.", best:true},
+   {t:"Dejar el terreno como está.", d:[-4,0,-10,-4], out:"La basura y la maleza crecen. Aparecen plagas.", best:false}]},
+ {tag:"Seguridad", seal:"Sello Salida Libre", title:"El simulacro",
+  text:"Durante el simulacro de sismo, la salida principal estaba bloqueada con bancas apiladas. Los estudiantes tardaron mucho en llegar a la zona segura.",
+  learn:"Las rutas de evacuación deben estar libres. Reporta el problema por escrito a la dirección y al comité de gestión del riesgo, retira los obstáculos y pide repetir el simulacro. Es una responsabilidad compartida entre docentes, familias y estudiantes.",
+  choices:[
+   {t:"Guardar silencio: fue solo un simulacro.", d:[-4,-6,0,-6], out:"El problema sigue. En una emergencia real podría haber sido grave.", best:false},
+   {t:"Reportar por escrito a la dirección y al comité de gestión del riesgo, y pedir retirar las bancas y repetir el simulacro.", d:[8,12,0,12], out:"Se despeja la salida, se señalizan las rutas y el siguiente simulacro sale mucho mejor.", best:true},
+   {t:"Mover las bancas tú solo cuando nadie mire.", d:[-2,-2,0,-4], out:"Se resuelve ese día, pero nadie sabe qué pasó y las bancas vuelven a apilarse.", best:false}]}
+];
 var TIERS = [
- {min:0, name:"Barrio en espera", msg:"Muchas cosas siguen igual. Lo bueno es que ya sabes qué canales existen. Prueba otra vez con otras decisiones."},
- {min:160, name:"Barrio que despierta", msg:"Hay vecinos organizados y algunas respuestas. El siguiente paso es sostenerlo en el tiempo."},
- {min:240, name:"Barrio organizado", msg:"Participan, piden información y usan los canales. Falta que más gente se sume."},
- {min:320, name:"Barrio ejemplar", msg:"Tu barrio sabe qué pedir, a quién y cómo. Eso se contagia a los barrios vecinos."}
+ {min:0, name:"Colegio en espera", msg:"Muchas cosas siguen igual. Ya conoces los canales para pedir cambios dentro de tu colegio. Vuelve a intentarlo con otras decisiones."},
+ {min:160, name:"Colegio que despierta", msg:"Hay estudiantes y familias más involucradas y algunos cambios reales. El siguiente paso es sostenerlos."},
+ {min:240, name:"Colegio organizado", msg:"El colegio participa, pide cuentas y cuida su entorno. Falta que más personas se sumen."},
+ {min:320, name:"Colegio ejemplar", msg:"Tu colegio convive sin violencia, participa y cuida su patio y su agua. Es un modelo para otros colegios."}
 ];
 /* Rutas de acción (orientación general; referencias del Perú) */
 var ROUTES = [
@@ -535,47 +623,144 @@ var BINS = [
  {k:"r", n:"Rojo", s:"Peligrosos"}
 ];
 var ITEMS = [
- ["Botella de plástico vacía","g","Enjuágala antes de entregarla."],
- ["Caja de cartón seca","g","El cartón mojado o sucio pierde valor de reciclaje."],
- ["Lata de conserva","g","Los metales como las latas son aprovechables."],
- ["Frasco de vidrio","g","El vidrio se recicla muchas veces."],
- ["Periódico","g","Mantén el papel seco y limpio."],
- ["Cáscaras de plátano","b","Sirven para compost."],
- ["Restos de verduras","b","Los restos de comida son orgánicos."],
- ["Hojas secas del jardín","b","Los restos de poda y hojarasca son orgánicos."],
- ["Pilas usadas","r","Contienen metales tóxicos. Llévalas a un punto de acopio."],
- ["Foco ahorrador","r","Las lámparas contienen mercurio."],
- ["Medicinas vencidas","r","Entrégalas en un punto autorizado."],
- ["Envase de plaguicida","r","Es un residuo peligroso."],
- ["Papel higiénico usado","n","Los residuos sanitarios son no aprovechables."],
- ["Pañal descartable","n","Los residuos sanitarios no se reciclan."],
- ["Colilla de cigarro","n","Es un residuo no aprovechable."],
- ["Bolsa de snack metalizada","n","El papel metalizado va en el negro."],
- ["Cerámica rota","n","Los cerámicos son no aprovechables."],
- ["Paño húmedo","n","Los paños húmedos son residuos sanitarios."]
+ ["Botella de plástico de gaseosa, vacía","g","Enjuágala y aplástala antes de entregarla."],
+ ["Hojas de cuaderno ya usadas","g","El papel limpio y seco se recicla."],
+ ["Caja de cartón de los útiles","g","El cartón seco se aprovecha; mojado o con grasa pierde valor."],
+ ["Lata de atún del refrigerio","g","Los metales como las latas son aprovechables. Enjuágala."],
+ ["Lata de gaseosa aplastada","g","El aluminio se recicla muchas veces."],
+ ["Frasco de vidrio de mermelada","g","El vidrio se recicla sin perder calidad."],
+ ["Botella de vidrio de agua","g","Entrégala entera y sin tapa."],
+ ["Periódico mural ya viejo","g","El papel seco y limpio es aprovechable."],
+ ["Folder de cartulina sin uso","g","La cartulina es papel: va en aprovechables."],
+ ["Exámenes antiguos en bloque","g","El papel limpio se recicla. Quita los clips y el espiral."],
+ ["Tapas de botella de plástico","g","Se juntan y se entregan por separado para reciclar."],
+ ["Revistas viejas de la biblioteca","g","Mantén el papel seco y sin grasa."],
+ ["Bolsa de plástico limpia y seca","g","Si está limpia, el plástico se aprovecha."],
+ ["Botella de yogur vacía y enjuagada","g","Enjuagada, el envase de plástico es aprovechable."],
+ ["Cáscara de naranja del kiosko","b","Los restos de fruta sirven para compost."],
+ ["Cáscaras de plátano","b","Los restos de frutas son orgánicos."],
+ ["Manzana mordida","b","Los restos de comida son orgánicos."],
+ ["Pan duro de la lonchera","b","El pan es orgánico y se puede compostar."],
+ ["Hojas secas del patio","b","La hojarasca y los restos de poda son orgánicos."],
+ ["Pasto cortado del jardín","b","El pasto fresco aporta nitrógeno al compost."],
+ ["Cáscaras de huevo","b","Se descomponen y aportan calcio al compost."],
+ ["Restos de arroz y menestra","b","Los restos de comida cocida son orgánicos."],
+ ["Hierba luisa usada","b","Las hierbas y plantas son orgánicas."],
+ ["Cáscaras de papa","b","Los restos de verduras se compostan."],
+ ["Cáscaras de mandarina","b","Los cítricos van al compost en pequeñas cantidades."],
+ ["Restos de verdura del huerto escolar","b","Vuelven al huerto como abono."],
+ ["Envoltura metalizada de galletas","n","El papel metalizado y sucio no se recicla."],
+ ["Papel higiénico usado","n","Los residuos sanitarios no se aprovechan."],
+ ["Chicle masticado","n","Es un residuo no aprovechable."],
+ ["Tecnopor sucio de la lonchera","n","El tecnopor con restos de comida no se recicla."],
+ ["Mascarilla usada","n","Los residuos sanitarios van en el contenedor negro."],
+ ["Servilleta sucia de grasa","n","El papel con grasa no se recicla."],
+ ["Pedazo de cerámica del lavatorio roto","n","Los cerámicos no son aprovechables."],
+ ["Plumón agotado","n","Los marcadores agotados no se reciclan."],
+ ["Sorbete (pajilla) usado","n","Es un residuo no aprovechable."],
+ ["Tajador roto","n","Los objetos mezclados no se pueden reciclar."],
+ ["Cinta adhesiva usada","n","La cinta adhesiva no se recicla."],
+ ["Borrador de goma ya gastado","n","La goma mezclada no se recicla."],
+ ["Pilas del control del proyector","r","Contienen metales tóxicos. Llévalas a un punto de acopio."],
+ ["Foco ahorrador fundido","r","Las lámparas contienen mercurio."],
+ ["Tubo fluorescente roto del aula","r","Contiene mercurio. Avisa al personal para manejarlo con cuidado."],
+ ["Envase de plaguicida del huerto","r","Es un residuo peligroso: nunca lo reutilices."],
+ ["Medicinas vencidas del botiquín","r","Entrégalas en un punto autorizado."],
+ ["Termómetro de mercurio roto","r","Es peligroso. No lo toques: avisa a un adulto."],
+ ["Algodón con sangre del tópico","r","Es residuo biocontaminado: se entrega en el tópico o la enfermería."],
+ ["Lata de pintura con restos","r","Los restos de pintura son residuos peligrosos."],
+ ["Aerosol vacío","r","Los envases a presión se tratan como peligrosos."],
+ ["Cartucho de tinta de la impresora","r","Contiene tinta y metales. Hay puntos de acopio."],
+ ["Batería de celular","r","Es un residuo peligroso: llévala a un acopio de residuos electrónicos."],
+ ["Frasco de thinner del taller","r","Los solventes son inflamables y tóxicos."]
 ];
-/* ===== núcleo: cuentas, progreso, niveles y recompensas ===== */
-var APP={screen:"splash",authMode:"login",jtab:"camino",sel:0,P:null,user:null,rec:null,guest:false,remembered:null,theme:"auto",busy:false,back:"splash"};
+/* ===== núcleo: cuentas, progreso, niveles, monedas y recompensas ===== */
+var APP={screen:"splash",mode:"game",authMode:"login",jtab:"camino",sel:0,P:null,user:null,rec:null,guest:false,remembered:null,theme:"auto",busy:false,back:"splash"};
 var AUTH={fails:0,until:0};
 var MAXL=100;
+var HINT_COST=15,SKIP_COINS=30,SKIP_LATAS=150,SPIN_COST=100,CROWN_COINS=10;
 var GAMES=[
- {k:"barrio",n:"Barrio Nueva Esperanza",win:"Terminar como Barrio organizado o ejemplar (240 puntos o más de 400).",fmt:function(v){return v+" / 400"}},
- {k:"limpio",n:"Punto limpio",win:"Acertar 10 o más de 12 residuos.",fmt:function(v){return v+" / 12"}},
+ {k:"colegio",n:"Colegio Sagrada Familia",win:"Terminar como Colegio organizado o ejemplar (240 puntos o más de 400).",fmt:function(v){return v+" / 400"}},
+ {k:"limpio",n:"Punto limpio",win:"Acertar 10 de 12 residuos (si usas skips, hasta 2 errores entre los que respondes, con 8 respondidos como mínimo).",fmt:function(v){return v+" aciertos"}},
  {k:"ruta",n:"Ruta del camión",win:"Lograr 85 % de eficiencia o más.",fmt:function(v){return v+" %"}},
- {k:"bolsas",n:"Atrapa-bolsas",win:"Recoger 20 bolsas o más y al menos el 75 % de las que caen.",fmt:function(v){return v+" pts"}},
- {k:"mitos",n:"Mitos y datos",win:"Acertar 7 o más de 8.",fmt:function(v){return v+" / 8"}}
+ {k:"bolsas",n:"Atrapa-bolsas",win:"Recoger 20 bolsas o más y atrapar al menos el 75 % de las que caen.",fmt:function(v){return v+" pts"}},
+ {k:"mitos",n:"Mitos y datos",win:"Acertar 7 de 8 (con skips, máximo un error entre las que respondes, con 6 respondidas como mínimo).",fmt:function(v){return v+" aciertos"}},
+ {k:"memoria",n:"Memoria de residuos",win:"Completar todas las parejas en 12 movimientos o menos.",fmt:function(v){return v+" puntos"}},
+ {k:"orden",n:"Ordena el proceso",win:"Ordenar bien casi todos los pasos de 3 procesos (como máximo 2 pasos mal ubicados).",fmt:function(v){return v+" pasos bien"}},
+ {k:"presup",n:"Presupuesto limpio",win:"Lograr 90 % del mejor reparto posible.",fmt:function(v){return v+" %"}},
+ {k:"patio",n:"Caza-residuos del patio",win:"Sumar 20 puntos o más.",fmt:function(v){return v+" pts"}}
 ];
-var COLORS={c0:["Cobalto","#2349D8",0,0],c1:["Verde reciclaje","#1E7F48",20,0],c2:["Marrón compost","#8A5A3C",20,0],c3:["Rojo alerta","#B3382C",30,0],c4:["Grafito","#3B4650",30,0],c5:["Violeta cívico","#6A4BC0",45,5]};
-var FRAMES={f0:["Sin marco",0,0],f1:["Aro simple",40,0],f2:["Aro doble",80,10],f3:["Aro punteado",120,20],f4:["Aro dorado",250,30]};
-var TITLES={5:"Vecino curioso",10:"Vecino activo",20:"Promotor de barrio",30:"Vigilante ciudadano",40:"Guardián de la limpieza",50:"Líder vecinal",60:"Defensor de derechos",70:"Fiscalizador cívico",80:"Cuidador del ambiente",90:"Referente ciudadano",100:"Leyenda del barrio"};
-var HINT_COST=15;
+var COLORS={
+ c0:{n:"Cobalto",bg:"#2349D8"},
+ c1:{n:"Verde reciclaje",bg:"#1E7F48",cost:20},
+ c2:{n:"Marrón compost",bg:"#8A5A3C",cost:20},
+ c3:{n:"Rojo alerta",bg:"#B3382C",cost:30},
+ c4:{n:"Grafito",bg:"#3B4650",cost:30},
+ c5:{n:"Violeta cívico",bg:"#6A4BC0",cost:45,min:5},
+ c6:{n:"Celeste",bg:"#1B7FB8",cost:35},
+ c7:{n:"Mostaza",bg:"#9A6B00",cost:35},
+ c8:{n:"Rosa",bg:"#B8326F",cost:40,min:8},
+ c9:{n:"Turquesa",bg:"#0F8B8D",lvl:12},
+ c10:{n:"Naranja",bg:"#C65A11",lvl:40},
+ c11:{n:"Dorado",bg:"linear-gradient(135deg,#B8860B,#F2C94C,#B8860B)",fg:"#14232B",lvl:70},
+ c12:{n:"Gris",bg:"#7B848A",roulette:true},
+ c13:{n:"Arcoíris",bg:"linear-gradient(135deg,#d93636,#e8a21a,#2e9b55,#2a6fd6,#7a45c9)",lvl:100}
+};
+var FRAMES={
+ f0:{n:"Sin marco"},
+ f1:{n:"Aro simple",cost:40},
+ f2:{n:"Aro doble",cost:80,min:10},
+ f3:{n:"Aro punteado",cost:120,min:20},
+ f4:{n:"Aro dorado",cost:250,min:30},
+ f7:{n:"Aro neón",cost:300,min:50},
+ f5:{n:"Aro laurel",lvl:25},
+ f6:{n:"Aro de honor",lvl:60},
+ f8:{n:"Aro arcoíris",lvl:100}
+};
+var PETS={
+ carbon:{n:"Carbón",d:"Un perrito color carbón.",cost:20},
+ gato:{n:"Gato",d:"Un gato naranja curioso.",cost:30},
+ pina:{n:"Piña",d:"Una piña muy risueña.",cost:50},
+ ardo:{n:"Ardo",d:"El gallo Ardo, madrugador.",cost:70},
+ pulpo:{n:"Pulpo",d:"Un pulpo morado con ocho brazos.",cost:80},
+ basquet:{n:"Bola de básquet",d:"Una pelota que nunca se rinde.",cost:90},
+ carnero:{n:"Carnero",d:"Un carnero de cuernos firmes.",cost:100},
+ galon:{n:"Galón Rotoplas",d:"Un galón de agua con buena onda.",cost:120}
+};
+var PET_ORDER=["carbon","gato","pina","ardo","pulpo","basquet","carnero","galon"];
+var TITLES={5:"Estudiante curioso",10:"Brigadista",20:"Promotor del colegio",30:"Vigía del patio",40:"Guardián de la limpieza",50:"Líder escolar",60:"Defensor de derechos",70:"Fiscalizador cívico",80:"Cuidador del ambiente",90:"Referente ciudadano",100:"Leyenda del colegio"};
+var OLD_TITLES={"Vecino curioso":"Estudiante curioso","Vecino activo":"Brigadista","Promotor de barrio":"Promotor del colegio","Vigilante ciudadano":"Vigía del patio","Líder vecinal":"Líder escolar","Leyenda del barrio":"Leyenda del colegio"};
+var UNL={12:["c","c9"],25:["f","f5"],40:["c","c10"],60:["f","f6"],70:["c","c11"],100:["c","c13"]};
 
-/* ---------- niveles ---------- */
+/* ---------- niveles y recompensas ---------- */
 function xpNeed(L){return 25+3*(L-1)}
 var CUM=[0,0];
 (function(){for(var L=2;L<=MAXL;L++)CUM[L]=CUM[L-1]+xpNeed(L-1)})();
 function levelOf(xp){var L=1;while(L<MAXL&&xp>=CUM[L+1])L++;return L}
-function rewardOf(L){var l=10+Math.floor(L/5);if(L%5===0)l+=15;if(L%10===0)l+=30;if(L===MAXL)l+=300;return {latas:l,title:TITLES[L]||""}}
+function rewardOf(L){
+  var r={latas:10+Math.floor(L/5),coins:0,skips:0,spins:0,unlock:null,title:TITLES[L]||""};
+  if(L%5===0)r.latas+=15;
+  if(L%10===0){r.latas+=30;r.coins+=5}
+  if(L%20===0)r.skips+=1;
+  if(L%20===15)r.spins+=1;
+  if(L===25)r.coins+=10;
+  if(L===50){r.coins+=20;r.skips+=1}
+  if(L===75)r.coins+=25;
+  if(L===MAXL){r.latas+=300;r.coins+=50;r.skips+=2;r.spins+=2}
+  if(UNL[L])r.unlock=UNL[L];
+  return r;
+}
+function unlockName(u){return u?(u[0]==="c"?"color "+COLORS[u[1]].n:"marco "+FRAMES[u[1]].n):""}
+function rewardText(r){
+  var a=["+"+r.latas+" latas rotas"];
+  if(r.coins)a.push("+"+r.coins+" monedas");
+  if(r.skips)a.push("+"+r.skips+(r.skips===1?" skip":" skips"));
+  if(r.spins)a.push("+"+r.spins+(r.spins===1?" giro gratis":" giros gratis"));
+  if(r.unlock)a.push(unlockName(r.unlock));
+  if(r.title)a.push("título "+r.title);
+  return a.join(", ");
+}
+function isSpecial(r){return !!(r.title||r.unlock||r.coins||r.skips||r.spins)}
 
 /* ---------- almacenamiento seguro ---------- */
 function lsGet(k){try{var r=localStorage.getItem(k);return r===null?null:JSON.parse(r)}catch(e){return null}}
@@ -584,13 +769,12 @@ function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
 function ukey(n){return "bc_u_"+String(n).trim().toLowerCase()}
 function userList(){var l=lsGet("bc_users");return Array.isArray(l)?l:[]}
 
+function zeroMap(){var o={};GAMES.forEach(function(g){o[g.k]=0});return o}
 function newProgress(){
-  return {xp:0,claimed:1,latas:0,titles:[],
-    crowns:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
-    plays:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
-    best:{barrio:0,limpio:0,ruta:0,bolsas:0,mitos:0},
-    checks:{},once:{},owned:["c0","f0"],equip:{c:"c0",f:"f0",t:""},
-    contacts:[],draft:{},theme:"",day:"",streak:0,hints:0};
+  return {rv:2,xp:0,claimed:1,latas:0,coins:0,skips:0,spins:0,bonusCrowns:0,titles:[],pets:[],
+    crowns:zeroMap(),plays:zeroMap(),best:zeroMap(),
+    checks:{},once:{},owned:["c0","f0"],equip:{c:"c0",f:"f0",t:"",p:""},
+    contacts:[],draft:{},theme:"",day:"",streak:0,hints:0,spent:0,lseen:[]};
 }
 function fillDefaults(p,d){
   if(!p||typeof p!=="object")return d;
@@ -599,6 +783,21 @@ function fillDefaults(p,d){
     else if(d[k]&&typeof d[k]==="object"&&!Array.isArray(d[k]))fillDefaults(p[k],d[k]);
   });
   return p;
+}
+function addUnlock(P,u){if(u&&P.owned.indexOf(u[1])<0)P.owned.push(u[1])}
+function loadProgress(raw){
+  var needs=!raw||!(raw.rv>=2);
+  var P=fillDefaults(raw,newProgress());
+  /* migración: el juego del barrio se fusionó con el del colegio */
+  ["crowns","plays"].forEach(function(k){if(P[k]&&P[k].barrio){P[k].colegio=(P[k].colegio||0)+P[k].barrio;delete P[k].barrio}});
+  if(P.best&&P.best.barrio!==undefined){P.best.colegio=Math.max(P.best.colegio||0,P.best.barrio||0);delete P.best.barrio}
+  if(Array.isArray(P.titles))P.titles=P.titles.map(function(t){return OLD_TITLES[t]||t});
+  if(P.equip&&OLD_TITLES[P.equip.t])P.equip.t=OLD_TITLES[P.equip.t];
+  if(needs){
+    P.rv=2;
+    for(var L=2;L<=P.claimed;L++){var r=rewardOf(L);P.coins+=r.coins;P.skips+=r.skips;P.spins+=r.spins;addUnlock(P,r.unlock)}
+  }
+  return P;
 }
 APP.P=newProgress();
 
@@ -661,15 +860,16 @@ function startSession(rec,remember,guest){
   APP.guest=!!guest;
   APP.rec=guest?null:rec;
   APP.user=guest?null:rec.name;
-  APP.P=guest?newProgress():fillDefaults(rec.P,newProgress());
-  if(!guest){if(remember)lsSet("bc_session",rec.name);else lsDel("bc_session")}
+  APP.P=guest?newProgress():loadProgress(rec.P);
+  if(!guest){rec.P=APP.P;if(remember)lsSet("bc_session",rec.name);else lsDel("bc_session")}
   resetGames();
   if(APP.P.theme&&!guest)setTheme(APP.P.theme,true);
   enterApp();
-  if(!guest)dailyBonus();
+  if(!guest){save();dailyBonus()}
 }
 function logout(){
   if(typeof bgStop==="function")bgStop();
+  if(typeof patioStop==="function")patioStop();
   lsDel("bc_session");APP.remembered=null;
   APP.user=null;APP.rec=null;APP.guest=false;APP.P=newProgress();
   hideMenu();showScreen("splash");
@@ -684,17 +884,21 @@ function dailyBonus(){
     if(diff===1)streak=(P.streak||0)+1;
   }
   P.day=today;P.streak=streak;
-  var xp=10+Math.min(streak,10),la=5+Math.min(streak,10);
-  gain(xp,la);
-  toast("Racha de "+streak+(streak===1?" día":" días")+": +"+xp+" XP y +"+la+" latas rotas.");
+  var xp=10+Math.min(streak,10),la=5+Math.min(streak,10),co=streak%7===0?5:0;
+  gain(xp,la,co);
+  toast("Racha de "+streak+(streak===1?" día":" días")+": +"+xp+" XP y +"+la+" latas rotas"+(co?" y +5 monedas":"")+".");
 }
 
-/* ---------- experiencia, latas y coronas ---------- */
-function totalCrowns(){var c=APP.P.crowns;return Object.keys(c).reduce(function(s,k){return s+(c[k]||0)},0)}
-function pending(){var L=levelOf(APP.P.xp),n=0,la=0;for(var i=APP.P.claimed+1;i<=L;i++){n++;la+=rewardOf(i).latas}return {n:n,latas:la}}
-function gain(xp,latas){
+/* ---------- experiencia, latas, monedas y coronas ---------- */
+function totalCrowns(){var c=APP.P.crowns;return Object.keys(c).reduce(function(s,k){return s+(c[k]||0)},0)+(APP.P.bonusCrowns||0)}
+function pending(){
+  var L=levelOf(APP.P.xp),o={n:0,latas:0,coins:0,skips:0,spins:0};
+  for(var i=APP.P.claimed+1;i<=L;i++){var r=rewardOf(i);o.n++;o.latas+=r.latas;o.coins+=r.coins;o.skips+=r.skips;o.spins+=r.spins}
+  return o;
+}
+function gain(xp,latas,coins){
   var P=APP.P,before=levelOf(P.xp);
-  P.xp+=Math.max(0,xp|0);P.latas+=Math.max(0,latas|0);
+  P.xp+=Math.max(0,xp|0);P.latas+=Math.max(0,latas|0);P.coins+=Math.max(0,coins|0);
   var after=levelOf(P.xp);
   save();renderHud();
   if(after>before)toast("Subiste al nivel "+after+". Tienes recompensas por reclamar en Journey.");
@@ -702,7 +906,7 @@ function gain(xp,latas){
 }
 function once(key,xp,latas){
   var P=APP.P;if(P.once[key])return false;
-  P.once[key]=1;gain(xp,latas);
+  P.once[key]=1;gain(xp,latas,0);
   toast("Primera vez: +"+xp+" XP y +"+latas+" latas rotas.");
   return true;
 }
@@ -710,22 +914,28 @@ function reward(game,xp,latas,win,score){
   var P=APP.P;
   P.plays[game]=(P.plays[game]||0)+1;
   if(score>(P.best[game]||0))P.best[game]=score;
-  if(win){P.crowns[game]=(P.crowns[game]||0)+1;xp+=10;latas+=10}
-  var g=gain(xp,latas);
-  return {xp:xp,latas:latas,win:win,up:g.up,level:g.level};
+  var coins=0;
+  if(win){P.crowns[game]=(P.crowns[game]||0)+1;xp+=10;latas+=10;coins=CROWN_COINS}
+  var g=gain(xp,latas,coins);
+  return {xp:xp,latas:latas,coins:coins,win:win,up:g.up,level:g.level};
 }
 function rwHTML(r){
   if(!r)return "";
-  return '<div class="rw"><span class="pill">+'+r.xp+' XP</span><span class="pill">+'+r.latas+' latas rotas</span>'+(r.win?'<span class="pill crown">+1 corona</span>':'')+(r.up?'<span class="pill">Nivel '+r.level+'</span>':'')+'</div>'+(APP.guest?'<p class="note">Eres invitado: este progreso no se guardará. Crea una cuenta para conservarlo.</p>':'');
+  return '<div class="rw"><span class="pill">+'+r.xp+' XP</span><span class="pill">+'+r.latas+' latas rotas</span>'+(r.win?'<span class="pill crown">+1 corona</span><span class="pill crown">+'+r.coins+' monedas</span>':'')+(r.up?'<span class="pill">Nivel '+r.level+'</span>':'')+'</div>'+(APP.guest?'<p class="note">Eres invitado: este progreso no se guardará. Crea una cuenta para conservarlo.</p>':'');
 }
 function claimAll(){
-  var P=APP.P,L=levelOf(P.xp),sum=0,ts=[];
-  for(var i=P.claimed+1;i<=L;i++){var r=rewardOf(i);sum+=r.latas;if(r.title){ts.push(r.title);if(P.titles.indexOf(r.title)<0)P.titles.push(r.title)}}
+  var P=APP.P,L=levelOf(P.xp),sum={latas:0,coins:0,skips:0,spins:0},ts=[],ul=[];
   if(L<=P.claimed)return;
-  P.claimed=L;P.latas+=sum;
+  for(var i=P.claimed+1;i<=L;i++){
+    var r=rewardOf(i);
+    sum.latas+=r.latas;sum.coins+=r.coins;sum.skips+=r.skips;sum.spins+=r.spins;
+    if(r.title){ts.push(r.title);if(P.titles.indexOf(r.title)<0)P.titles.push(r.title)}
+    if(r.unlock){addUnlock(P,r.unlock);ul.push(unlockName(r.unlock))}
+  }
+  P.claimed=L;P.latas+=sum.latas;P.coins+=sum.coins;P.skips+=sum.skips;P.spins+=sum.spins;
   if(ts.length)P.equip.t=ts[ts.length-1];
   save();renderHud();renderJourney();
-  toast("Recompensas reclamadas: +"+sum+" latas rotas"+(ts.length?" y el título "+ts[ts.length-1]:"")+".");
+  toast("Recompensas reclamadas: "+rewardText({latas:sum.latas,coins:sum.coins,skips:sum.skips,spins:sum.spins,unlock:null,title:ts.length?ts[ts.length-1]:""})+(ul.length?". Nuevo: "+ul.join(", "):"")+".");
 }
 
 /* ---------- tema ---------- */
@@ -744,331 +954,36 @@ function setTheme(t,silent){
 function toast(msg){
   var box=$("toasts"),d=document.createElement("div");
   d.className="toast";d.textContent=msg;box.appendChild(d);
-  setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d)},4800);
+  setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d)},5200);
 }
-
-/* ---------- cabecera de progreso ---------- */
-var AVC=function(){return (COLORS[APP.P.equip.c]||COLORS.c0)[1]};
-function avatarHTML(big){
-  var name=APP.guest?"I":(APP.user||"?"),ini=name.charAt(0).toUpperCase();
-  return '<span class="av '+(big?'big ':'')+APP.P.equip.f+'" style="background:'+AVC()+'" aria-hidden="true">'+esc(ini)+'</span>';
+/* ===== mascotas (dibujos propios) e íconos ===== */
+var PET_ART={
+ carbon:'<ellipse cx="32" cy="47" rx="15" ry="12" fill="#2B3135"/><path d="M17 24c-6 2-8 12-3 17 4-2 6-8 6-14z" fill="#1E2326"/><path d="M47 24c6 2 8 12 3 17-4-2-6-8-6-14z" fill="#1E2326"/><circle cx="32" cy="28" r="14" fill="#394045"/><ellipse cx="32" cy="34" rx="8" ry="6" fill="#59636A"/><ellipse cx="32" cy="31" rx="3.2" ry="2.2" fill="#0E1114"/><circle cx="25.5" cy="25" r="3.4" fill="#fff"/><circle cx="38.5" cy="25" r="3.4" fill="#fff"/><circle cx="26" cy="25.4" r="1.7" fill="#0E1114"/><circle cx="38" cy="25.4" r="1.7" fill="#0E1114"/><path d="M28 36q4 3 8 0" fill="none" stroke="#0E1114" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="32" cy="39.5" rx="2.4" ry="3" fill="#E66C84"/>',
+ gato:'<ellipse cx="32" cy="48" rx="14" ry="11" fill="#E39A3D"/><path d="M18 8l11 9-12 8z" fill="#E39A3D"/><path d="M46 8l-11 9 12 8z" fill="#E39A3D"/><path d="M20 13l6 5-7 4z" fill="#F4B6B6"/><path d="M44 13l-6 5 7 4z" fill="#F4B6B6"/><circle cx="32" cy="30" r="15" fill="#E39A3D"/><path d="M28 17v6M32 16v7M36 17v6" stroke="#B8731F" stroke-width="2" stroke-linecap="round"/><ellipse cx="25.5" cy="29" rx="3.4" ry="4" fill="#fff"/><ellipse cx="38.5" cy="29" rx="3.4" ry="4" fill="#fff"/><ellipse cx="25.5" cy="29.5" rx="1.3" ry="3" fill="#2B2B2B"/><ellipse cx="38.5" cy="29.5" rx="1.3" ry="3" fill="#2B2B2B"/><path d="M30 35l2 2 2-2z" fill="#D9667A"/><path d="M32 37v2M28 40q4 2 4-1M36 40q-4 2-4-1" fill="none" stroke="#7A3F10" stroke-width="1.3" stroke-linecap="round"/><path d="M12 33l9 2M12 38l9-1M52 33l-9 2M52 38l-9-1" stroke="#7A3F10" stroke-width="1" stroke-linecap="round"/>',
+ pina:'<path d="M32 3l-4.5 16h9z" fill="#2E9B55"/><path d="M21 8l8 12-9 1z" fill="#23824A"/><path d="M43 8l-8 12 9 1z" fill="#23824A"/><path d="M14 16l12 8-10 3z" fill="#2E9B55"/><path d="M50 16l-12 8 10 3z" fill="#2E9B55"/><ellipse cx="32" cy="41" rx="15" ry="19" fill="#F2B21A"/><path d="M23 31l18 18M32 26l12 12M20 40l12 12M41 31l-18 18M32 26l-12 12M44 40l-12 12" stroke="#C58A0A" stroke-width="1.2" opacity=".7"/><circle cx="26.5" cy="38" r="2.2" fill="#3A2A0A"/><circle cx="37.5" cy="38" r="2.2" fill="#3A2A0A"/><circle cx="22.5" cy="43" r="2.4" fill="#F29A7A" opacity=".8"/><circle cx="41.5" cy="43" r="2.4" fill="#F29A7A" opacity=".8"/><path d="M28 44q4 4 8 0" fill="none" stroke="#3A2A0A" stroke-width="1.6" stroke-linecap="round"/>',
+ ardo:'<path d="M15 35c-8-4-9-14-3-20 2 8 6 10 11 11z" fill="#2E9B55"/><path d="M13 42c-9 0-12-8-9-15 4 6 8 8 14 8z" fill="#2A6FD6"/><ellipse cx="30" cy="43" rx="15" ry="13" fill="#B5472A"/><path d="M20 41c4-6 14-6 18 0-4 8-14 8-18 0z" fill="#8F3520"/><circle cx="38" cy="22" r="9.5" fill="#D1583A"/><circle cx="34" cy="12" r="3.4" fill="#D62828"/><circle cx="38.5" cy="10.5" r="3.6" fill="#D62828"/><circle cx="43" cy="12.5" r="3.2" fill="#D62828"/><path d="M46 21l9 3-9 4z" fill="#F2B21A"/><ellipse cx="46" cy="31" rx="2.6" ry="3.6" fill="#D62828"/><circle cx="40" cy="20" r="2.6" fill="#fff"/><circle cx="40.6" cy="20.2" r="1.3" fill="#111"/><path d="M26 55v6M34 55v6M22 61h8M30 61h8" stroke="#E08A1E" stroke-width="2.2" stroke-linecap="round"/>',
+ pulpo:'<path d="M17 36c-7 8-3 18 2 20M26 40c-3 8 0 16 3 18M38 40c3 8 0 16-3 18M47 36c7 8 3 18-2 20" fill="none" stroke="#8E5BD0" stroke-width="5.5" stroke-linecap="round"/><ellipse cx="32" cy="26" rx="17" ry="17" fill="#8E5BD0"/><circle cx="22" cy="14" r="2" fill="#A885E0"/><circle cx="41" cy="12" r="1.7" fill="#A885E0"/><circle cx="46" cy="20" r="1.4" fill="#A885E0"/><circle cx="25" cy="27" r="5" fill="#fff"/><circle cx="39" cy="27" r="5" fill="#fff"/><circle cx="26" cy="28" r="2.4" fill="#2A1550"/><circle cx="38" cy="28" r="2.4" fill="#2A1550"/><circle cx="19.5" cy="34" r="2.6" fill="#E88FBF" opacity=".75"/><circle cx="44.5" cy="34" r="2.6" fill="#E88FBF" opacity=".75"/><path d="M28 36q4 3 8 0" fill="none" stroke="#2A1550" stroke-width="1.6" stroke-linecap="round"/>',
+ basquet:'<circle cx="32" cy="34" r="22" fill="#E8772E"/><path d="M32 12v44M10 34h44M17 17c8 9 8 25 0 34M47 17c-8 9-8 25 0 34" fill="none" stroke="#4A2A14" stroke-width="2"/><circle cx="24" cy="30" r="3.8" fill="#fff"/><circle cx="40" cy="30" r="3.8" fill="#fff"/><circle cx="24.6" cy="30.6" r="1.8" fill="#111"/><circle cx="39.4" cy="30.6" r="1.8" fill="#111"/><path d="M25 41q7 6 14 0" fill="none" stroke="#4A2A14" stroke-width="2.2" stroke-linecap="round"/>',
+ carnero:'<rect x="22" y="52" width="5" height="9" rx="2" fill="#3A302A"/><rect x="37" y="52" width="5" height="9" rx="2" fill="#3A302A"/><g fill="#F1EDE4" stroke="#CFC8B8" stroke-width="1.2"><circle cx="20" cy="43" r="9"/><circle cx="44" cy="43" r="9"/><circle cx="32" cy="47" r="11"/><circle cx="25" cy="36" r="8"/><circle cx="39" cy="36" r="8"/></g><path d="M24 22c-12-6-14 8-6 11" fill="none" stroke="#B58B3A" stroke-width="4.5" stroke-linecap="round"/><path d="M40 22c12-6 14 8 6 11" fill="none" stroke="#B58B3A" stroke-width="4.5" stroke-linecap="round"/><ellipse cx="32" cy="27" rx="9" ry="10.5" fill="#4A3F36"/><ellipse cx="32" cy="33" rx="5.5" ry="4" fill="#8B7B6B"/><ellipse cx="32" cy="31.5" rx="1.8" ry="1.2" fill="#2A211B"/><circle cx="28" cy="25" r="2.4" fill="#fff"/><circle cx="36" cy="25" r="2.4" fill="#fff"/><circle cx="28.4" cy="25.3" r="1.2" fill="#111"/><circle cx="35.6" cy="25.3" r="1.2" fill="#111"/>',
+ galon:'<rect x="25" y="5" width="14" height="7" rx="2" fill="#1F4F7E"/><rect x="27" y="11" width="10" height="6" fill="#2F6FA8"/><path d="M18 25c0-6 6-8 14-8s14 2 14 8v28c0 5-4 8-8 8H26c-4 0-8-3-8-8z" fill="#3B82C4"/><path d="M46 27c8 0 8 14 0 14" fill="none" stroke="#2F6FA8" stroke-width="3.5" stroke-linecap="round"/><path d="M20 34c4-3 8 3 12 0s8 3 12 0" fill="none" stroke="#9CCBF0" stroke-width="2" opacity=".85"/><path d="M23 27v16" stroke="#fff" opacity=".35" stroke-width="3" stroke-linecap="round"/><circle cx="28" cy="46" r="3.4" fill="#fff"/><circle cx="38" cy="46" r="3.4" fill="#fff"/><circle cx="28.5" cy="46.5" r="1.6" fill="#111"/><circle cx="37.5" cy="46.5" r="1.6" fill="#111"/><path d="M29 53q4 3 8 0" fill="none" stroke="#173A5C" stroke-width="1.8" stroke-linecap="round"/>'
+};
+function petSVG(id,size){
+  var p=PETS[id];if(!p||!PET_ART[id])return "";
+  return '<svg class="pet" viewBox="0 0 64 64" width="'+size+'" height="'+size+'" role="img" aria-label="Mascota: '+esc(p.n)+'">'+PET_ART[id]+'</svg>';
 }
-function renderHud(){
-  var P=APP.P;if(!P)return;
-  var L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L);
-  var av=$("hud-av");
-  av.className="av "+P.equip.f;av.style.background=AVC();
-  av.textContent=(APP.guest?"I":(APP.user||"?")).charAt(0).toUpperCase();
-  $("hud-name").textContent=APP.guest?"Invitado":APP.user;
-  $("hud-level").textContent="Nv "+L;
-  $("hud-latas").textContent=P.latas;
-  $("hud-crowns").textContent=totalCrowns();
-  $("xpfill").style.width=(L>=MAXL?100:Math.round(cur/need*100))+"%";
-  $("xpbar").setAttribute("aria-label","Experiencia: "+(L>=MAXL?"nivel máximo":cur+" de "+need));
-  $("hud-xp").textContent=L>=MAXL?"Nivel máximo · "+P.xp+" XP":cur+" / "+need+" XP para el nivel "+(L+1);
-  $("hud-guest").hidden=!APP.guest;
-  var pd=pending(),bd=$("journey-badge");
-  bd.hidden=pd.n===0;bd.textContent=pd.n;
-  $("menu-logout").textContent=APP.guest?"Salir":"Cerrar sesión";
-}
-
-/* ---------- pantallas ---------- */
-var SCREENS={splash:"splash",auth:"auth",phones:"screen-phones",app:"app"};
-function showScreen(s){
-  APP.screen=s;
-  Object.keys(SCREENS).forEach(function(k){$(SCREENS[k]).hidden=k!==s});
-  window.scrollTo(0,0);
-  if(s==="splash")renderSplash();
-  else if(s==="auth")renderAuth();
-  else if(s==="phones")renderPhones();
-  else if(s==="app"){renderHud();setMode(APP.mode||"game")}
-}
-function enterApp(){
-  renderBarrio();renderRuta();renderBanner();
-  if(!$("view-doc").hidden)renderDoc();
-  showScreen("app");
-}
-function renderSplash(){
-  $("splash-scene").innerHTML=scene({P:85,D:75,A:92,C:85});
-  var h=$("splash-hello");
-  if(APP.remembered){h.hidden=false;h.textContent="Hola de nuevo, "+APP.remembered.name+". Toca Abrir para continuar."}
-  else h.hidden=true;
-  setTheme(APP.theme,true);
-}
-function openApp(){
-  if(APP.remembered){startSession(APP.remembered,true,false);return}
-  APP.authMode=userList().length?"login":"register";
-  showScreen("auth");
-}
-
-/* ---------- cuenta: ingreso y registro ---------- */
-function renderAuth(){
-  var reg=APP.authMode==="register",users=userList();
-  var accs=(!reg&&users.length)?'<div><div class="mono" style="margin-bottom:8px">Cuentas en este dispositivo</div><div class="acclist">'+users.map(function(n){return '<button type="button" data-act="pickacc" data-n="'+esc(n)+'">'+esc(n)+'</button>'}).join("")+'</div></div>':'';
-  $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="auth-back">‹ Volver al inicio</button></p>'
-   +'<div class="card authbox"><div class="mono">'+(reg?'Cuenta nueva':'Ingresar')+'</div><h2 style="font-size:30px;margin-top:4px">'+(reg?'Crea tu cuenta':'Bienvenido de nuevo')+'</h2>'
-   +'<p style="margin-top:8px;color:var(--muted)">'+(reg?'Elige un usuario y una contraseña. Con ellos guardarás tu nivel, tus latas rotas, tus coronas y tus compras.':'Ingresa con tu usuario y contraseña para continuar tu progreso.')+'</p>'
-   +accs
-   +'<form id="auth-form" novalidate><div><label for="au-name">Usuario</label><input id="au-name" autocomplete="username" maxlength="20" autocapitalize="off" spellcheck="false"></div>'
-   +'<div><label for="au-pw">Contraseña</label><input id="au-pw" type="password" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'
-   +(reg?'<div><label for="au-pw2">Repite la contraseña</label><input id="au-pw2" type="password" autocomplete="new-password"></div>':'')
-   +'<div class="chkrow"><input type="checkbox" id="au-show" data-act="showpw"><label for="au-show">Mostrar contraseña</label></div>'
-   +'<div class="chkrow"><input type="checkbox" id="au-rem"><label for="au-rem">Mantener la sesión en este dispositivo</label></div>'
-   +'<div class="err" id="au-msg" role="alert"></div>'
-   +'<button class="btn" id="au-go" type="submit">'+(reg?'Crear cuenta y abrir':'Ingresar')+'</button></form>'
-   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="authmode">'+(reg?'Ya tengo cuenta':'Crear una cuenta nueva')+'</button><button class="linkbtn" data-act="guest">Entrar como invitado</button></p>'
-   +'<p class="note">Tu cuenta y tu progreso se guardan solo en este dispositivo y navegador. No pedimos correo ni datos personales. No hay recuperación de contraseña: si la olvidas tendrás que crear otra cuenta. No uses una contraseña que uses en otros sitios.</p>'
-   +(canCrypto()?'':'<p class="warnbox">Este navegador no permite crear cuentas seguras. Puedes entrar como invitado.</p>')+'</div>';
-}
-function doAuth(){
-  if(APP.busy)return;
-  var reg=APP.authMode==="register",n=$("au-name").value.trim(),pw=$("au-pw").value,rem=$("au-rem").checked,msg=$("au-msg"),btn=$("au-go");
-  msg.textContent="";
-  if(!n||!pw){msg.textContent="Escribe tu usuario y tu contraseña.";return}
-  if(reg&&$("au-pw2").value!==pw){msg.textContent="Las contraseñas no coinciden.";return}
-  APP.busy=true;btn.disabled=true;btn.textContent="Verificando…";
-  var p=reg?register(n,pw):login(n,pw);
-  p.then(function(rec){APP.busy=false;startSession(rec,rem,false);toast(reg?"Cuenta creada. Bienvenido, "+rec.name+".":"Hola, "+rec.name+".")})
-   .catch(function(e){APP.busy=false;btn.disabled=false;btn.textContent=reg?"Crear cuenta y abrir":"Ingresar";msg.textContent=e&&e.user?e.message:"No se pudo completar la acción. Inténtalo de nuevo."});
-}
-function deleteAccount(){
-  var n=APP.user;
-  lsDel(ukey(n));lsSet("bc_users",userList().filter(function(x){return x!==n}));
-  toast("Cuenta eliminada.");logout();
-}
-
-/* ---------- menú ---------- */
-function hideMenu(){var m=$("menu");if(m){m.hidden=true;$("menu-btn").setAttribute("aria-expanded","false")}}
-function toggleMenu(){var m=$("menu"),open=m.hidden;m.hidden=!open;$("menu-btn").setAttribute("aria-expanded",open?"true":"false")}
-
-/* ---------- Journey ---------- */
-function renderJourney(){
-  var P=APP.P,t=APP.jtab,el=$("view-journey");
-  setPressed(["j-camino","j-victorias","j-tienda","j-perfil"],"j-"+t);
-  if(t==="camino")el.innerHTML=jCamino();
-  else if(t==="victorias")el.innerHTML=jVictorias();
-  else if(t==="tienda")el.innerHTML=jTienda();
-  else el.innerHTML=jPerfil();
-}
-function jCamino(){
-  var P=APP.P,L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L),pd=pending(),sel=APP.sel||Math.min(MAXL,L+1);
-  var next=null;for(var i=L+1;i<=MAXL;i++){if(TITLES[i]||i%5===0){next=i;break}}
-  var tiles="";
-  for(var n=1;n<=MAXL;n++){
-    var st=n===1?"done":n<=P.claimed?"done":n<=L?"ready":"locked";
-    tiles+='<button class="lv '+st+(n===L?' cur':'')+(TITLES[n]?' mile':'')+'" data-act="lvsel" data-n="'+n+'" aria-pressed="'+(n===sel)+'" aria-label="Nivel '+n+', '+(st==="done"?'reclamado':st==="ready"?'recompensa lista':'bloqueado')+'">'+n+'</button>';
-  }
-  var r=rewardOf(sel);
-  var det='<div class="card" style="margin-top:14px"><div class="mono">Nivel '+sel+'</div><div style="margin-top:4px"><b>Recompensa:</b> +'+(sel===1?0:r.latas)+' latas rotas'+(r.title&&sel>1?' y el título <b>'+esc(r.title)+'</b>':'')+'.</div><p class="note" style="margin-top:4px">'+(sel===1?'Es el nivel de inicio.':'Experiencia total necesaria: '+CUM[sel]+' XP.')+(sel<=L?'':' Te faltan '+(CUM[sel]-P.xp)+' XP.')+'</p></div>';
-  return '<div class="card stack"><div class="lvhead"><div class="lvbig" aria-label="Nivel '+L+'">'+L+'</div><div><div class="mono">Nivel actual de '+MAXL+'</div><div style="font-weight:600;margin-top:2px">'+(L>=MAXL?'Nivel máximo alcanzado':cur+' de '+need+' XP para el nivel '+(L+1))+'</div><div class="bar" style="margin-top:8px"><i style="width:'+(L>=MAXL?100:Math.round(cur/need*100))+'%;background:var(--accent)"></i></div></div></div>'
-   +(pd.n?'<div class="warnbox" style="border-color:var(--sun)"><b>'+pd.n+(pd.n===1?' recompensa lista':' recompensas listas')+':</b> +'+pd.latas+' latas rotas. <button class="btn sun" style="margin-left:8px" data-act="claim">Reclamar</button></div>':'<p class="note">No tienes recompensas pendientes.'+(next?' La próxima está en el nivel '+next+'.':'')+'</p>')
-   +'<div><div class="mono" style="margin-bottom:8px">Camino de 100 niveles · el punto marca un título</div><div class="lvgrid">'+tiles+'</div></div></div>'+det
-   +'<div class="card" style="margin-top:14px"><h3>Cómo ganar experiencia</h3><ul class="plain"><li>Completar los juegos y minijuegos: cada uno da XP y latas rotas.</li><li>Ganar un juego da una corona y un bonus.</li><li>Usar por primera vez cada herramienta del modo profesional.</li><li>Entrar cada día: la racha suma más premio.</li></ul></div>';
-}
-function jVictorias(){
-  var P=APP.P;
-  var rows=GAMES.map(function(g){
-    return '<tr><td><b>'+esc(g.n)+'</b><div class="note">'+esc(g.win)+'</div></td><td>'+(P.plays[g.k]||0)+'</td><td>'+(P.crowns[g.k]||0)+'</td><td>'+(P.best[g.k]?g.fmt(P.best[g.k]):'—')+'</td></tr>';
-  }).join("");
-  return '<div class="card stack"><div class="lvhead"><div class="lvbig" style="display:flex;align-items:center;gap:10px"><svg class="ic" style="width:.8em;height:.8em;color:var(--ink)" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'+totalCrowns()+'</div><div><div class="mono">Coronas ganadas</div><div class="note">Cada victoria en un juego suma una corona.</div></div></div><div class="tblwrap"><table class="tbl"><thead><tr><th>Juego y condición de victoria</th><th>Jugadas</th><th>Coronas</th><th>Mejor marca</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
-}
-function jTienda(){
-  var P=APP.P,L=levelOf(P.xp);
-  function item(kind,id,def){
-    var owned=P.owned.indexOf(id)>=0,eq=P.equip[kind]===id,cost=def[kind==="c"?2:1],min=def[kind==="c"?3:2];
-    var pv=kind==="c"?'<span class="av" style="background:'+def[1]+'">A</span>':'<span class="av f'+id.slice(1)+'" style="background:'+AVC()+'">A</span>';
-    var btn=eq?'<span class="pill">En uso</span>':owned?'<button class="btn ghost" data-act="equip" data-k="'+kind+'" data-id="'+id+'">Usar</button>':(L<min?'<span class="note">Nivel '+min+' necesario</span>':'<button class="btn" data-act="buy" data-k="'+kind+'" data-id="'+id+'"'+(P.latas<cost?' disabled':'')+'>Comprar</button>');
-    return '<div class="shopitem'+(eq?' eq':'')+'">'+pv+'<b>'+esc(def[0])+'</b>'+(owned?'':'<span class="cost">'+cost+' latas rotas</span>')+btn+'</div>';
-  }
-  var cs=Object.keys(COLORS).map(function(id){return item("c",id,COLORS[id])}).join("");
-  var fs=Object.keys(FRAMES).map(function(id){return item("f",id,FRAMES[id])}).join("");
-  return '<div class="card stack"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="stat"><b>'+P.latas+'</b> latas rotas</span><span class="note">Gana latas jugando y reclamando recompensas.</span></div>'
-   +'<div><div class="sec">Colores del avatar</div><div class="shopgrid" style="margin-top:8px">'+cs+'</div></div>'
-   +'<div><div class="sec">Marcos</div><div class="shopgrid" style="margin-top:8px">'+fs+'</div></div>'
-   +'<div><div class="sec">Pistas del barrio</div><p style="margin-top:6px">Dentro de cada decisión del juego Barrio Nueva Esperanza puedes descartar una opción incorrecta por '+HINT_COST+' latas rotas. Se pagan en el momento de usarla.</p></div></div>';
-}
-function jPerfil(){
-  var P=APP.P;
-  if(APP.guest)return '<div class="card stack"><h3>Estás como invitado</h3><p>Tu progreso de esta sesión no se guarda. Crea una cuenta para conservar tu nivel, tus latas rotas, tus coronas y tus compras.</p><p><button class="btn" data-act="guest-register">Crear una cuenta</button></p></div>';
-  var opts='<option value="">Sin título</option>'+P.titles.map(function(t){return '<option value="'+esc(t)+'"'+(P.equip.t===t?' selected':'')+'>'+esc(t)+'</option>'}).join("");
-  var created=APP.rec&&APP.rec.created?new Date(APP.rec.created).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"}):"";
-  return '<div class="card stack"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">'+avatarHTML(true)+'<div><h2 style="font-size:28px">'+esc(APP.user)+'</h2><div class="note">'+(P.equip.t?esc(P.equip.t)+' · ':'')+'Nivel '+levelOf(P.xp)+(created?' · Cuenta creada el '+esc(created):'')+'</div><div class="note">Racha actual: '+(P.streak||0)+(P.streak===1?' día':' días')+'</div></div></div>'
-   +'<div><label for="sel-title">Título que se muestra</label><select id="sel-title">'+opts+'</select><p class="note" style="margin-top:6px">Los títulos se desbloquean al reclamar recompensas de niveles como el 5, 10, 20 y 30.</p></div>'
-   +'<hr class="hr"><div class="sec">Datos de la cuenta</div><p class="note">Tu cuenta vive en este dispositivo y navegador. Si borras los datos del navegador, se pierde. Tus datos de documentos (como el DNI) no se guardan.</p>'
-   +'<div class="docbtns"><button class="btn ghost" data-act="reset-ask">Reiniciar mi progreso</button><button class="btn ghost danger" data-act="del-ask">Eliminar mi cuenta</button></div><div id="confirm-box"></div></div>';
-}
+function petBox(id,size){return '<span class="petbox idle" style="width:'+size+'px;height:'+size+'px">'+petSVG(id,Math.round(size*0.86))+'</span>'}
+var ICON={
+ lata:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l1 3-1.5 2 1.5 3-1.5 2 1.5 3-1 4H7l-1-3 1.5-2L6 12l1.5-2L6 8z" fill="var(--lata)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 7h8M8.5 12l7 1" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>',
+ coin:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="var(--coin)" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M12 9.2v5.6M10 12h4" stroke="currentColor" stroke-width="1.2"/></svg>',
+ crown:'<svg class="ic crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+ skip:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5l9 7-9 7zM13 5l9 7-9 7z" fill="var(--accent)" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>'
+};
 /* ---------- utilidades ---------- */
 function $(id){return document.getElementById(id)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
-/* ---------- navegación ---------- */
-function setPressed(ids,on){ids.forEach(function(id){$(id).setAttribute("aria-pressed",id===on?"true":"false")})}
-var GV={barrio:"view-barrio",limpio:"view-limpio",ruta:"view-ruta-juego",bolsas:"view-bolsas",mitos:"view-mitos"};
-function setMode(m){
-  if(m!=="game"&&typeof bgStop==="function")bgStop();
-  APP.mode=m;
-  $("game").hidden=m!=="game";$("pro").hidden=m!=="pro";$("journey").hidden=m!=="journey";
-  setPressed(["mode-game","mode-journey","mode-pro"],"mode-"+m);
-  hideMenu();
-  renderBanner();
-  if(m==="journey")renderJourney();
-  if(m==="pro"&&!$("view-tel").hidden)renderPhones();
-}
-function setGameView(v){
-  if(v!=="bolsas")bgStop();
-  Object.keys(GV).forEach(function(k){$(GV[k]).hidden=k!==v});
-  setPressed(["g-barrio","g-limpio","g-ruta","g-bolsas","g-mitos"],"g-"+v);
-  if(v==="limpio")renderLimpio();
-  else if(v==="ruta")renderRutaJuego();
-  else if(v==="bolsas")renderBolsas();
-  else if(v==="mitos")renderMitos();
-}
-function setProView(v){
-  ["ruta","doc","plazo","tel"].forEach(function(k){$("view-"+k).hidden=k!==v});
-  setPressed(["p-ruta","p-doc","p-plazo","p-tel"],"p-"+v);
-  if(v==="tel")renderPhones();
-}
-
-/* ---------- juego del barrio ---------- */
-var G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null};
-
-function scene(m){
-  var h="",i;
-  [16,84,152,220,288].forEach(function(x){
-    h+='<rect class="house" x="'+x+'" y="64" width="52" height="46"/><polygon class="roof" points="'+(x-4)+',64 '+(x+26)+',40 '+(x+56)+',64"/><rect class="win" x="'+(x+8)+'" y="76" width="10" height="12"/><rect class="win" x="'+(x+34)+'" y="76" width="10" height="12"/>';
-  });
-  var t="";
-  for(i=0;i<5;i++){
-    var x=[52,120,188,256,324][i],o=clamp((m.A-(10+i*14))/20,0,1);
-    t+='<g style="opacity:'+o.toFixed(2)+'"><rect class="trunk" x="'+(x-2)+'" y="88" width="4" height="22"/><circle class="tree" cx="'+x+'" cy="82" r="11"/></g>';
-  }
-  var p="";
-  for(i=0;i<5;i++){
-    var tx=[70,138,206,274,342][i],op=clamp((85-i*15-m.A)/20,0,1);
-    p+='<g style="opacity:'+op.toFixed(2)+'"><ellipse class="trash" cx="'+tx+'" cy="108" rx="11" ry="6"/><rect class="trash" x="'+(tx-6)+'" y="98" width="8" height="8" rx="2"/></g>';
-  }
-  var l="";
-  [[100,20],[180,45],[260,70]].forEach(function(a){
-    l+='<g style="opacity:'+(m.C>=a[1]?1:.25)+'"><rect class="pole" x="'+(a[0]-1)+'" y="84" width="2" height="26"/><circle class="lamp" cx="'+a[0]+'" cy="82" r="5"/></g>';
-  });
-  var n=Math.round(m.P/100*8),q="";
-  for(i=0;i<8;i++){
-    var px=24+i*42;
-    q+='<g style="opacity:'+(i<n?1:0)+'"><circle class="per" cx="'+px+'" cy="122" r="4"/><rect class="per" x="'+(px-3)+'" y="127" width="6" height="12" rx="2"/></g>';
-  }
-  return '<svg class="scene" viewBox="0 0 360 150" role="img" aria-label="Vista del barrio: la limpieza, los árboles, las luces y la cantidad de vecinos cambian con tus decisiones"><rect class="ground" x="0" y="110" width="360" height="40"/>'+h+t+p+l+q+'</svg>';
-}
-
-function meters(){
-  return METERS.map(function(x){
-    var v=G.m[x.k];
-    return '<div class="meter"><div class="row"><span>'+x.n+'</span><span>'+v+'/100</span></div><div class="bar" role="img" aria-label="'+x.n+' '+v+' de 100"><i style="width:'+v+'%;background:'+x.c+'"></i></div></div>';
-  }).join("");
-}
-
-function sidePanel(){
-  var s=G.seals.length?'<div class="seals">'+G.seals.map(function(x){return '<span class="seal">'+esc(x)+'</span>'}).join("")+'</div>':'<p class="note" style="margin-top:8px">Aún no tienes sellos. Se ganan con las mejores decisiones.</p>';
-  return '<div class="card stack">'+scene(G.m)+'<div>'+meters()+'</div><div><div class="mono">Sellos ganados</div>'+s+'</div></div>';
-}
-
-function mainPanel(){
-  if(G.phase==="intro"){
-    var best=APP.P.best.barrio;
-    return '<div class="purpose"><div class="mono">Propósito del juego</div><h2>Que tu barrio aprenda a cuidarse y a exigir</h2><p>Nueva Esperanza es un barrio ficticio con problemas muy reales: basura, información que no llega, derechos que se pasan por alto. Tu misión es guiar a los vecinos durante 10 decisiones para que participen, pidan lo que les corresponde por los canales correctos y cuiden su entorno. Ojo: cada semana que pasa se acumulan 12 bolsas de basura más, y los cuatro minijuegos de limpieza te ayudan a retirarlas.</p><div class="how"><div><b>Participación</b>Cuánta gente se involucra.</div><div><b>Derechos</b>Cuánto se conoce y se exige.</div><div><b>Ambiente</b>Limpieza y cuidado del entorno.</div><div><b>Confianza</b>Cuánto se cree entre vecinos y con las entidades.</div></div><p style="margin-top:18px"><button class="btn sun" data-act="start">Empezar</button></p>'+(best?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 400</p>':'')+'</div>';
-  }
-  if(G.phase==="end"){
-    var tot=G.m.P+G.m.D+G.m.A+G.m.C,tier=TIERS[0];
-    TIERS.forEach(function(t){if(tot>=t.min)tier=t});
-    var eco=(APP.P.best.limpio||0)>=10;
-    return '<div class="card stack"><div class="mono">Resultado final</div><div class="big">'+esc(tier.name)+'</div><p>'+esc(tier.msg)+'</p><p class="mono">Basura acumulada al final: ≈ '+bagsNow()+' bolsas · Puntaje: '+tot+' / 400 · Sellos: '+G.seals.length+' de '+EVENTS.length+(eco?' · Sello Eco del Punto limpio':'')+'</p><div class="rwbox">'+rwHTML(G.rw)+'</div><p>Cada decisión del juego tiene un equivalente real. Abre el <b>Modo profesional</b> para ver la ruta de acción, redactar el documento y calcular los plazos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="start">Jugar otra vez</button><button class="btn ghost" data-act="topro">Ir al modo profesional</button></p></div>';
-  }
-  var ev=EVENTS[G.round];
-  var bar='<div class="round">'+EVENTS.map(function(_,i){return '<i class="'+(i<=G.round?'on':'')+'"></i>'}).join("")+'</div>';
-  var head=bar+'<div class="mono">Decisión '+(G.round+1)+' de '+EVENTS.length+' · '+esc(ev.tag)+'</div><h2 style="margin-block:6px 10px;font-size:clamp(24px,4vw,32px)">'+esc(ev.title)+'</h2><p>'+esc(ev.text)+'</p>';
-  var ch='<div class="choices">'+G.order.map(function(idx){
-    var c=ev.choices[idx],off=G.disc.indexOf(idx)>=0;
-    return '<button class="choice'+(G.pick===idx?' pick':'')+'" data-act="pick" data-i="'+idx+'"'+(G.phase==="result"||off?' disabled':'')+(off?' style="opacity:.45;text-decoration:line-through"':'')+'>'+esc(c.t)+'</button>';
-  }).join("")+'</div>'+(G.phase==="event"?'<p style="margin-top:12px"><button class="btn ghost" data-act="hint"'+(G.disc.length||APP.P.latas<HINT_COST?' disabled':'')+'>Descartar una opción incorrecta ('+HINT_COST+' latas rotas)</button>'+(G.disc.length?' <span class="note">Ya usaste la pista en esta decisión.</span>':(APP.P.latas<HINT_COST?' <span class="note">Te faltan latas rotas.</span>':''))+'</p>':'');
-  var res="";
-  if(G.phase==="result"){
-    var c=ev.choices[G.pick],names=["Participación","Derechos","Ambiente","Confianza"];
-    var dl=c.d.map(function(v,i){return v?'<span class="pill '+(v>0?'up':'down')+'">'+names[i]+' '+(v>0?'+':'')+v+'</span>':''}).join("")+'<span class="pill down">Pasa la semana: +12 bolsas de basura</span>';
-    res='<div class="result"><p><b>'+(c.best?'Buena decisión. ':'Consecuencia. ')+'</b>'+esc(c.out)+'</p><div class="deltas">'+dl+'</div><div class="learn"><b>Para la vida real:</b> '+esc(ev.learn)+'</div><p><button class="btn" data-act="next">'+(G.round+1>=EVENTS.length?'Ver resultado':'Siguiente decisión')+'</button></p></div>';
-  }
-  return '<div class="card">'+head+ch+res+'</div>';
-}
-
-function renderBarrio(){
-  renderBanner();
-  $("view-barrio").innerHTML='<div class="grid">'+sidePanel()+'<div>'+mainPanel()+'</div></div>';
-}
-function startEvent(){G.order=shuffle([0,1,2]);G.pick=-1;G.disc=[]}
-function gameAct(a,el){
-  if(a==="start"){G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"event",pick:-1,order:[],bonus:{},xp:0,disc:[],rw:null};startEvent()}
-  else if(a==="hint"&&G.phase==="event"){
-    if(G.disc.length||APP.P.latas<HINT_COST)return;
-    var ev0=EVENTS[G.round],bad=[0,1,2].filter(function(x){return !ev0.choices[x].best});
-    G.disc.push(bad[Math.floor(Math.random()*bad.length)]);
-    APP.P.latas-=HINT_COST;APP.P.hints=(APP.P.hints||0)+1;save();renderHud();
-  }
-  else if(a==="pick"&&G.phase==="event"){
-    var i=+el.getAttribute("data-i"),ev=EVENTS[G.round],c=ev.choices[i];
-    if(G.disc.indexOf(i)>=0)return;
-    G.pick=i;G.phase="result";G.xp+=c.best?4:1;
-    ["P","D","A","C"].forEach(function(k,j){G.m[k]=clamp(G.m[k]+c.d[j],0,100)});
-    G.m.A=clamp(G.m.A-3,0,100);
-    if(c.best&&G.seals.indexOf(ev.seal)<0)G.seals.push(ev.seal);
-  }else if(a==="next"){
-    G.round++;
-    if(G.round>=EVENTS.length){
-      G.phase="end";
-      var tot=G.m.P+G.m.D+G.m.A+G.m.C,ti=0;
-      TIERS.forEach(function(t,ix){if(tot>=t.min)ti=ix});
-      G.rw=reward("barrio",G.xp+20+ti*10,5+ti*10+G.seals.length*2,ti>=2,tot);
-    }else{G.phase="event";startEvent()}
-  }else if(a==="topro"){setMode("pro");window.scrollTo(0,0);return}
-  renderBarrio();
-  var f=document.querySelector("#view-barrio .result .btn,#view-barrio .choice");
-  if(a==="pick"||a==="next"){var t=document.querySelector("#view-barrio h2")||document.querySelector("#view-barrio .big");if(t){t.setAttribute("tabindex","-1");t.focus({preventScroll:true})}}
-}
-
-/* ---------- minijuego: punto limpio ---------- */
-var L={phase:"intro",i:0,score:0,streak:0,answered:false,items:[],last:null};
-function renderLimpio(){
-  var el=$("view-limpio"),best=APP.P.best.limpio||null;
-  if(L.phase==="intro"){
-    el.innerHTML='<div class="purpose"><div class="mono">Minijuego</div><h2>Punto limpio</h2><p>Llegan 12 residuos al punto de acopio del barrio. Elige el contenedor correcto según el código de colores peruano: verde para aprovechables, marrón para orgánicos, negro para no aprovechables y rojo para peligrosos. Si aciertas 10 o más, ganas el Sello Eco.</p><p style="margin-top:18px"><button class="btn sun" data-act="lstart">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 12</p>':'')+'</div>';
-    return;
-  }
-  if(L.phase==="end"){
-    var eco=L.score>=10;
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+L.score+' de 12</div><p>'+(eco?'Ganaste el Sello Eco. Ya sabes separar bien los residuos.':L.score>=7?'Vas bien. Repasa los residuos peligrosos y los no aprovechables.':'Hay que practicar un poco más. Intenta de nuevo y lee los consejos.')+'</p><p>'+esc(L.msg||"")+'</p>'+rwHTML(L.rw)+'<p class="note">Revisa siempre las indicaciones de tu municipalidad: los programas locales pueden agrupar los residuos de forma distinta.</p><p><button class="btn sun" data-act="lstart">Jugar otra vez</button></p></div>';
-    return;
-  }
-  var it=L.items[L.i];
-  var bins=BINS.map(function(b,idx){return '<button class="bin '+b.k+'" data-act="bin" data-k="'+b.k+'"'+(L.answered?' disabled':'')+'><span class="mono" style="opacity:.8">'+(idx+1)+'</span><br>'+b.n+'<small>'+b.s+'</small></button>'}).join("");
-  var fb=L.answered?'<span class="'+(L.last.ok?'ok':'no')+'">'+(L.last.ok?'Correcto. ':'No era ese. Va en el '+esc(BINS.filter(function(b){return b.k===it[1]})[0].n.toLowerCase())+'. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="lnext" style="margin-left:8px">'+(L.i+1>=12?'Ver resultado':'Siguiente')+'</button>':'<span class="note">Toca un contenedor o usa las teclas 1 a 4.</span>';
-  el.innerHTML='<div class="card"><div class="round">'+L.items.map(function(_,i){return '<i class="'+(i<=L.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Residuo '+(L.i+1)+' de 12 · Aciertos '+L.score+' · Racha '+L.streak+'</div><div class="item">'+esc(it[0])+'</div><div class="bins">'+bins+'</div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
-}
-function limpioAct(a,el){
-  if(a==="lstart"){L={phase:"play",i:0,score:0,streak:0,answered:false,items:shuffle(ITEMS).slice(0,12),last:null}}
-  else if(a==="bin"&&!L.answered){
-    var ok=el.getAttribute("data-k")===L.items[L.i][1];
-    L.answered=true;L.last={ok:ok};
-    if(ok){L.score++;L.streak++}else L.streak=0;
-  }else if(a==="lnext"){
-    L.i++;L.answered=false;
-    if(L.i>=12){
-      L.phase="end";
-      L.rw=reward("limpio",L.score*3,L.score,L.score>=10,L.score);
-      L.msg=award("limpio",L.score/12);
-    }
-  }
-  renderLimpio();
-  var n=document.querySelector('#view-limpio [data-act="lnext"]');if(n)n.focus({preventScroll:true});
-}
 
 /* ---------- modo profesional: ruta de acción ---------- */
 var R={id:"residuos"};
@@ -1110,6 +1025,244 @@ function calcPlazo(){
   out.innerHTML='<div class="mono">Fecha límite de respuesta</div><div class="big" style="text-transform:capitalize">'+esc(fmt(lim))+'</div>'+st+'<p class="note">Se cuentan '+total+' días hábiles desde el '+esc(fmt(s))+'.</p>'+next+'<p class="note">Cálculo de apoyo. Confirma el plazo exacto y las reglas de cómputo en la norma vigente.</p>';
 }
 
+/* ---------- navegación ---------- */
+function setPressed(ids,on){ids.forEach(function(id){var e=$(id);if(e)e.setAttribute("aria-pressed",id===on?"true":"false")})}
+var GAME_KEYS=["colegio","limpio","ruta","bolsas","mitos","memoria","orden","presup","patio"];
+function viewId(k){return k==="ruta"?"view-ruta-juego":"view-"+k}
+function setMode(m){
+  if(m!=="game"){if(typeof bgStop==="function")bgStop();if(typeof patioStop==="function")patioStop()}
+  APP.mode=m;
+  $("game").hidden=m!=="game";$("pro").hidden=m!=="pro";$("journey").hidden=m!=="journey";
+  setPressed(["mode-game","mode-journey","mode-pro"],"mode-"+m);
+  hideMenu();
+  renderBanner();
+  if(m==="journey")renderJourney();
+  if(m==="pro"&&!$("view-tel").hidden)renderPhones();
+}
+function setGameView(v){
+  if(v!=="bolsas")bgStop();
+  if(v!=="patio")patioStop();
+  GAME_KEYS.forEach(function(k){$(viewId(k)).hidden=k!==v});
+  setPressed(GAME_KEYS.map(function(k){return "g-"+k}),"g-"+v);
+  var fn={colegio:renderColegio,limpio:renderLimpio,ruta:renderRutaJuego,bolsas:renderBolsas,mitos:renderMitos,memoria:renderMemoria,orden:renderOrden,presup:renderPresup,patio:renderPatio}[v];
+  if(fn)fn();
+}
+function setProView(v){
+  ["ruta","doc","plazo","tel"].forEach(function(k){$("view-"+k).hidden=k!==v});
+  setPressed(["p-ruta","p-doc","p-plazo","p-tel"],"p-"+v);
+  if(v==="tel")renderPhones();
+}
+
+/* ---------- skips ---------- */
+function canSkip(){return !!(APP.P&&APP.P.skips>0)}
+function useSkip(){
+  if(!canSkip())return false;
+  APP.P.skips--;APP.P.spentSkips=(APP.P.spentSkips||0)+1;save();renderHud();return true;
+}
+function skipBtn(act,label){
+  return canSkip()?'<button class="btn ghost" data-act="'+act+'" title="Un skip salta esta pregunta sin que cuente como acierto ni como error">'+(label||"Saltar")+' (skip · '+APP.P.skips+')</button>':'';
+}
+
+/* ---------- el colegio, dibujado vacío ---------- */
+function scene(m){
+  var i,h="";
+  /* cielo, nubes y cerros */
+  h+='<rect class="sc-sky" x="0" y="0" width="420" height="190"/>';
+  h+='<g class="sc-cloud"><ellipse cx="70" cy="26" rx="34" ry="9"/><ellipse cx="92" cy="20" rx="22" ry="10"/><ellipse cx="298" cy="32" rx="38" ry="9"/><ellipse cx="322" cy="25" rx="22" ry="9"/></g>';
+  h+='<path class="sc-mt2" d="M0 110 L38 90 L90 102 L150 74 L212 98 L270 82 L332 102 L382 88 L420 104 L420 140 L0 140Z"/>';
+  h+='<path class="sc-mt" d="M0 122 L60 100 L120 114 L190 88 L250 112 L322 96 L420 118 L420 144 L0 144Z"/>';
+  h+='<path class="sc-tw" d="M118 38 L110 100 M118 38 L126 100 M113 66 L123 66 M111 82 L125 82 M382 46 L375 100 M382 46 L389 100 M378 70 L386 70"/>';
+  /* patio y vereda */
+  h+='<rect class="sc-floor" x="0" y="142" width="420" height="48"/><rect class="sc-walk" x="0" y="142" width="420" height="5"/>';
+  /* edificio de tres pisos */
+  for(i=0;i<3;i++){
+    var y0=52+i*30,k;
+    h+='<rect class="sc-cream" x="14" y="'+y0+'" width="150" height="30"/>';
+    for(k=0;k<6;k++)h+='<rect class="sc-glass" x="'+(20+k*24)+'" y="'+(y0+4)+'" width="17" height="11"/>';
+    h+='<rect class="sc-brick" x="14" y="'+(y0+16)+'" width="150" height="11"/>';
+    for(k=0;k<7;k++)h+='<rect class="sc-cream" x="'+(14+k*25)+'" y="'+(y0+16)+'" width="3" height="11"/>';
+    h+='<rect class="sc-slab" x="14" y="'+(y0+27)+'" width="150" height="3"/>';
+  }
+  h+='<rect class="sc-slab" x="10" y="48" width="158" height="5"/><rect class="sc-void" x="88" y="56" width="12" height="84"/>';
+  /* cancha techada */
+  var cols=[182,250,320,398];
+  h+='<rect class="sc-yel" x="186" y="86" width="214" height="56"/><rect class="sc-vent" x="186" y="86" width="214" height="9"/>';
+  for(i=0;i<22;i++)h+='<rect class="sc-ventline" x="'+(190+i*9.6)+'" y="87" width="3" height="7"/>';
+  h+='<path class="sc-roof" d="M172 80 L292 58 L412 80 L412 86 L172 86Z"/><path class="sc-truss" d="M190 80 L292 62 M394 80 L292 62 M292 62 L292 80 M240 71 L240 80 M344 71 L344 80"/>';
+  cols.forEach(function(x){h+='<rect class="sc-col" x="'+x+'" y="82" width="5" height="60"/>'});
+  /* mural de notas: la participación */
+  var cl=["#F4B6D2","#F7E27A","#9BD99B","#8EC9F0","#F6B27B"],nn=Math.round(clamp(m.P,0,100)/100*24);
+  h+='<rect class="sc-board" x="288" y="102" width="86" height="34" rx="2"/>';
+  for(i=0;i<24;i++)h+='<rect x="'+(291+(i%8)*10.5)+'" y="'+(105+Math.floor(i/8)*10.2)+'" width="8.5" height="8.5" rx="1" fill="'+cl[i%5]+'" style="opacity:'+(i<nn?1:0)+'"/>';
+  /* banderines: la confianza */
+  var spans=[[184,252],[252,322],[322,400]],bc=["#D93636","#2A6FD6","#F2B21A"],nb=Math.round(clamp(m.C,0,100)/100*15),q=0;
+  spans.forEach(function(sp,si){
+    h+='<path class="sc-string" d="M'+sp[0]+' 92 Q'+((sp[0]+sp[1])/2)+' 102 '+sp[1]+' 92"/>';
+    for(var t=0;t<5;t++){
+      var f=(t+.5)/5,x=sp[0]+(sp[1]-sp[0])*f,y=92+2*10*f*(1-f)*1;
+      h+='<polygon points="'+(x-4)+','+y.toFixed(1)+' '+(x+4)+','+y.toFixed(1)+' '+x.toFixed(1)+','+(y+9).toFixed(1)+'" fill="'+bc[(q++)%3]+'" style="opacity:'+(q<=nb?1:0)+'"/>';
+    }
+  });
+  /* líneas de la cancha */
+  h+='<ellipse class="sc-court" cx="292" cy="166" rx="46" ry="12"/><path class="sc-court" d="M246 166 L338 166 M292 154 L292 178"/>';
+  /* letrero del colegio con un escudo propio */
+  h+='<g><rect class="sc-post" x="62" y="150" width="3" height="14"/><rect class="sc-post" x="130" y="150" width="3" height="14"/><rect class="sc-sign" x="54" y="140" width="88" height="14" rx="2"/><text class="sc-signtxt" x="102" y="150.5" text-anchor="middle">COLEGIO SAGRADA FAMILIA</text><path class="sc-shield" d="M30 138 h18 v10 q0 7 -9 11 q-9 -4 -9 -11z"/><path class="sc-heart" d="M39 153 l-5 -5 q-2 -3 1 -4 q3 -1 4 2 q1 -3 4 -2 q3 1 1 4z"/></g>';
+  /* plantas */
+  for(i=0;i<5;i++){
+    var x=[38,152,214,350,404][i],o=clamp((m.A-(10+i*14))/20,0,1);
+    h+='<g style="opacity:'+o.toFixed(2)+'"><rect class="sc-pot" x="'+(x-6)+'" y="138" width="12" height="9" rx="1"/><circle class="sc-tree" cx="'+x+'" cy="132" r="9"/><circle class="sc-tree2" cx="'+(x+4)+'" cy="128" r="6"/></g>';
+  }
+  /* basura: aparece cuando baja el ambiente */
+  for(i=0;i<7;i++){
+    var tx=[26,88,156,214,262,330,392][i],ty=[174,180,172,182,176,180,172][i],op=clamp((92-i*12-m.A)/20,0,1);
+    h+='<g style="opacity:'+op.toFixed(2)+'"><ellipse class="sc-trash" cx="'+tx+'" cy="'+ty+'" rx="11" ry="6"/><rect class="sc-trash" x="'+(tx-6)+'" y="'+(ty-10)+'" width="8" height="9" rx="2"/><rect class="sc-can" x="'+(tx+8)+'" y="'+(ty-4)+'" width="5" height="8" rx="1"/></g>';
+  }
+  return '<svg class="scene" viewBox="0 0 420 190" role="img" aria-label="Vista del Colegio Sagrada Familia, vacío: un edificio de tres pisos, la cancha techada y los cerros. La basura, las plantas, los banderines y las notas del mural cambian con tus decisiones">'+h+'</svg>';
+}
+
+function meters(){
+  return METERS.map(function(x){
+    var v=G.m[x.k];
+    return '<div class="meter"><div class="row"><span>'+x.n+'</span><span>'+v+'/100</span></div><div class="bar" role="img" aria-label="'+x.n+' '+v+' de 100"><i style="width:'+v+'%;background:'+x.c+'"></i></div></div>';
+  }).join("");
+}
+
+/* ---------- juego del colegio ---------- */
+var G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null,skipped:false,nskip:0};
+function newG(){return {round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null,skipped:false,nskip:0}}
+
+function sidePanel(){
+  var s=G.seals.length?'<div class="seals">'+G.seals.map(function(x){return '<span class="seal">'+esc(x)+'</span>'}).join("")+'</div>':'<p class="note" style="margin-top:8px">Aún no tienes sellos. Se ganan con las mejores decisiones.</p>';
+  return '<div class="card stack">'+scene(G.m)+'<div>'+meters()+'</div><div><div class="mono">Sellos ganados</div>'+s+'</div><p class="note">Participación = notas en el mural. Confianza = banderines. Ambiente = plantas y basura en el patio.</p></div>';
+}
+
+function mainPanel(){
+  if(G.phase==="intro"){
+    var best=APP.P.best.colegio;
+    return '<div class="purpose"><div class="mono">Propósito del juego</div><h2>Que tu colegio aprenda a cuidarse y a exigir</h2><p>El Colegio Sagrada Familia tiene problemas muy reales: patios llenos de basura, agua que no se cuida, cuotas sin explicar y derechos que se pasan por alto. Tu misión es guiar a estudiantes, docentes y familias durante 10 decisiones para que participen, pidan lo que les corresponde por los canales correctos y cuiden el colegio. Ojo: cada semana escolar que pasa se acumulan 12 bolsas de basura más, y los minijuegos te ayudan a retirarlas.</p><div class="how"><div><b>Participación</b>Cuánta gente se involucra.</div><div><b>Derechos</b>Cuánto se conoce y se exige.</div><div><b>Ambiente</b>Limpieza y cuidado del colegio.</div><div><b>Confianza</b>Cuánto se cree entre estudiantes, docentes y familias.</div></div><p style="margin-top:18px"><button class="btn sun" data-act="start">Empezar</button></p>'+(best?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+' / 400</p>':'')+'</div>';
+  }
+  if(G.phase==="end"){
+    var tot=G.m.P+G.m.D+G.m.A+G.m.C,tier=TIERS[0];
+    TIERS.forEach(function(t){if(tot>=t.min)tier=t});
+    var eco=(APP.P.best.limpio||0)>=10;
+    return '<div class="card stack"><div class="mono">Resultado final</div><div class="big">'+esc(tier.name)+'</div><p>'+esc(tier.msg)+'</p><p class="mono">Basura acumulada al final: ≈ '+bagsNow()+' bolsas · Puntaje: '+tot+' / 400 · Sellos: '+G.seals.length+' de '+EVENTS.length+(G.nskip?' · Decisiones saltadas: '+G.nskip:'')+(eco?' · Sello Eco del Punto limpio':'')+'</p><div class="rwbox">'+rwHTML(G.rw)+'</div><p>Cada decisión del juego tiene un equivalente real. Abre el <b>Modo profesional</b> para ver la ruta de acción, redactar el documento y calcular los plazos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="start">Jugar otra vez</button><button class="btn ghost" data-act="topro">Ir al modo profesional</button></p></div>';
+  }
+  var ev=EVENTS[G.round];
+  var bar='<div class="round">'+EVENTS.map(function(_,i){return '<i class="'+(i<=G.round?'on':'')+'"></i>'}).join("")+'</div>';
+  var head=bar+'<div class="mono">Decisión '+(G.round+1)+' de '+EVENTS.length+' · '+esc(ev.tag)+'</div><h2 style="margin-block:6px 10px;font-size:clamp(24px,4vw,32px)">'+esc(ev.title)+'</h2><p>'+esc(ev.text)+'</p>';
+  var ch='<div class="choices">'+G.order.map(function(idx){
+    var c=ev.choices[idx],off=G.disc.indexOf(idx)>=0;
+    return '<button class="choice'+(G.pick===idx?' pick':'')+'" data-act="pick" data-i="'+idx+'"'+(G.phase==="result"||off?' disabled':'')+(off?' style="opacity:.45;text-decoration:line-through"':'')+'>'+esc(c.t)+'</button>';
+  }).join("")+'</div>';
+  if(G.phase==="event"){
+    ch+='<p style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn ghost" data-act="hint"'+(G.disc.length||APP.P.latas<HINT_COST?' disabled':'')+'>Descartar una opción incorrecta ('+HINT_COST+' latas rotas)</button>'+skipBtn("skip","Saltar la decisión")+(G.disc.length?'<span class="note">Ya usaste la pista en esta decisión.</span>':(APP.P.latas<HINT_COST?'<span class="note">Te faltan latas rotas para la pista.</span>':''))+'</p>';
+  }
+  var res="";
+  if(G.phase==="result"){
+    var dl,txt,pre;
+    if(G.skipped){
+      pre="Decisión saltada. ";txt="Usaste un skip: no cambió nada, pero la semana escolar igual pasó.";
+      dl='<span class="pill down">Ambiente −3</span><span class="pill down">Pasa la semana: +12 bolsas de basura</span>';
+    }else{
+      var c=ev.choices[G.pick],names=["Participación","Derechos","Ambiente","Confianza"];
+      pre=c.best?"Buena decisión. ":"Consecuencia. ";txt=c.out;
+      dl=c.d.map(function(v,i){return v?'<span class="pill '+(v>0?'up':'down')+'">'+names[i]+' '+(v>0?'+':'')+v+'</span>':''}).join("")+'<span class="pill down">Pasa la semana: +12 bolsas de basura</span>';
+    }
+    res='<div class="result"><p><b>'+pre+'</b>'+esc(txt)+'</p><div class="deltas">'+dl+'</div><div class="learn"><b>Para la vida real:</b> '+esc(ev.learn)+'</div><p><button class="btn" data-act="next">'+(G.round+1>=EVENTS.length?'Ver resultado':'Siguiente decisión')+'</button></p></div>';
+  }
+  return '<div class="card">'+head+ch+res+'</div>';
+}
+
+function renderColegio(){
+  renderBanner();
+  $("view-colegio").innerHTML='<div class="grid">'+sidePanel()+'<div>'+mainPanel()+'</div></div>';
+}
+function startEvent(){G.order=shuffle([0,1,2]);G.pick=-1;G.disc=[];G.skipped=false}
+function gameAct(a,el){
+  if(a==="start"){G=newG();G.phase="event";startEvent()}
+  else if(a==="hint"&&G.phase==="event"){
+    if(G.disc.length||APP.P.latas<HINT_COST)return;
+    var ev0=EVENTS[G.round],bad=[0,1,2].filter(function(x){return !ev0.choices[x].best});
+    G.disc.push(bad[Math.floor(Math.random()*bad.length)]);
+    APP.P.latas-=HINT_COST;APP.P.hints=(APP.P.hints||0)+1;save();renderHud();
+  }
+  else if(a==="skip"&&G.phase==="event"){
+    if(!useSkip())return;
+    G.skipped=true;G.pick=-1;G.phase="result";G.nskip++;
+    G.m.A=clamp(G.m.A-3,0,100);
+  }
+  else if(a==="pick"&&G.phase==="event"){
+    var i=+el.getAttribute("data-i"),ev=EVENTS[G.round],c=ev.choices[i];
+    if(G.disc.indexOf(i)>=0)return;
+    G.pick=i;G.phase="result";G.xp+=c.best?4:1;
+    ["P","D","A","C"].forEach(function(k,j){G.m[k]=clamp(G.m[k]+c.d[j],0,100)});
+    G.m.A=clamp(G.m.A-3,0,100);
+    if(c.best&&G.seals.indexOf(ev.seal)<0)G.seals.push(ev.seal);
+  }else if(a==="next"){
+    G.round++;
+    if(G.round>=EVENTS.length){
+      G.phase="end";
+      var tot=G.m.P+G.m.D+G.m.A+G.m.C,ti=0;
+      TIERS.forEach(function(t,ix){if(tot>=t.min)ti=ix});
+      G.rw=reward("colegio",G.xp+20+ti*10,5+ti*10+G.seals.length*2,ti>=2,tot);
+    }else{G.phase="event";startEvent()}
+  }else if(a==="topro"){setMode("pro");window.scrollTo(0,0);return}
+  renderColegio();
+  if(a==="pick"||a==="next"||a==="skip"){var t=document.querySelector("#view-colegio h2")||document.querySelector("#view-colegio .big");if(t){t.setAttribute("tabindex","-1");t.focus({preventScroll:true})}}
+}
+
+/* ---------- minijuego: punto limpio (50 residuos, 12 por partida) ---------- */
+var L={phase:"intro",i:0,score:0,resp:0,sk:0,streak:0,answered:false,items:[],bins:[],last:null};
+function limpioPick(){
+  var P=APP.P,seen=Array.isArray(P.lseen)?P.lseen.filter(function(x){return x>=0&&x<ITEMS.length}):[];
+  var all=ITEMS.map(function(_,i){return i}),un=shuffle(all.filter(function(i){return seen.indexOf(i)<0})),pick;
+  if(un.length>=12){pick=un.slice(0,12);seen=seen.concat(pick)}
+  else{
+    var rest=shuffle(all.filter(function(i){return un.indexOf(i)<0})).slice(0,12-un.length);
+    pick=un.concat(rest);seen=rest.slice();
+  }
+  P.lseen=seen;save();
+  return shuffle(pick).map(function(i){return ITEMS[i]});
+}
+function renderLimpio(){
+  var el=$("view-limpio"),best=APP.P.best.limpio||null;
+  if(L.phase==="intro"){
+    var seen=(APP.P.lseen||[]).length;
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego</div><h2>Punto limpio</h2><p>Llegan 12 residuos al punto de acopio del colegio: aulas, patio, kiosko, laboratorio y huerto. Elige el contenedor correcto según el código de colores: verde para aprovechables, marrón para orgánicos, negro para no aprovechables y rojo para peligrosos. Hay un banco de 50 residuos y cada partida trae otros; además, los contenedores cambian de lugar. Si aciertas 10 o más, ganas el Sello Eco.</p><p style="margin-top:18px"><button class="btn sun" data-act="lstart">Empezar</button></p><p class="mono" style="margin-top:12px">'+(best!==null?'Tu mejor puntaje: '+best+' / 12 · ':'')+'Residuos vistos en este ciclo: '+seen+' de '+ITEMS.length+'</p></div>';
+    return;
+  }
+  if(L.phase==="end"){
+    var eco=L.win;
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+L.score+' de '+L.resp+(L.sk?' respondidos':'')+'</div><p>'+(eco?'Ganaste el Sello Eco. Ya sabes separar bien los residuos del colegio.':L.score>=7?'Vas bien. Repasa los residuos peligrosos y los no aprovechables.':'Hay que practicar un poco más. Intenta de nuevo: cada partida trae residuos distintos.')+'</p><p>'+esc(L.msg||"")+'</p>'+rwHTML(L.rw)+'<p class="note">Revisa siempre las indicaciones de tu municipalidad: los programas locales pueden agrupar los residuos de forma distinta.</p><p><button class="btn sun" data-act="lstart">Jugar otra vez</button></p></div>';
+    return;
+  }
+  var it=L.items[L.i];
+  var bins=L.bins.map(function(b,idx){return '<button class="bin '+b.k+'" data-act="bin" data-k="'+b.k+'"'+(L.answered?' disabled':'')+'><span class="mono" style="opacity:.8">'+(idx+1)+'</span><br>'+b.n+'<small>'+b.s+'</small></button>'}).join("");
+  var fb=L.answered?'<span class="'+(L.last.ok?'ok':'no')+'">'+(L.last.ok?'Correcto. ':'No era ese. Va en el '+esc(BINS.filter(function(b){return b.k===it[1]})[0].n.toLowerCase())+'. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="lnext" style="margin-left:8px">'+(L.i+1>=12?'Ver resultado':'Siguiente')+'</button>':'<span class="note">Toca un contenedor o usa las teclas 1 a 4.</span> '+skipBtn("lskip","Saltar este residuo");
+  el.innerHTML='<div class="card"><div class="round">'+L.items.map(function(_,i){return '<i class="'+(i<=L.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Residuo '+(L.i+1)+' de 12 · Aciertos '+L.score+' · Racha '+L.streak+(L.sk?' · Saltados '+L.sk:'')+'</div><div class="item">'+esc(it[0])+'</div><div class="bins">'+bins+'</div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
+}
+function limpioAdvance(){
+  L.i++;L.answered=false;
+  if(L.i>=12){
+    L.phase="end";
+    L.win=L.resp>=8&&(L.resp-L.score)<=2;
+    L.rw=reward("limpio",L.score*3,L.score,L.win,L.score);
+    L.msg=award("limpio",L.resp?L.score/L.resp:0);
+  }
+}
+function limpioAct(a,el){
+  if(a==="lstart"){L={phase:"play",i:0,score:0,resp:0,sk:0,streak:0,answered:false,items:limpioPick(),bins:shuffle(BINS),last:null,win:false}}
+  else if(a==="bin"&&!L.answered){
+    var ok=el.getAttribute("data-k")===L.items[L.i][1];
+    L.answered=true;L.last={ok:ok};L.resp++;
+    if(ok){L.score++;L.streak++}else L.streak=0;
+  }else if(a==="lskip"&&!L.answered){
+    if(!useSkip())return;
+    L.sk++;limpioAdvance();
+  }else if(a==="lnext"){limpioAdvance()}
+  renderLimpio();
+  var n=document.querySelector('#view-limpio [data-act="lnext"]');if(n)n.focus({preventScroll:true});
+}
 /* ---------- basura acumulada: medidor permanente y bonus de minijuegos ---------- */
 function bagsNow(){return Math.round((100-G.m.A)*4)}
 function renderBanner(){
@@ -1119,20 +1272,20 @@ function renderBanner(){
   var n=bagsNow(),lvl,col;
   if(n>=240){lvl="Crítica";col="var(--bad)"}else if(n>=160){lvl="Alta";col="var(--warn)"}else if(n>=80){lvl="Moderada";col="var(--sun)"}else{lvl="Controlada";col="var(--good)"}
   var pct=clamp(100-G.m.A,0,100);
-  el.innerHTML='<span class="lbl">Basura acumulada en Nueva Esperanza</span><div class="bar" role="img" aria-label="Basura acumulada: '+n+' bolsas, nivel '+lvl.toLowerCase()+'"><i style="width:'+pct+'%;background:'+col+'"></i></div><span class="num">≈ '+n+' bolsas · '+lvl+'</span><span class="tip">Cada semana que pasa se acumulan 12 bolsas más. Tus decisiones y las jornadas de limpieza de los minijuegos la reducen.</span>';
+  el.innerHTML='<span class="lbl">Basura acumulada en el colegio</span><div class="bar" role="img" aria-label="Basura acumulada: '+n+' bolsas, nivel '+lvl.toLowerCase()+'"><i style="width:'+pct+'%;background:'+col+'"></i></div><span class="num">≈ '+n+' bolsas · '+lvl+'</span><span class="tip">Cada semana escolar que pasa se acumulan 12 bolsas más. Tus decisiones y las jornadas de limpieza de los minijuegos la reducen.</span>';
 }
 function award(type,ratio){
   G.bonus=G.bonus||{};
-  if(G.phase!=="event"&&G.phase!=="result")return "Empieza una partida en el Barrio Nueva Esperanza para que tu limpieza reduzca la basura acumulada.";
-  if(G.bonus[type]!==undefined)return "La jornada de este minijuego ya cuenta en esta partida del barrio. Puedes seguir jugando por práctica.";
+  if(G.phase!=="event"&&G.phase!=="result")return "Empieza una partida en el Colegio Sagrada Familia para que tu limpieza reduzca la basura acumulada.";
+  if(G.bonus[type]!==undefined)return "La jornada de este minijuego ya cuenta en esta partida del colegio. Puedes seguir jugando por práctica.";
   var b=Math.round(clamp(ratio,0,1)*10);
   G.bonus[type]=b;G.m.A=clamp(G.m.A+b,0,100);
-  renderBanner();renderBarrio();
-  return b>0?"Jornada de limpieza: se retiran ≈ "+(b*4)+" bolsas del barrio (Ambiente +"+b+").":"Esta vez no se retiraron bolsas del barrio.";
+  renderBanner();renderColegio();
+  return b>0?"Jornada de limpieza: se retiran ≈ "+(b*4)+" bolsas del colegio (Ambiente +"+b+").":"Esta vez no se retiraron bolsas del colegio.";
 }
 
 /* ---------- minijuego: ruta del camión (planificación) ---------- */
-var PTS=[["Colegio San Martín",2],["Mercado Central",2],["Posta de salud",2],["Esquina del pasaje 3",1],["Puente del canal",1],["Terreno baldío",1],["Paradero de la avenida",1],["Parque vecinal",1],["Calle del taller",1]];
+var PTS=[["Cancha techada",2],["Kiosko del colegio",2],["Servicios higiénicos",2],["Pasillo del tercer piso",1],["Escaleras y rampa",1],["Entrada principal",1],["Huerto escolar",1],["Muro del perímetro",1],["Paradero frente al colegio",1]];
 var RT={phase:"intro",pts:[],sel:{},budget:0,res:""};
 function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
 function rtStart(){
@@ -1150,7 +1303,7 @@ function rtBest(){
 function renderRutaJuego(){
   var el=$("view-ruta-juego");
   if(RT.phase==="intro"){
-    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de planificación</div><h2>Ruta del camión</h2><p>El camión recolector no alcanza para todos los puntos de acumulación: tiene tiempo limitado. Elige qué puntos visitar para retirar el mayor valor posible. Los colegios, mercados y postas pesan doble porque ahí la basura afecta la salud de más personas.</p><p style="margin-top:18px"><button class="btn sun" data-act="rt-start">Planificar la ruta</button></p></div>';
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de planificación</div><h2>Ruta del camión</h2><p>El camión recolector no alcanza para todos los puntos donde se acumula basura en el colegio: tiene tiempo limitado. Elige qué puntos visitar para retirar el mayor valor posible. La cancha, el kiosko y los servicios higiénicos pesan doble porque ahí la basura afecta la salud de más estudiantes.</p><p style="margin-top:18px"><button class="btn sun" data-act="rt-start">Planificar la ruta</button></p></div>';
     return;
   }
   var u=rtUsed();
@@ -1171,67 +1324,6 @@ function rtGo(){
   RT.res=(eff>=100?"Elegiste la mejor ruta posible. ":"La mejor ruta posible era: "+names+". ")+"Tu ruta retiró "+u.b+" bolsas con un valor de "+u.v+" sobre "+b.v+". "+award("ruta",eff/100);
 }
 
-/* ---------- minijuego: atrapa-bolsas (reflejos) ---------- */
-var BG={phase:"intro",raf:0};
-var AW=520,AH=360;
-function renderBolsas(){
-  var el=$("view-bolsas"),best=APP.P.best.bolsas||null;
-  if(BG.phase==="intro"){
-    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>En 30 segundos caen bolsas de basura hacia la calle. Toca cada bolsa antes de que llegue al suelo. Las rojas son residuos peligrosos: caen más rápido y valen el doble. Cada bolsa que toca el suelo se suma a la basura acumulada. También puedes recoger la bolsa más baja con la barra espaciadora.</p><p style="margin-top:18px"><button class="btn sun" data-act="bg-start">Empezar</button></p>'+(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'</div>';
-    return;
-  }
-  if(BG.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas y '+BG.missed+' llegaron al suelo. '+esc(BG.msg)+'</p>'+rwHTML(BG.rw)+'<p><button class="btn sun" data-act="bg-start">Jugar otra vez</button></p></div>';
-    return;
-  }
-  el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen"></canvas><p style="margin-top:12px"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button></p></div>';
-}
-function bgStart(){
-  bgStop();
-  BG={phase:"play",raf:0,t:30,bags:[],score:0,caught:0,missed:0,spawn:.3,last:performance.now(),msg:""};
-  renderBolsas();
-  var cv=$("arena"),cs=getComputedStyle(document.documentElement);
-  function c(n){return cs.getPropertyValue(n).trim()}
-  BG.cv=cv;BG.ctx=cv.getContext("2d");
-  BG.col={bg:c("--surface2"),ground:c("--line"),n:c("--bin-black"),r:c("--bin-red"),ink:c("--ink")};
-  cv.addEventListener("pointerdown",bgPointer);
-  BG.raf=requestAnimationFrame(bgLoop);
-}
-function bgStop(){if(BG.raf)cancelAnimationFrame(BG.raf);BG.raf=0;if(BG.phase==="play")BG.phase="intro"}
-function bgPointer(e){
-  var r=BG.cv.getBoundingClientRect(),px=(e.clientX-r.left)*AW/r.width,py=(e.clientY-r.top)*AH/r.height,hit=-1,hy=-1;
-  BG.bags.forEach(function(b,i){var dx=b.x-px,dy=b.y-py;if(dx*dx+dy*dy<=(b.r+14)*(b.r+14)&&b.y>hy){hy=b.y;hit=i}});
-  if(hit>=0)bgCatch(hit);
-}
-function bgCatch(i){var b=BG.bags.splice(i,1)[0];BG.caught++;BG.score+=b.k==="r"?2:1}
-function bgTake(){if(BG.phase!=="play"||!BG.bags.length)return;var li=0;BG.bags.forEach(function(b,i){if(b.y>BG.bags[li].y)li=i});bgCatch(li)}
-function bgLoop(ts){
-  if(BG.phase!=="play")return;
-  var dt=Math.min(.05,(ts-BG.last)/1000);BG.last=ts;BG.t-=dt;BG.spawn-=dt;
-  if(BG.spawn<=0){var red=Math.random()<.2;BG.bags.push({x:30+Math.random()*(AW-60),y:-20,vy:(70+Math.random()*50+(30-BG.t)*2)*(red?1.35:1),r:18,k:red?"r":"n"});BG.spawn=.55+Math.random()*.35}
-  for(var i=BG.bags.length-1;i>=0;i--){var b=BG.bags[i];b.y+=b.vy*dt;if(b.y>AH-22){BG.bags.splice(i,1);BG.missed++}}
-  var g=BG.ctx,C=BG.col;
-  g.fillStyle=C.bg;g.fillRect(0,0,AW,AH);
-  g.fillStyle=C.ground;g.fillRect(0,AH-20,AW,20);
-  g.fillStyle=C.n;
-  for(var j=0;j<Math.min(BG.missed,40);j++){g.beginPath();g.arc((j*47)%(AW-20)+12,AH-20,7+(j%3)*2,Math.PI,0);g.fill()}
-  BG.bags.forEach(function(b){
-    g.fillStyle=b.k==="r"?C.r:C.n;g.beginPath();g.arc(b.x,b.y,b.r,0,Math.PI*2);g.fill();
-    g.fillRect(b.x-3,b.y-b.r-6,6,8);
-    if(b.k==="r"){g.fillStyle="#fff";g.font="bold 18px sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("!",b.x,b.y+1)}
-  });
-  var h=$("hud");if(h)h.innerHTML='<span>Tiempo: '+Math.max(0,Math.ceil(BG.t))+' s</span><span>Puntos: '+BG.score+'</span><span>Al suelo: '+BG.missed+'</span>';
-  if(BG.t<=0){bgEnd();return}
-  BG.raf=requestAnimationFrame(bgLoop);
-}
-function bgEnd(){
-  BG.raf=0;BG.phase="end";
-  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0;
-  BG.rw=reward("bolsas",Math.min(40,BG.caught*2),Math.floor(BG.caught/2),BG.caught>=20&&ratio>=0.75,BG.score);
-  BG.msg=award("bolsas",ratio);
-  renderBolsas();
-}
-
 /* ---------- minijuego: mitos y datos (verdadero o falso) ---------- */
 var MITOS=[
  ["Quemar la basura en la calle es una forma segura de eliminarla.",false,"El humo contiene sustancias tóxicas que enferman, sobre todo a niños y adultos mayores, y la quema puede ser sancionada."],
@@ -1244,21 +1336,41 @@ var MITOS=[
  ["Los líquidos que sueltan los residuos acumulados pueden contaminar quebradas y acequias.",true,"Ese líquido arrastra contaminantes. Por eso un basural junto al agua es una urgencia ambiental."],
  ["Un reclamo por un basural solo sirve si lo presenta una autoridad, no los vecinos.",false,"Cualquier persona puede presentar una petición o una denuncia ambiental."],
  ["Un reclamo con fotos con fecha y firmas de vecinos es más difícil de ignorar.",true,"La evidencia y el respaldo colectivo ayudan a que la entidad responda."]
+,
+ ["Los restos del almuerzo del colegio se pueden convertir en abono para el huerto escolar.",true,"Con una compostera y turnos de cuidado, los residuos orgánicos del kiosko y del comedor vuelven como abono."],
+ ["Si el tacho del patio está lleno, lo mejor es dejar la bolsa al lado: alguien la recogerá.",false,"Las bolsas fuera del tacho se rompen, atraen plagas y ensucian todo el patio. Avisa para que lo vacíen."],
+ ["Las botellas de plástico limpias y secas se pueden reciclar.",true,"Entrégalas aplastadas y con su tapa en el contenedor de aprovechables."],
+ ["Un colegio no puede organizar campañas de reciclaje porque eso solo corresponde a la municipalidad.",false,"Los colegios pueden organizar brigadas, acopios y campañas con apoyo de la municipalidad y de las familias."],
+ ["Los tubos fluorescentes rotos son residuos peligrosos por el mercurio que contienen.",true,"Se manejan aparte y con cuidado: no van con la basura común."],
+ ["Tirar las envolturas al piso no importa porque el personal de limpieza las recoge.",false,"Cada envoltura en el piso es trabajo extra y termina en las alcantarillas y los ríos."],
+ ["Separar los residuos desde el aula facilita que lleguen limpios al reciclaje.",true,"Cuando el papel y el plástico no se mezclan con comida, se puede aprovechar mucho más."],
+ ["La basura del colegio no afecta a los vecinos de alrededor.",false,"Los residuos se riegan, atraen roedores y malos olores, y afectan a toda la cuadra."],
+ ["Pedir por escrito a la dirección que cambien los tachos desbordados es un reclamo válido.",true,"Un pedido escrito deja constancia y ayuda a que se resuelva."],
+ ["Las pilas usadas pueden ir al tacho del aula junto con el papel.",false,"Contienen metales tóxicos: se llevan a un punto de acopio autorizado."]
 ];
-var MT={phase:"intro",i:0,score:0,answered:false,items:[],ok:false,msg:""};
+var MT={phase:"intro",i:0,score:0,resp:0,sk:0,answered:false,items:[],ok:false,msg:""};
 function renderMitos(){
   var el=$("view-mitos");
   if(MT.phase==="intro"){
-    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de conocimiento</div><h2>Mitos y datos</h2><p>Ocho afirmaciones sobre la basura acumulada y lo que podemos hacer. Di si cada una es verdadera o falsa y lee la explicación. Cada respuesta correcta suma a tu jornada de limpieza.</p><p style="margin-top:18px"><button class="btn sun" data-act="mt-start">Empezar</button></p></div>';
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de conocimiento</div><h2>Mitos y datos</h2><p>Ocho afirmaciones sobre la basura en el colegio y lo que podemos hacer. Di si cada una es verdadera o falsa y lee la explicación. Hay un banco de '+MITOS.length+' afirmaciones y cada partida trae otras. Cada respuesta correcta suma a tu jornada de limpieza.</p><p style="margin-top:18px"><button class="btn sun" data-act="mt-start">Empezar</button></p></div>';
     return;
   }
   if(MT.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MT.score+' de 8</div><p>'+esc(MT.msg)+'</p>'+rwHTML(MT.rw)+'<p><button class="btn sun" data-act="mt-start">Jugar otra vez</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MT.score+' de '+MT.resp+(MT.sk?' respondidas':'')+'</div><p>'+esc(MT.msg)+'</p>'+rwHTML(MT.rw)+'<p><button class="btn sun" data-act="mt-start">Jugar otra vez</button></p></div>';
     return;
   }
   var it=MT.items[MT.i];
-  var fb=MT.answered?'<span class="'+(MT.ok?'ok':'no')+'">'+(MT.ok?'Correcto. ':'No exactamente. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="mt-next" style="margin-left:8px">'+(MT.i+1>=8?'Ver resultado':'Siguiente')+'</button>':'';
-  el.innerHTML='<div class="card"><div class="round">'+MT.items.map(function(_,i){return '<i class="'+(i<=MT.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Afirmación '+(MT.i+1)+' de 8 · Aciertos '+MT.score+'</div><div class="item" style="font-size:clamp(20px,3.6vw,28px)">'+esc(it[0])+'</div><div class="tf"><button class="btn" data-act="mt" data-v="1"'+(MT.answered?' disabled':'')+'>Verdadero</button><button class="btn ghost" data-act="mt" data-v="0"'+(MT.answered?' disabled':'')+'>Falso</button></div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
+  var fb=MT.answered?'<span class="'+(MT.ok?'ok':'no')+'">'+(MT.ok?'Correcto. ':'No exactamente. ')+'</span>'+esc(it[2])+' <button class="btn" data-act="mt-next" style="margin-left:8px">'+(MT.i+1>=8?'Ver resultado':'Siguiente')+'</button>':skipBtn("mt-skip","Saltar");
+  el.innerHTML='<div class="card"><div class="round">'+MT.items.map(function(_,i){return '<i class="'+(i<=MT.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Afirmación '+(MT.i+1)+' de 8 · Aciertos '+MT.score+(MT.sk?' · Saltadas '+MT.sk:'')+'</div><div class="item" style="font-size:clamp(20px,3.6vw,28px)">'+esc(it[0])+'</div><div class="tf"><button class="btn" data-act="mt" data-v="1"'+(MT.answered?' disabled':'')+'>Verdadero</button><button class="btn ghost" data-act="mt" data-v="0"'+(MT.answered?' disabled':'')+'>Falso</button></div><div class="feedback" aria-live="polite">'+fb+'</div></div>';
+}
+function mtAdvance(){
+  MT.i++;MT.answered=false;
+  if(MT.i>=8){
+    MT.phase="end";
+    var win=MT.resp>=6&&(MT.resp-MT.score)<=1;
+    MT.rw=reward("mitos",MT.score*4,MT.score*2,win,MT.score);
+    MT.msg=(win?"Muy bien informado. ":"Repasa las explicaciones. ")+award("mitos",MT.resp?MT.score/MT.resp:0);
+  }
 }
 
 /* ---------- despacho de acciones extra ---------- */
@@ -1268,12 +1380,702 @@ function extraAct(a,el){
   if(a==="rt-go"){rtGo();renderRutaJuego();return true}
   if(a==="bg-start"){bgStart();return true}
   if(a==="bg-take"){bgTake();return true}
-  if(a==="mt-start"){MT={phase:"play",i:0,score:0,answered:false,items:shuffle(MITOS).slice(0,8),ok:false,msg:""};renderMitos();return true}
-  if(a==="mt"&&!MT.answered){var it=MT.items[MT.i],v=el.getAttribute("data-v")==="1";MT.ok=v===it[1];MT.answered=true;if(MT.ok)MT.score++;renderMitos();var n=document.querySelector('#view-mitos [data-act="mt-next"]');if(n)n.focus({preventScroll:true});return true}
-  if(a==="mt-next"){MT.i++;MT.answered=false;if(MT.i>=8){MT.phase="end";MT.rw=reward("mitos",MT.score*4,MT.score*2,MT.score>=7,MT.score);MT.msg=(MT.score>=7?"Muy bien informado. ":"Repasa las explicaciones. ")+award("mitos",MT.score/8)}renderMitos();return true}
+  if(a==="bg-pause"){bgPause();return true}
+  if(a==="bg-stop"){if(BG.phase==="play")bgEnd();return true}
+  if(a==="bg-menu"){BG={phase:"intro",raf:0};renderBolsas();return true}
+  if(a==="bg-dur"){BGSEL=+el.getAttribute("data-v");renderBolsas();return true}
+  if(a==="mt-start"){MT={phase:"play",i:0,score:0,resp:0,sk:0,answered:false,items:shuffle(MITOS).slice(0,8),ok:false,msg:""};renderMitos();return true}
+  if(a==="mt"&&!MT.answered){var it=MT.items[MT.i],v=el.getAttribute("data-v")==="1";MT.ok=v===it[1];MT.answered=true;MT.resp++;if(MT.ok)MT.score++;renderMitos();var n=document.querySelector('#view-mitos [data-act="mt-next"]');if(n)n.focus({preventScroll:true});return true}
+  if(a==="mt-skip"&&!MT.answered){if(!useSkip())return true;MT.sk++;mtAdvance();renderMitos();return true}
+  if(a==="mt-next"){mtAdvance();renderMitos();return true}
   if(a==="basura-ruta"){R.id="residuos";setProView("ruta");renderRuta();return true}
   if(a==="basura-doc"){basuraDoc();setProView("doc");renderDoc();return true}
+  return newGameAct(a,el);
+}
+/* ---------- minijuego: atrapa-bolsas (reflejos, con tiempo elegible hasta 1 hora) ---------- */
+var BG={phase:"intro",raf:0};
+var BGSEL=60;                /* duración elegida, en segundos */
+var BGMAX=3600,BGMIN=10;
+var AW=520,AH=360;
+var BGTYPES={
+ n:{pts:1,sp:1,r:18,good:1,col:"n",name:"Bolsa negra",d:"1 punto"},
+ r:{pts:2,sp:1.35,r:18,good:1,col:"r",name:"Bolsa roja (peligrosa)",d:"2 puntos, cae más rápido"},
+ o:{pts:2,sp:.8,r:18,good:1,col:"#2E9B55",name:"Bolsa orgánica",d:"2 puntos, se mece al caer"},
+ z:{pts:5,sp:2.9,r:15,good:1,col:"#F2B21A",name:"Relámpago",d:"5 puntos, cae rapidísimo"},
+ g:{pts:10,sp:1.5,r:18,good:1,col:"#E6B422",name:"Bolsa dorada",d:"10 puntos, muy rara"},
+ t:{pts:0,sp:1.1,r:18,good:0,col:"#2A6FD6",name:"Reloj",d:"+5 segundos"},
+ m:{pts:0,sp:1.2,r:18,good:0,col:"#7A45C9",name:"Imán",d:"atrapa todas las bolsas que están cayendo"},
+ x:{pts:-3,sp:1,r:18,good:0,col:"#D9631E",name:"Mochila de un estudiante",d:"¡No la toques! −3 puntos y pierdes tu combo"}
+};
+var BGSPAWN=[["n",42],["r",15],["o",14],["z",9],["g",2],["t",4],["m",3],["x",11]];
+function fmtT(s){s=Math.max(0,Math.ceil(s));var m=Math.floor(s/60),r=s%60;return m+":"+("0"+r).slice(-2)}
+function durLabel(s){return s>=3600?"1 hora":s>=60&&s%60===0?(s/60)+" min":s<60?s+" s":fmtT(s)}
+var BGPRE=[30,60,120,300,600,1800,3600];
+
+function renderBolsas(){
+  var el=$("view-bolsas"),best=APP.P.best.bolsas||null;
+  if(BG.phase==="intro"){
+    var chips=BGPRE.map(function(s){return '<button data-act="bg-dur" data-v="'+s+'" aria-pressed="'+(BGSEL===s)+'">'+durLabel(s)+'</button>'}).join("");
+    var leg=Object.keys(BGTYPES).map(function(k){var t=BGTYPES[k];return '<li><b>'+t.name+'.</b> '+t.d+'</li>'}).join("");
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>Caen bolsas de basura sobre el patio del colegio. Toca cada bolsa antes de que llegue al suelo. Encadena aciertos para subir tu combo: cada 5 seguidos aumenta el multiplicador hasta ×4. Vigila los relámpagos, que caen rapidísimo, y no toques las mochilas de tus compañeros. También puedes recoger la bolsa más baja con la barra espaciadora. Cada bolsa que llega al suelo se suma a la basura acumulada.</p>'
+      +'<div style="margin-top:16px"><div class="mono" style="margin-bottom:6px">Elige cuánto quieres jugar (máximo 1 hora)</div><div class="chips" role="group" aria-label="Duración del juego">'+chips+'</div><div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap"><label for="bg-min" style="margin:0">Otro tiempo, en minutos (1 a 60):</label><input id="bg-min" type="number" min="1" max="60" step="1" value="'+Math.max(1,Math.round(BGSEL/60))+'" style="width:96px"></div><p class="mono" id="bg-sel" style="margin-top:8px">Tiempo elegido: '+durLabel(BGSEL)+'</p></div>'
+      +'<p style="margin-top:18px"><button class="btn sun" data-act="bg-start">Empezar</button></p>'
+      +'<details style="margin-top:14px"><summary>Tipos de bolsa</summary><ul class="plain" style="margin-top:8px">'+leg+'</ul></details>'
+      +(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'<p class="note" style="margin-top:8px">Las recompensas por XP y latas tienen un tope por partida, así que jugar más tiempo es solo para divertirse y para limpiar más.</p></div>';
+    return;
+  }
+  if(BG.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado · '+durLabel(BG.dur)+'</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas, '+BG.missed+' llegaron al suelo y tu mejor combo fue ×'+BG.maxMult+' ('+BG.bestCombo+' seguidas). '+(BG.zaps?'Atrapaste '+BG.zaps+(BG.zaps===1?' relámpago. ':' relámpagos. '):'')+esc(BG.msg)+'</p>'+rwHTML(BG.rw)+'<p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="bg-start">Jugar otra vez</button><button class="btn ghost" data-act="bg-menu">Cambiar el tiempo</button></p></div>';
+    return;
+  }
+  el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen sobre el patio del colegio"></canvas><p style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button><button class="btn ghost" data-act="bg-pause" id="bg-pause">Pausa</button><button class="btn ghost" data-act="bg-stop">Terminar ahora</button></p></div>';
+}
+function bgPick(){
+  var tot=BGSPAWN.reduce(function(s,a){return s+a[1]},0),r=Math.random()*tot;
+  for(var i=0;i<BGSPAWN.length;i++){r-=BGSPAWN[i][1];if(r<=0)return BGSPAWN[i][0]}
+  return "n";
+}
+function bgStart(){
+  bgStop();
+  var dur=clamp(Math.round(BGSEL),BGMIN,BGMAX);
+  BG={phase:"play",raf:0,dur:dur,t:dur,el:0,bags:[],pops:[],score:0,caught:0,missed:0,combo:0,bestCombo:0,maxMult:1,zaps:0,spawn:.3,last:performance.now(),msg:"",paused:false,flash:0};
+  renderBolsas();
+  var cv=$("arena"),cs=getComputedStyle(document.documentElement);
+  function c(n){return cs.getPropertyValue(n).trim()}
+  BG.cv=cv;BG.ctx=cv.getContext("2d");
+  BG.col={bg:c("--surface2")||"#ddd",ground:c("--line")||"#999",n:c("--bin-black")||"#222",r:c("--bin-red")||"#c33",ink:c("--ink")||"#111"};
+  cv.addEventListener("pointerdown",bgPointer);
+  BG.raf=requestAnimationFrame(bgLoop);
+}
+function bgStop(){if(BG.raf)cancelAnimationFrame(BG.raf);BG.raf=0;if(BG.phase==="play")BG.phase="intro"}
+function bgMult(){return Math.min(4,1+Math.floor(BG.combo/5))}
+function bgPop(x,y,txt,col){BG.pops.push({x:x,y:y,t:.9,txt:txt,col:col})}
+function bgPointer(e){
+  if(BG.phase!=="play"||BG.paused)return;
+  var r=BG.cv.getBoundingClientRect(),px=(e.clientX-r.left)*AW/r.width,py=(e.clientY-r.top)*AH/r.height,hit=-1,hy=-1e9;
+  BG.bags.forEach(function(b,i){var dx=b.x-px,dy=b.y-py,rr=b.r+16;if(dx*dx+dy*dy<=rr*rr&&b.y>hy){hy=b.y;hit=i}});
+  if(hit>=0)bgCatch(hit);
+}
+function bgGood(b){
+  BG.caught++;BG.combo++;if(BG.combo>BG.bestCombo)BG.bestCombo=BG.combo;
+  var m=bgMult();if(m>BG.maxMult)BG.maxMult=m;
+  var p=BGTYPES[b.k].pts*m;BG.score+=p;
+  if(b.k==="z")BG.zaps++;
+  bgPop(b.x,b.y,"+"+p+(m>1?" ×"+m:""),b.k==="z"||b.k==="g"?"#F2B21A":"#fff");
+}
+function bgCatch(i){
+  var b=BG.bags.splice(i,1)[0],T=BGTYPES[b.k];
+  if(T.good)bgGood(b);
+  else if(b.k==="t"){BG.t=Math.min(BG.dur,BG.t+5);bgPop(b.x,b.y,"+5 s","#8EC9F0")}
+  else if(b.k==="m"){
+    bgPop(b.x,b.y,"¡Imán!","#CBA8F5");BG.flash=.35;
+    for(var j=BG.bags.length-1;j>=0;j--){var o=BG.bags[j];if(BGTYPES[o.k].good){BG.bags.splice(j,1);bgGood(o)}}
+  }else if(b.k==="x"){BG.score=Math.max(0,BG.score-3);BG.combo=0;bgPop(b.x,b.y,"−3","#FF8A80")}
+}
+function bgTake(){if(BG.phase!=="play"||BG.paused||!BG.bags.length)return;var li=0;BG.bags.forEach(function(b,i){if(b.y>BG.bags[li].y)li=i});bgCatch(li)}
+function bgPause(){
+  if(BG.phase!=="play")return;
+  BG.paused=!BG.paused;BG.last=performance.now();
+  var b=$("bg-pause");if(b)b.textContent=BG.paused?"Seguir":"Pausa";
+}
+function bgDraw(){
+  var g=BG.ctx,C=BG.col,i;
+  g.fillStyle=C.bg;g.fillRect(0,0,AW,AH);
+  /* baranda de ladrillo y banderines, como en el colegio */
+  g.fillStyle="rgba(176,70,52,.28)";g.fillRect(0,0,AW,22);
+  g.fillStyle="rgba(255,255,255,.25)";for(i=0;i<AW;i+=26)g.fillRect(i,0,3,22);
+  var cols=["#D93636","#2A6FD6","#F2B21A"];
+  for(i=0;i<13;i++){g.fillStyle=cols[i%3];g.globalAlpha=.55;g.beginPath();g.moveTo(10+i*40,26);g.lineTo(26+i*40,26);g.lineTo(18+i*40,40);g.fill()}
+  g.globalAlpha=1;
+  g.fillStyle=C.ground;g.fillRect(0,AH-20,AW,20);
+  g.strokeStyle="rgba(255,255,255,.55)";g.lineWidth=2;g.beginPath();g.ellipse(AW/2,AH-8,90,10,0,0,Math.PI*2);g.stroke();
+  g.fillStyle=C.n;
+  for(i=0;i<Math.min(BG.missed,40);i++){g.beginPath();g.arc((i*47)%(AW-20)+12,AH-20,7+(i%3)*2,Math.PI,0);g.fill()}
+  if(BG.flash>0){g.fillStyle="rgba(122,69,201,"+(BG.flash).toFixed(2)+")";g.fillRect(0,0,AW,AH)}
+  BG.bags.forEach(function(b){
+    var T=BGTYPES[b.k],col=T.col==="n"?C.n:T.col==="r"?C.r:T.col;
+    if(b.k==="z"){g.strokeStyle="rgba(242,178,26,.45)";g.lineWidth=6;g.lineCap="round";g.beginPath();g.moveTo(b.x,b.y-46);g.lineTo(b.x,b.y-b.r);g.stroke()}
+    if(b.k==="x"){
+      g.fillStyle=col;g.beginPath();g.roundRect?g.roundRect(b.x-15,b.y-17,30,34,7):g.rect(b.x-15,b.y-17,30,34);g.fill();
+      g.fillStyle="rgba(0,0,0,.25)";g.fillRect(b.x-10,b.y+3,20,9);
+      g.fillStyle="#fff";g.font="bold 16px sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("✕",b.x,b.y-4);
+      return;
+    }
+    g.fillStyle=col;g.beginPath();g.arc(b.x,b.y,b.r,0,Math.PI*2);g.fill();
+    g.fillRect(b.x-3,b.y-b.r-6,6,8);
+    g.fillStyle=b.k==="z"||b.k==="g"?"#3A2A00":"#fff";g.font="bold 15px sans-serif";g.textAlign="center";g.textBaseline="middle";
+    var ch={r:"!",z:"ϟ",g:"★",t:"+5",m:"U"}[b.k];
+    if(ch)g.fillText(ch,b.x,b.y+1);
+  });
+  BG.pops.forEach(function(p){
+    g.globalAlpha=clamp(p.t/.9,0,1);g.fillStyle=p.col;g.font="bold 16px sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText(p.txt,p.x,p.y);
+  });
+  g.globalAlpha=1;
+  if(BG.paused){g.fillStyle="rgba(0,0,0,.45)";g.fillRect(0,0,AW,AH);g.fillStyle="#fff";g.font="bold 28px sans-serif";g.textAlign="center";g.textBaseline="middle";g.fillText("Pausa",AW/2,AH/2)}
+}
+function bgLoop(ts){
+  if(BG.phase!=="play")return;
+  var dt=Math.min(.05,(ts-BG.last)/1000);BG.last=ts;
+  if(!BG.paused){
+    BG.t-=dt;BG.el+=dt;BG.spawn-=dt;if(BG.flash>0)BG.flash-=dt;
+    var inten=Math.min(1.2,BG.el/90);
+    if(BG.spawn<=0){
+      var k=bgPick(),T=BGTYPES[k];
+      BG.bags.push({x:30+Math.random()*(AW-60),x0:0,y:-20,vy:(70+Math.random()*50)*(1+.5*inten)*T.sp,r:T.r,k:k,ph:Math.random()*6});
+      BG.bags[BG.bags.length-1].x0=BG.bags[BG.bags.length-1].x;
+      BG.spawn=(.55+Math.random()*.35)*(1-.4*Math.min(1,inten));
+    }
+    for(var i=BG.bags.length-1;i>=0;i--){
+      var b=BG.bags[i];b.y+=b.vy*dt;
+      if(b.k==="o"){b.ph+=dt*3;b.x=clamp(b.x0+Math.sin(b.ph)*26,20,AW-20)}
+      if(b.y>AH-22){BG.bags.splice(i,1);if(BGTYPES[b.k].good){BG.missed++;BG.combo=0}}
+    }
+    for(var j=BG.pops.length-1;j>=0;j--){var p=BG.pops[j];p.t-=dt;p.y-=30*dt;if(p.t<=0)BG.pops.splice(j,1)}
+  }
+  bgDraw();
+  var h=$("hud");if(h)h.innerHTML='<span>Tiempo: '+fmtT(BG.t)+'</span><span>Puntos: '+BG.score+'</span><span>Combo: '+BG.combo+' (×'+bgMult()+')</span><span>Al suelo: '+BG.missed+'</span>';
+  if(BG.t<=0){bgEnd();return}
+  BG.raf=requestAnimationFrame(bgLoop);
+}
+function bgEnd(){
+  if(BG.raf)cancelAnimationFrame(BG.raf);BG.raf=0;BG.phase="end";
+  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0;
+  BG.rw=reward("bolsas",Math.min(40,BG.caught*2),Math.min(30,Math.floor(BG.caught/2)),BG.caught>=20&&ratio>=0.75,BG.score);
+  BG.msg=award("bolsas",ratio);
+  renderBolsas();
+}
+/* ===== cuatro minijuegos más, todos sobre la basura y el colegio ===== */
+
+/* ---------- Memoria de residuos ---------- */
+var MM={phase:"intro",cards:[],open:[],moves:0,matched:0,lock:false,timer:0};
+function mmStart(){
+  if(MM.timer)clearTimeout(MM.timer);
+  var by={g:[],b:[],n:[],r:[]};
+  shuffle(ITEMS).forEach(function(it){by[it[1]].push(it)});
+  var pick=[by.g[0],by.b[0],by.n[0],by.r[0]];
+  var rest=shuffle(["g","b","n","r"].reduce(function(a,k){return a.concat(by[k].slice(1))},[])).slice(0,2);
+  pick=pick.concat(rest);
+  var cards=[];
+  pick.forEach(function(it,i){
+    cards.push({kind:"i",k:it[1],txt:it[0],id:"i"+i,st:"down"});
+    cards.push({kind:"b",k:it[1],txt:BINS.filter(function(b){return b.k===it[1]})[0].n,id:"b"+i,st:"down"});
+  });
+  MM={phase:"play",cards:shuffle(cards),open:[],moves:0,matched:0,lock:false,timer:0};
+}
+function renderMemoria(){
+  var el=$("view-memoria");
+  if(MM.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de memoria</div><h2>Memoria de residuos</h2><p>Hay 12 cartas boca abajo: 6 residuos del colegio y 6 contenedores. Voltea dos cartas por turno y une cada residuo con el contenedor donde debe ir. Si completas todas las parejas en 12 movimientos o menos, ganas una corona.</p><p style="margin-top:18px"><button class="btn sun" data-act="mm-start">Empezar</button></p></div>';
+    return;
+  }
+  if(MM.phase==="end"){
+    var win=MM.moves<=12;
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+MM.moves+' movimientos</div><p>'+(win?'Muy buena memoria. Completaste todas las parejas con pocos movimientos.':'Completaste todas las parejas. Intenta hacerlo en 12 movimientos o menos para ganar la corona.')+' '+esc(MM.msg||"")+'</p>'+rwHTML(MM.rw)+'<p><button class="btn sun" data-act="mm-start">Jugar otra vez</button></p></div>';
+    return;
+  }
+  el.innerHTML='<div class="card"><div class="mono">Movimientos '+MM.moves+' · Parejas '+MM.matched+' de 6</div><div class="mgrid" role="group" aria-label="Cartas de memoria">'+MM.cards.map(function(c,i){
+    var up=c.st!=="down";
+    return '<button class="mcard '+(up?'up m'+c.k:'')+(c.st==="done"?' done':'')+'" data-act="mm-flip" data-i="'+i+'"'+(up||MM.lock?' disabled':'')+' aria-label="'+(up?(c.kind==="b"?'Contenedor ':'Residuo ')+esc(c.txt):'Carta boca abajo '+(i+1))+'">'+(up?'<span>'+(c.kind==="b"?'<small>Contenedor</small>':'<small>Residuo</small>')+esc(c.txt)+'</span>':'<span aria-hidden="true">?</span>')+'</button>';
+  }).join("")+'</div><p class="note" style="margin-top:12px">Pareja correcta: un residuo con su contenedor.</p></div>';
+}
+function mmFlip(i){
+  var c=MM.cards[i];if(!c||c.st!=="down"||MM.lock||MM.open.length>=2)return;
+  c.st="up";MM.open.push(i);
+  if(MM.open.length===2){
+    MM.moves++;
+    var a=MM.cards[MM.open[0]],b=MM.cards[MM.open[1]];
+    if(a.kind!==b.kind&&a.k===b.k){
+      a.st=b.st="done";MM.matched++;MM.open=[];
+      if(MM.matched>=6){
+        var win=MM.moves<=12,score=Math.max(0,40-MM.moves*2);
+        MM.rw=reward("memoria",20,10,win,score);MM.msg=award("memoria",clamp(1-(MM.moves-6)/12,0,1));
+        MM.phase="end";
+      }
+    }else{
+      MM.lock=true;
+      MM.timer=setTimeout(function(){
+        MM.open.forEach(function(j){MM.cards[j].st="down"});MM.open=[];MM.lock=false;MM.timer=0;renderMemoria();
+      },850);
+    }
+  }
+  renderMemoria();
+}
+
+/* ---------- Ordena el proceso ---------- */
+var PROCS=[
+ {t:"Reclamar por un punto de basura frente al colegio",s:["Tomar fotos con fecha y anotar la ubicación","Redactar la petición a la municipalidad","Presentarla y pedir el cargo con sello","Calcular la fecha límite de respuesta","Si no responden, reiterar o presentar una queja"]},
+ {t:"Hacer compost con los restos del kiosko",s:["Elegir un lugar con sombra y aire","Poner una capa de hojas secas","Agregar restos de frutas y verduras","Cubrir y remover cada semana","Usar el abono en el huerto"]},
+ {t:"Campaña de acopio de botellas",s:["Formar la brigada y pedir permiso a la dirección","Colocar contenedores rotulados","Avisar a todos los salones","Pesar y registrar lo recolectado","Entregar a un centro de acopio autorizado"]},
+ {t:"Separar los residuos en el aula",s:["Colocar contenedores rotulados por color","Enseñar qué va en cada uno","Separar durante toda la jornada","Vaciar al final del día en el punto de acopio","Revisar y corregir errores durante la semana"]},
+ {t:"Qué hacer con una pila usada",s:["No botarla con la basura común","Guardarla en un frasco o caja cerrada","Avisar a la brigada o a la dirección","Llevarla a un punto de acopio autorizado","Registrar la entrega"]},
+ {t:"Actuar ante residuos regados en el patio",s:["Alejar a los estudiantes del lugar","Avisar a un docente","Ponerse guantes y recoger","Separar según el contenedor","Lavarse bien las manos"]}
+];
+var OD={phase:"intro",list:[],i:0,order:[],picked:[],checked:false,res:[],right:0,wrong:0,sk:0,msg:""};
+function odStart(){
+  var list=shuffle(PROCS).slice(0,3);
+  OD={phase:"play",list:list,i:0,order:[],picked:[],checked:false,res:[],right:0,wrong:0,sk:0,msg:""};
+  odLoad();
+}
+function odLoad(){OD.order=shuffle([0,1,2,3,4]);OD.picked=[];OD.checked=false}
+function renderOrden(){
+  var el=$("view-orden");
+  if(OD.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de lógica</div><h2>Ordena el proceso</h2><p>Tres procesos del colegio sobre residuos, con cinco pasos desordenados cada uno. Toca los pasos en el orden correcto y comprueba. Si dejas como máximo 2 pasos mal ubicados entre todos, ganas una corona.</p><p style="margin-top:18px"><button class="btn sun" data-act="od-start">Empezar</button></p></div>';
+    return;
+  }
+  if(OD.phase==="end"){
+    var tot=OD.right+OD.wrong;
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+OD.right+' de '+tot+' pasos bien ubicados</div><p>'+esc(OD.msg)+'</p>'+rwHTML(OD.rw)+'<p><button class="btn sun" data-act="od-start">Jugar otra vez</button></p></div>';
+    return;
+  }
+  var p=OD.list[OD.i];
+  var steps=OD.order.map(function(idx){
+    var pos=OD.picked.indexOf(idx),on=pos>=0,res="";
+    if(OD.checked){res=pos===idx?' ok':' no'}
+    return '<button class="ostep'+(on?' on':'')+res+'" data-act="od-pick" data-i="'+idx+'"'+(OD.checked?' disabled':'')+'><b>'+(on?(pos+1):'·')+'</b><span>'+esc(p.s[idx])+'</span></button>';
+  }).join("");
+  var ctl;
+  if(!OD.checked)ctl='<button class="btn" data-act="od-check"'+(OD.picked.length<5?' disabled':'')+'>Comprobar</button><button class="btn ghost" data-act="od-undo"'+(OD.picked.length?'':' disabled')+'>Deshacer</button>'+skipBtn("od-skip","Saltar este proceso");
+  else{
+    var good=OD.picked.filter(function(v,k){return v===k}).length;
+    ctl='<p class="feedback"><span class="'+(good===5?'ok':'no')+'">'+(good===5?'Orden perfecto. ':good+' de 5 bien ubicados. ')+'</span>El orden correcto es el que ves numerado a la izquierda de cada paso.</p><button class="btn" data-act="od-next">'+(OD.i+1>=3?'Ver resultado':'Siguiente proceso')+'</button>';
+  }
+  var correct=OD.checked?'<ol class="plain" style="margin-top:10px;padding-left:20px">'+p.s.map(function(s){return '<li>'+esc(s)+'</li>'}).join("")+'</ol>':'';
+  el.innerHTML='<div class="card"><div class="round">'+OD.list.map(function(_,i){return '<i class="'+(i<=OD.i?'on':'')+'"></i>'}).join("")+'</div><div class="mono">Proceso '+(OD.i+1)+' de 3'+(OD.sk?' · Saltados '+OD.sk:'')+'</div><h3 style="margin-block:6px 12px;font-size:24px">'+esc(p.t)+'</h3><div class="osteps">'+steps+'</div>'+correct+'<p style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">'+ctl+'</p></div>';
+}
+function odAdvance(){
+  OD.i++;
+  if(OD.i>=3){
+    OD.phase="end";
+    var counted=OD.right+OD.wrong,win=counted>=10&&OD.wrong<=2;
+    OD.rw=reward("orden",OD.right*2,OD.right,win,OD.right);
+    OD.msg=(win?"Muy bien: conoces los procesos. ":"Repasa el orden de cada proceso e inténtalo de nuevo. ")+award("orden",counted?OD.right/counted:0);
+  }else odLoad();
+}
+
+/* ---------- Presupuesto limpio ---------- */
+var PROJ=[
+ ["Contenedores de colores para patio y aulas",300,9],
+ ["Compostera y huerto escolar",250,8],
+ ["Campaña con afiches y teatro sobre residuos",120,6],
+ ["Escobas, recogedores y guantes para las brigadas",80,5],
+ ["Tachos con tapa en los servicios higiénicos",150,6],
+ ["Punto de acopio de pilas y focos",100,5],
+ ["Limpieza y desinfección del tanque de agua",200,7],
+ ["Murales con material reciclado",140,4],
+ ["Bebederos para evitar botellas de plástico",350,9],
+ ["Capacitación a docentes y familias en separación",110,6]
+];
+var PB={phase:"intro",list:[],sel:{},budget:0};
+function pbStart(){
+  var list=shuffle(PROJ).slice(0,7),tot=list.reduce(function(s,p){return s+p[1]},0);
+  PB={phase:"play",list:list,sel:{},budget:Math.round(tot*0.5/10)*10};
+}
+function pbUsed(){var c=0,v=0;PB.list.forEach(function(p,i){if(PB.sel[i]){c+=p[1];v+=p[2]}});return {c:c,v:v}}
+function pbBest(){
+  var best=0,n=PB.list.length;
+  for(var s=0;s<(1<<n);s++){var c=0,v=0;for(var i=0;i<n;i++)if(s&(1<<i)){c+=PB.list[i][1];v+=PB.list[i][2]}if(c<=PB.budget&&v>best)best=v}
+  return best;
+}
+function renderPresup(){
+  var el=$("view-presup");
+  if(PB.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de decisiones</div><h2>Presupuesto limpio</h2><p>La APAFA y el Municipio Escolar tienen un presupuesto limitado para mejorar la limpieza del colegio. Hay siete proyectos posibles y no alcanza para todos. Elige los que juntos den el mayor impacto sin pasarte del presupuesto. Si logras el 90 % del mejor reparto posible, ganas una corona.</p><p style="margin-top:18px"><button class="btn sun" data-act="pb-start">Empezar</button></p></div>';
+    return;
+  }
+  var u=pbUsed();
+  if(PB.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+PB.pct+' % del mejor reparto</div><p>'+esc(PB.msg)+'</p>'+rwHTML(PB.rw)+'<p class="note">En la vida real, estas prioridades se deciden en asamblea y se registran en un acta. Pedir las cuentas después también es parte de participar.</p><p><button class="btn sun" data-act="pb-start">Otro presupuesto</button></p></div>';
+    return;
+  }
+  var list=PB.list.map(function(p,i){
+    var on=!!PB.sel[i],fits=on||u.c+p[1]<=PB.budget;
+    return '<button class="pt" data-act="pb-toggle" data-i="'+i+'" aria-pressed="'+on+'"'+(fits?'':' disabled')+'><b>'+esc(p[0])+'</b><span class="m">S/ '+p[1]+'</span><span class="m">Impacto '+p[2]+'</span></button>';
+  }).join("");
+  el.innerHTML='<div class="card"><div class="mono">Proyectos posibles</div><div class="pts">'+list+'</div><div class="budget" aria-live="polite"><span>Gastado: S/ '+u.c+' de S/ '+PB.budget+'</span><span>Impacto: '+u.v+'</span></div><p style="margin-top:14px"><button class="btn" data-act="pb-go"'+(u.c>0?'':' disabled')+'>Aprobar el presupuesto</button></p></div>';
+}
+function pbGo(){
+  var u=pbUsed(),best=pbBest(),pct=best?Math.round(u.v/best*100):0;
+  PB.pct=pct;PB.phase="end";
+  PB.rw=reward("presup",Math.round(pct*0.3),Math.round(pct/10),pct>=90,pct);
+  PB.msg=(pct>=100?"Elegiste el mejor reparto posible. ":"Había un reparto con impacto "+best+" y el tuyo logró "+u.v+". ")+award("presup",pct/100);
+}
+
+/* ---------- Caza-residuos del patio ---------- */
+var PT={phase:"intro",t:0,score:0,cells:[],tick:0,spawn:0,hits:0,bad:0};
+var PWASTE=[["Botella",1],["Envoltura",1],["Lata",1],["Papel",1],["Cáscara",1],["Vaso",1],["Pila usada",2],["Foco roto",2]];
+var PKEEP=["Mochila","Lonchera","Cuaderno","Casaca","Estuche"];
+function patioStop(){if(PT.tick)clearInterval(PT.tick);PT.tick=0;if(PT.phase==="play")PT.phase="intro"}
+function renderPatio(){
+  var el=$("view-patio");
+  if(PT.phase==="intro"){
+    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Caza-residuos del patio</h2><p>Durante 30 segundos aparecen cosas en el patio del colegio. Toca los residuos para recogerlos: las pilas y los focos peligrosos valen 2 puntos. Pero cuidado: las mochilas, loncheras, cuadernos y casacas son de tus compañeros y no se tocan, porque restan 2 puntos. Con 20 puntos o más, ganas una corona.</p><p style="margin-top:18px"><button class="btn sun" data-act="pt-start">Empezar</button></p></div>';
+    return;
+  }
+  if(PT.phase==="end"){
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado</div><div class="big">'+PT.score+' puntos</div><p>Recogiste '+PT.hits+' residuos y tocaste '+PT.bad+(PT.bad===1?' objeto personal. ':' objetos personales. ')+esc(PT.msg)+'</p>'+rwHTML(PT.rw)+'<p><button class="btn sun" data-act="pt-start">Jugar otra vez</button></p></div>';
+    return;
+  }
+  var cells="";
+  for(var i=0;i<12;i++)cells+='<button class="pcell" id="pc'+i+'" data-act="pt-hit" data-i="'+i+'" tabindex="-1" aria-label="Espacio vacío"></button>';
+  el.innerHTML='<div class="card"><div class="hud" id="pt-hud" aria-live="off"></div><div class="pgrid">'+cells+'</div><p class="note" style="margin-top:10px">Toca solo los residuos. Lo que es de un compañero, déjalo.</p></div>';
+  ptPaint();
+}
+function ptStart(){
+  patioStop();
+  PT={phase:"play",t:30,score:0,cells:[],tick:0,spawn:.2,hits:0,bad:0};
+  for(var i=0;i<12;i++)PT.cells.push(null);
+  renderPatio();
+  PT.tick=setInterval(ptStep,100);
+}
+function ptStep(){
+  if(PT.phase!=="play")return;
+  PT.t-=.1;PT.spawn-=.1;
+  for(var i=0;i<12;i++){var c=PT.cells[i];if(c){c.life-=.1;if(c.life<=0)PT.cells[i]=null}}
+  if(PT.spawn<=0){
+    var free=[];for(var j=0;j<12;j++)if(!PT.cells[j])free.push(j);
+    if(free.length){
+      var at=free[Math.floor(Math.random()*free.length)],keep=Math.random()<.25,w;
+      if(keep)PT.cells[at]={k:"x",txt:PKEEP[Math.floor(Math.random()*PKEEP.length)],pts:-2,life:1.6};
+      else{w=PWASTE[Math.floor(Math.random()*PWASTE.length)];PT.cells[at]={k:w[1]>1?"p":"w",txt:w[0],pts:w[1],life:1.5+Math.random()*.4}}
+    }
+    PT.spawn=.45+Math.random()*.3-Math.min(.2,(30-PT.t)*.006);
+  }
+  ptPaint();
+  if(PT.t<=0)ptEnd();
+}
+function ptPaint(){
+  for(var i=0;i<12;i++){
+    var b=$("pc"+i);if(!b)continue;var c=PT.cells[i];
+    b.className="pcell"+(c?" on "+c.k:"");
+    b.textContent=c?c.txt:"";
+    b.setAttribute("aria-label",c?(c.k==="x"?"Objeto de un compañero: "+c.txt:"Residuo: "+c.txt):"Espacio vacío");
+  }
+  var h=$("pt-hud");if(h)h.innerHTML='<span>Tiempo: '+Math.max(0,Math.ceil(PT.t))+' s</span><span>Puntos: '+PT.score+'</span>';
+}
+function ptHit(i){
+  var c=PT.cells[i];if(PT.phase!=="play"||!c)return;
+  PT.cells[i]=null;
+  if(c.k==="x"){PT.score=Math.max(0,PT.score-2);PT.bad++}
+  else{PT.score+=c.pts;PT.hits++}
+  ptPaint();
+}
+function ptEnd(){
+  patioStop();PT.phase="end";
+  PT.rw=reward("patio",Math.min(30,PT.score*2),Math.min(20,PT.score),PT.score>=20,PT.score);
+  PT.msg=award("patio",Math.min(1,PT.score/30));
+  renderPatio();
+}
+
+/* ---------- despacho ---------- */
+function newGameAct(a,el){
+  if(a==="mm-start"){mmStart();renderMemoria();return true}
+  if(a==="mm-flip"){mmFlip(+el.getAttribute("data-i"));return true}
+  if(a==="od-start"){odStart();renderOrden();return true}
+  if(a==="od-pick"&&!OD.checked){var ix=+el.getAttribute("data-i"),at=OD.picked.indexOf(ix);if(at<0)OD.picked.push(ix);else OD.picked.splice(at,1);renderOrden();return true}
+  if(a==="od-undo"){OD.picked.pop();renderOrden();return true}
+  if(a==="od-check"&&OD.picked.length===5&&!OD.checked){
+    OD.checked=true;
+    var good=OD.picked.filter(function(v,k){return v===k}).length;
+    OD.right+=good;OD.wrong+=5-good;renderOrden();return true;
+  }
+  if(a==="od-skip"&&!OD.checked){if(!useSkip())return true;OD.sk++;odAdvance();renderOrden();return true}
+  if(a==="od-next"){odAdvance();renderOrden();return true}
+  if(a==="pb-start"){pbStart();renderPresup();return true}
+  if(a==="pb-toggle"){var i=+el.getAttribute("data-i");if(PB.sel[i])delete PB.sel[i];else PB.sel[i]=true;renderPresup();return true}
+  if(a==="pb-go"){pbGo();renderPresup();return true}
+  if(a==="pt-start"){ptStart();return true}
+  if(a==="pt-hit"){ptHit(+el.getAttribute("data-i"));return true}
   return false;
+}
+/* ===== interfaz de cuenta: cabecera, pantallas, ingreso y Journey ===== */
+function avBg(){var c=COLORS[APP.P.equip.c]||COLORS.c0;return "background:"+c.bg+";color:"+(c.fg||"#fff")}
+function avatarHTML(big){
+  var name=APP.guest?"I":(APP.user||"?"),ini=name.charAt(0).toUpperCase();
+  var pet=APP.P.equip.p&&PETS[APP.P.equip.p]?petBox(APP.P.equip.p,big?96:34):"";
+  return '<span class="avwrap"><span class="av '+(big?'big ':'')+APP.P.equip.f+'" style="'+avBg()+'" aria-hidden="true">'+esc(ini)+'</span>'+pet+'</span>';
+}
+function renderHud(){
+  var P=APP.P;if(!P)return;
+  var L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L);
+  var av=$("hud-av");
+  av.className="av "+P.equip.f;av.setAttribute("style",avBg());
+  av.textContent=(APP.guest?"I":(APP.user||"?")).charAt(0).toUpperCase();
+  $("hud-pet").innerHTML=P.equip.p&&PETS[P.equip.p]?petBox(P.equip.p,30):"";
+  $("hud-name").textContent=APP.guest?"Invitado":APP.user;
+  $("hud-level").textContent="Nv "+L;
+  $("hud-latas").textContent=P.latas;
+  $("hud-coins").textContent=P.coins;
+  $("hud-skips").textContent=P.skips;
+  $("hud-crowns").textContent=totalCrowns();
+  $("xpfill").style.width=(L>=MAXL?100:Math.round(cur/need*100))+"%";
+  $("xpbar").setAttribute("aria-label","Experiencia: "+(L>=MAXL?"nivel máximo":cur+" de "+need));
+  $("hud-xp").textContent=L>=MAXL?"Nivel máximo · "+P.xp+" XP":cur+" / "+need+" XP para el nivel "+(L+1);
+  $("hud-guest").hidden=!APP.guest;
+  var pd=pending(),bd=$("journey-badge");
+  bd.hidden=pd.n===0;bd.textContent=pd.n;
+  $("menu-logout").textContent=APP.guest?"Salir":"Cerrar sesión";
+}
+
+/* ---------- pantallas ---------- */
+var SCREENS={splash:"splash",auth:"auth",phones:"screen-phones",app:"app"};
+function showScreen(s){
+  APP.screen=s;
+  Object.keys(SCREENS).forEach(function(k){$(SCREENS[k]).hidden=k!==s});
+  window.scrollTo(0,0);
+  if(s==="splash")renderSplash();
+  else if(s==="auth")renderAuth();
+  else if(s==="phones")renderPhones();
+  else if(s==="app"){renderHud();setMode(APP.mode||"game")}
+}
+function enterApp(){
+  renderColegio();renderRuta();renderBanner();
+  if(!$("view-doc").hidden)renderDoc();
+  showScreen("app");
+}
+function renderSplash(){
+  $("splash-scene").innerHTML=scene({P:85,D:75,A:92,C:85});
+  var h=$("splash-hello");
+  if(APP.remembered){h.hidden=false;h.textContent="Hola de nuevo, "+APP.remembered.name+". Toca Abrir para continuar."}
+  else h.hidden=true;
+  setTheme(APP.theme,true);
+}
+function openApp(){
+  if(APP.remembered){startSession(APP.remembered,true,false);return}
+  APP.authMode=userList().length?"login":"register";
+  showScreen("auth");
+}
+
+/* ---------- ingreso y registro ---------- */
+function renderAuth(){
+  var reg=APP.authMode==="register",users=userList();
+  var accs=(!reg&&users.length)?'<div><div class="mono" style="margin-bottom:8px">Cuentas en este dispositivo</div><div class="acclist">'+users.map(function(n){return '<button type="button" data-act="pickacc" data-n="'+esc(n)+'">'+esc(n)+'</button>'}).join("")+'</div></div>':'';
+  $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="auth-back">‹ Volver al inicio</button></p>'
+   +'<div class="card authbox"><div class="mono">'+(reg?'Cuenta nueva':'Ingresar')+'</div><h2 style="font-size:30px;margin-top:4px">'+(reg?'Crea tu cuenta':'Bienvenido de nuevo')+'</h2>'
+   +'<p style="margin-top:8px;color:var(--muted)">'+(reg?'Elige un usuario y una contraseña. Con ellos guardarás tu nivel, tus latas rotas, tus monedas, tus coronas y tus compras.':'Ingresa con tu usuario y contraseña para continuar tu progreso.')+'</p>'
+   +accs
+   +'<form id="auth-form" novalidate><div><label for="au-name">Usuario</label><input id="au-name" autocomplete="username" maxlength="20" autocapitalize="off" spellcheck="false"></div>'
+   +'<div><label for="au-pw">Contraseña</label><input id="au-pw" type="password" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'
+   +(reg?'<div><label for="au-pw2">Repite la contraseña</label><input id="au-pw2" type="password" autocomplete="new-password"></div>':'')
+   +'<div class="chkrow"><input type="checkbox" id="au-show" data-act="showpw"><label for="au-show">Mostrar contraseña</label></div>'
+   +'<div class="chkrow"><input type="checkbox" id="au-rem"><label for="au-rem">Mantener la sesión en este dispositivo</label></div>'
+   +'<div class="err" id="au-msg" role="alert"></div>'
+   +'<button class="btn" id="au-go" type="submit">'+(reg?'Crear cuenta y abrir':'Ingresar')+'</button></form>'
+   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="authmode">'+(reg?'Ya tengo cuenta':'Crear una cuenta nueva')+'</button><button class="linkbtn" data-act="guest">Entrar como invitado</button></p>'
+   +'<p class="note">Tu cuenta y tu progreso se guardan solo en este dispositivo y navegador. No pedimos correo ni datos personales. No hay recuperación de contraseña: si la olvidas tendrás que crear otra cuenta. No uses una contraseña que uses en otros sitios.</p>'
+   +(canCrypto()?'':'<p class="warnbox">Este navegador no permite crear cuentas seguras. Puedes entrar como invitado.</p>')+'</div>';
+}
+function doAuth(){
+  if(APP.busy)return;
+  var reg=APP.authMode==="register",n=$("au-name").value.trim(),pw=$("au-pw").value,rem=$("au-rem").checked,msg=$("au-msg"),btn=$("au-go");
+  msg.textContent="";
+  if(!n||!pw){msg.textContent="Escribe tu usuario y tu contraseña.";return}
+  if(reg&&$("au-pw2").value!==pw){msg.textContent="Las contraseñas no coinciden.";return}
+  APP.busy=true;btn.disabled=true;btn.textContent="Verificando…";
+  var p=reg?register(n,pw):login(n,pw);
+  p.then(function(rec){APP.busy=false;startSession(rec,rem,false);toast(reg?"Cuenta creada. Bienvenido, "+rec.name+".":"Hola, "+rec.name+".")})
+   .catch(function(e){APP.busy=false;btn.disabled=false;btn.textContent=reg?"Crear cuenta y abrir":"Ingresar";msg.textContent=e&&e.user?e.message:"No se pudo completar la acción. Inténtalo de nuevo."});
+}
+function deleteAccount(){
+  var n=APP.user;
+  lsDel(ukey(n));lsSet("bc_users",userList().filter(function(x){return x!==n}));
+  toast("Cuenta eliminada.");logout();
+}
+
+/* ---------- menú ---------- */
+function hideMenu(){var m=$("menu");if(m){m.hidden=true;$("menu-btn").setAttribute("aria-expanded","false")}}
+function toggleMenu(){var m=$("menu"),open=m.hidden;m.hidden=!open;$("menu-btn").setAttribute("aria-expanded",open?"true":"false")}
+
+/* ---------- Journey ---------- */
+var JTABS=["camino","victorias","tienda","ruleta","perfil"];
+function renderJourney(){
+  var t=APP.jtab,el=$("view-journey");
+  setPressed(JTABS.map(function(k){return "j-"+k}),"j-"+t);
+  if(t==="camino")el.innerHTML=jCamino();
+  else if(t==="victorias")el.innerHTML=jVictorias();
+  else if(t==="tienda")el.innerHTML=jTienda();
+  else if(t==="ruleta"){el.innerHTML=jRuleta()}
+  else el.innerHTML=jPerfil();
+}
+function jCamino(){
+  var P=APP.P,L=levelOf(P.xp),cur=P.xp-CUM[L],need=L>=MAXL?1:xpNeed(L),pd=pending(),sel=APP.sel||Math.min(MAXL,L+1);
+  var next=null;for(var i=L+1;i<=MAXL;i++){if(isSpecial(rewardOf(i))){next=i;break}}
+  var tiles="";
+  for(var n=1;n<=MAXL;n++){
+    var st=n===1?"done":n<=P.claimed?"done":n<=L?"ready":"locked";
+    tiles+='<button class="lv '+st+(n===L?' cur':'')+(isSpecial(rewardOf(n))?' mile':'')+'" data-act="lvsel" data-n="'+n+'" aria-pressed="'+(n===sel)+'" aria-label="Nivel '+n+', '+(st==="done"?'reclamado':st==="ready"?'recompensa lista':'bloqueado')+(isSpecial(rewardOf(n))?', recompensa especial':'')+'">'+n+'</button>';
+  }
+  var r=rewardOf(sel);
+  var det='<div class="card" style="margin-top:14px"><div class="mono">Nivel '+sel+'</div><div style="margin-top:4px"><b>Recompensa:</b> '+(sel===1?'ninguna, es el nivel de inicio':esc(rewardText(r)))+'.</div><p class="note" style="margin-top:4px">'+(sel===1?'':'Experiencia total necesaria: '+CUM[sel]+' XP.')+(sel<=L?'':' Te faltan '+(CUM[sel]-P.xp)+' XP.')+'</p></div>';
+  var pdTxt=pd.n?'<div class="warnbox" style="border-color:var(--sun)"><b>'+pd.n+(pd.n===1?' recompensa lista':' recompensas listas')+':</b> +'+pd.latas+' latas rotas'+(pd.coins?', +'+pd.coins+' monedas':'')+(pd.skips?', +'+pd.skips+(pd.skips===1?' skip':' skips'):'')+(pd.spins?', +'+pd.spins+(pd.spins===1?' giro gratis':' giros gratis'):'')+'. <button class="btn sun" style="margin-left:8px" data-act="claim">Reclamar</button></div>':'<p class="note">No tienes recompensas pendientes.'+(next?' La próxima recompensa especial está en el nivel '+next+'.':'')+'</p>';
+  return '<div class="card stack"><div class="lvhead"><div class="lvbig" aria-label="Nivel '+L+'">'+L+'</div><div><div class="mono">Nivel actual de '+MAXL+'</div><div style="font-weight:600;margin-top:2px">'+(L>=MAXL?'Nivel máximo alcanzado':cur+' de '+need+' XP para el nivel '+(L+1))+'</div><div class="bar" style="margin-top:8px"><i style="width:'+(L>=MAXL?100:Math.round(cur/need*100))+'%;background:var(--accent)"></i></div></div></div>'
+   +pdTxt
+   +'<div><div class="mono" style="margin-bottom:8px">Camino de 100 niveles · el punto marca una recompensa especial</div><div class="lvgrid">'+tiles+'</div></div></div>'+det
+   +'<div class="card" style="margin-top:14px"><h3>Qué hay en el camino</h3><ul class="plain"><li>Latas rotas en cada nivel, con más en los niveles múltiplos de 5 y de 10.</li><li>Monedas en los niveles múltiplos de 10 y en los niveles 25, 50, 75 y 100.</li><li>Un skip cada 20 niveles y giros gratis de la ruleta en los niveles 15, 35, 55, 75 y 95.</li><li>Colores y marcos exclusivos en los niveles 12, 25, 40, 60, 70 y 100.</li><li>Once títulos, desde Vecino curioso hasta Leyenda del barrio.</li></ul></div>'
+   +'<div class="card" style="margin-top:14px"><h3>Cómo ganar experiencia</h3><ul class="plain"><li>Completar los lugares y los minijuegos: cada uno da XP y latas rotas.</li><li>Ganar un juego da una corona, 10 monedas y un bonus.</li><li>Usar por primera vez cada herramienta del modo profesional.</li><li>Entrar cada día: la racha suma más premio, y cada 7 días seguidos recibes 5 monedas.</li></ul></div>';
+}
+function jVictorias(){
+  var P=APP.P;
+  var rows=GAMES.map(function(g){
+    return '<tr><td><b>'+esc(g.n)+'</b><div class="note">'+esc(g.win)+'</div></td><td>'+(P.plays[g.k]||0)+'</td><td>'+(P.crowns[g.k]||0)+'</td><td>'+(P.best[g.k]?g.fmt(P.best[g.k]):'—')+'</td></tr>';
+  }).join("");
+  return '<div class="card stack"><div class="lvhead"><div class="lvbig" style="display:flex;align-items:center;gap:10px"><svg class="ic" style="width:.8em;height:.8em;color:var(--ink)" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'+totalCrowns()+'</div><div><div class="mono">Coronas ganadas</div><div class="note">Cada victoria suma una corona y 10 monedas.'+(P.bonusCrowns?' Incluye '+P.bonusCrowns+' de la ruleta.':'')+'</div></div></div><div class="tblwrap"><table class="tbl"><thead><tr><th>Juego y condición de victoria</th><th>Jugadas</th><th>Coronas</th><th>Mejor marca</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+/* ===== tienda, ruleta y perfil ===== */
+function balanceHTML(){
+  var P=APP.P;
+  return '<div class="stats"><span class="stat">'+ICON.lata+'<b>'+P.latas+'</b> latas</span><span class="stat">'+ICON.coin+'<b>'+P.coins+'</b> monedas</span><span class="stat">'+ICON.skip+'<b>'+P.skips+'</b> skips</span></div>';
+}
+function avPreview(kind,id){
+  if(kind==="c"){var c=COLORS[id];return '<span class="av" style="background:'+c.bg+';color:'+(c.fg||"#fff")+'" aria-hidden="true">A</span>'}
+  return '<span class="av '+id+'" style="'+avBg()+'" aria-hidden="true">A</span>';
+}
+function cosmeticItem(kind,id){
+  var P=APP.P,d=kind==="c"?COLORS[id]:FRAMES[id],L=levelOf(P.xp);
+  var owned=P.owned.indexOf(id)>=0,eq=P.equip[kind]===id,btn;
+  if(eq)btn='<span class="pill">En uso</span>';
+  else if(owned)btn='<button class="btn ghost" data-act="equip" data-k="'+kind+'" data-id="'+id+'">Usar</button>';
+  else if(d.cost){
+    if(d.min&&L<d.min)btn='<span class="note">Se desbloquea en el nivel '+d.min+'</span>';
+    else btn='<button class="btn" data-act="buy" data-k="'+kind+'" data-id="'+id+'"'+(P.latas<d.cost?' disabled':'')+'>Comprar</button>';
+  }else if(d.lvl)btn='<span class="note">Premio del nivel '+d.lvl+'</span>';
+  else if(d.roulette)btn='<span class="note">Solo sale en la ruleta</span>';
+  else btn='';
+  return '<div class="shopitem'+(eq?' eq':'')+'">'+avPreview(kind,id)+'<b>'+esc(d.n)+'</b>'+(!owned&&d.cost?'<span class="cost">'+ICON.lata+d.cost+' latas</span>':'')+btn+'</div>';
+}
+function petItem(id){
+  var P=APP.P,d=PETS[id],owned=P.pets.indexOf(id)>=0,eq=P.equip.p===id,btn;
+  if(eq)btn='<button class="btn ghost" data-act="equip" data-k="p" data-id="">Quitar</button>';
+  else if(owned)btn='<button class="btn ghost" data-act="equip" data-k="p" data-id="'+id+'">Usar</button>';
+  else btn='<button class="btn" data-act="buypet" data-id="'+id+'"'+(P.coins<d.cost?' disabled':'')+'>Comprar</button>';
+  return '<div class="shopitem'+(eq?' eq':'')+'">'+petBox(id,76)+'<b>'+esc(d.n)+'</b><span class="note">'+esc(d.d)+'</span>'+(owned?'':'<span class="cost">'+ICON.coin+d.cost+' monedas</span>')+(eq?'<span class="pill">Te acompaña</span>':'')+btn+'</div>';
+}
+function jTienda(){
+  var P=APP.P;
+  var skip='<div class="shopitem" style="grid-column:1/-1;justify-items:stretch"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="av" style="background:var(--accent);color:var(--accent-ink)" aria-hidden="true">'+ICON.skip.replace('fill="var(--accent)"','fill="currentColor"')+'</span><b>Skip</b><span class="note">Tienes '+P.skips+'</span></div><p class="note">Salta una pregunta. En las decisiones del colegio no cambia nada, pero pasa la semana escolar. En los minijuegos de preguntas, la pregunta saltada no cuenta como acierto ni como error.</p><div class="docbtns"><button class="btn" data-act="buyskip" data-how="coins"'+(P.coins<SKIP_COINS?' disabled':'')+'>Comprar por '+SKIP_COINS+' monedas</button><button class="btn ghost" data-act="buyskip" data-how="latas"'+(P.latas<SKIP_LATAS?' disabled':'')+'>Comprar por '+SKIP_LATAS+' latas rotas</button></div></div>';
+  return '<div class="card stack">'+balanceHTML()
+   +'<div><div class="sec">Boosts</div><div class="shopgrid" style="margin-top:8px">'+skip+'</div><p class="note" style="margin-top:8px">La pista de las decisiones del colegio (descartar una opción incorrecta) cuesta '+HINT_COST+' latas rotas y se paga al usarla.</p></div>'
+   +'<div><div class="sec">Mascotas (se compran con monedas)</div><div class="shopgrid" style="margin-top:8px">'+PET_ORDER.map(petItem).join("")+'</div><p class="note" style="margin-top:8px">Las monedas se ganan con las coronas, en los niveles del Journey y en la ruleta.</p></div>'
+   +'<div><div class="sec">Colores del avatar</div><div class="shopgrid" style="margin-top:8px">'+Object.keys(COLORS).map(function(id){return cosmeticItem("c",id)}).join("")+'</div></div>'
+   +'<div><div class="sec">Marcos</div><div class="shopgrid" style="margin-top:8px">'+Object.keys(FRAMES).map(function(id){return cosmeticItem("f",id)}).join("")+'</div></div></div>';
+}
+function buyCosmetic(kind,id){
+  var P=APP.P,d=kind==="c"?COLORS[id]:FRAMES[id];
+  if(!d||!d.cost||P.owned.indexOf(id)>=0)return;
+  if(d.min&&levelOf(P.xp)<d.min){toast("Necesitas el nivel "+d.min+".");return}
+  if(P.latas<d.cost){toast("Te faltan latas rotas.");return}
+  P.latas-=d.cost;P.owned.push(id);P.equip[kind]=id;save();renderHud();renderJourney();
+  toast("Compraste "+d.n+" y lo estás usando.");
+}
+function buyPet(id){
+  var P=APP.P,d=PETS[id];
+  if(!d||P.pets.indexOf(id)>=0)return;
+  if(P.coins<d.cost){toast("Te faltan monedas.");return}
+  P.coins-=d.cost;P.pets.push(id);P.equip.p=id;save();renderHud();renderJourney();
+  toast(d.n+" ahora te acompaña.");
+}
+function buySkip(how){
+  var P=APP.P;
+  if(how==="coins"){if(P.coins<SKIP_COINS){toast("Te faltan monedas.");return}P.coins-=SKIP_COINS}
+  else{if(P.latas<SKIP_LATAS){toast("Te faltan latas rotas.");return}P.latas-=SKIP_LATAS}
+  P.skips++;save();renderHud();renderJourney();toast("Compraste 1 skip.");
+}
+
+/* ---------- ruleta ---------- */
+var LATA_AMOUNTS=[[40,25],[60,25],[80,20],[100,15],[150,10],[250,5]];
+var PRIZES=[
+ {id:"coins15",p:35,col:"#D9A21B",fg:"#14232B",lab:"15",txt:"15 monedas"},
+ {id:"latas",p:30,col:"#5F6E77",fg:"#FFFFFF",lab:"Latas",txt:"Latas rotas (entre 40 y 250)"},
+ {id:"skip",p:15,col:"#2349D8",fg:"#FFFFFF",lab:"1 skip",txt:"1 skip"},
+ {id:"gris",p:10,col:"#8A8F94",fg:"#14232B",lab:"Gris",txt:"Color gris para tu perfil"},
+ {id:"coins100",p:5,col:"#1E7F48",fg:"#FFFFFF",lab:"100",txt:"100 monedas"},
+ {id:"crowns10",p:5,col:"#7A45C9",fg:"#FFFFFF",lab:"10",txt:"10 coronas"}
+];
+var ROUL={rot:0,busy:false,last:""};
+function polar(a,r){var t=a*Math.PI/180;return [150+r*Math.sin(t),150-r*Math.cos(t)]}
+function sliceAngles(id){
+  var a=0;
+  for(var i=0;i<PRIZES.length;i++){var s=PRIZES[i].p*3.6;if(PRIZES[i].id===id)return [a,a+s];a+=s}
+  return [0,0];
+}
+function wheelSVG(){
+  var a=0,out="";
+  PRIZES.forEach(function(p){
+    var a1=a+p.p*3.6,s=polar(a,140),e=polar(a1,140),m=(a+a1)/2,lp=polar(m,92);
+    out+='<path d="M150 150L'+s[0].toFixed(2)+' '+s[1].toFixed(2)+'A140 140 0 '+((a1-a)>180?1:0)+' 1 '+e[0].toFixed(2)+' '+e[1].toFixed(2)+'Z" fill="'+p.col+'" stroke="#FFFFFF" stroke-width="2"/>';
+    var rot=m<180?m-90:m+90;
+    out+='<text x="'+lp[0].toFixed(1)+'" y="'+lp[1].toFixed(1)+'" fill="'+p.fg+'" font-family="IBM Plex Mono,monospace" font-size="'+(p.p<10?15:16)+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate('+rot.toFixed(1)+' '+lp[0].toFixed(1)+' '+lp[1].toFixed(1)+')">'+esc(p.lab)+'</text>';
+    a=a1;
+  });
+  return '<svg viewBox="0 -18 300 322" class="wheelsvg" role="img" aria-label="Ruleta de premios"><g id="wheel" style="transform-origin:150px 150px;transform:rotate('+ROUL.rot+'deg)">'+out+'<circle cx="150" cy="150" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/></g><path d="M136 -14h28l-14 30z" fill="var(--ink)" stroke="var(--bg)" stroke-width="2"/></svg>';
+}
+function jRuleta(){
+  var P=APP.P;
+  var legend='<ul class="legend">'+PRIZES.map(function(p){return '<li><span class="sw" style="background:'+p.col+'"></span><span>'+esc(p.txt)+'</span><b>'+p.p+' %</b></li>'}).join("")+'</ul>';
+  return '<div class="card stack"><div><h2 style="font-size:28px">Ruleta de accesorios</h2><p style="margin-top:6px;max-width:62ch">Cada giro cuesta '+SPIN_COST+' latas rotas. Estas son las probabilidades reales de cada premio.</p></div>'+balanceHTML()
+   +'<div class="roulette">'+wheelSVG()+'<div class="stack">'+legend+'<div class="docbtns"><button class="btn sun" data-act="spin" data-free="0"'+((P.latas<SPIN_COST||ROUL.busy)?' disabled':'')+'>Girar por '+SPIN_COST+' latas rotas</button>'+(P.spins>0?'<button class="btn" data-act="spin" data-free="1"'+(ROUL.busy?' disabled':'')+'>Girar gratis ('+P.spins+')</button>':'')+'</div><p class="note">Las 10 coronas de la ruleta suman al contador de coronas, pero no dan monedas. Si ya tienes el color Gris, recibes 50 latas rotas.</p><div class="spinres" id="spinres" aria-live="polite">'+esc(ROUL.last||"")+'</div></div></div></div>';
+}
+function weighted(list){
+  var tot=list.reduce(function(s,x){return s+x[1]},0),r=Math.random()*tot,a=0;
+  for(var i=0;i<list.length;i++){a+=list[i][1];if(r<a)return list[i][0]}
+  return list[0][0];
+}
+function pickPrize(){
+  var r=Math.random()*100,a=0;
+  for(var i=0;i<PRIZES.length;i++){a+=PRIZES[i].p;if(r<a)return PRIZES[i]}
+  return PRIZES[0];
+}
+function applyPrize(pr){
+  var P=APP.P,m="";
+  if(pr.id==="coins15"){P.coins+=15;m="15 monedas"}
+  else if(pr.id==="coins100"){P.coins+=100;m="100 monedas"}
+  else if(pr.id==="skip"){P.skips+=1;m="1 skip"}
+  else if(pr.id==="latas"){var n=weighted(LATA_AMOUNTS);P.latas+=n;m=n+" latas rotas"}
+  else if(pr.id==="gris"){
+    if(P.owned.indexOf("c12")<0){P.owned.push("c12");m="el color Gris para tu perfil"}
+    else{P.latas+=50;m="el color Gris, que ya tenías. Te damos 50 latas rotas"}
+  }else if(pr.id==="crowns10"){P.bonusCrowns=(P.bonusCrowns||0)+10;m="10 coronas"}
+  return "Ganaste "+m+".";
+}
+function spinWheel(free){
+  var P=APP.P;if(ROUL.busy)return;
+  if(free){if(P.spins<1)return;P.spins--}
+  else{if(P.latas<SPIN_COST){toast("Te faltan latas rotas.");return}P.latas-=SPIN_COST}
+  var pr=pickPrize(),msg=applyPrize(pr);save();
+  ROUL.busy=true;ROUL.last="Girando…";
+  var ang=sliceAngles(pr.id),mid=(ang[0]+ang[1])/2,jit=(Math.random()-0.5)*(ang[1]-ang[0])*0.7;
+  var delta=(((-(mid+jit)-ROUL.rot)%360)+360)%360;
+  ROUL.rot=ROUL.rot+360*5+delta;
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var w=$("wheel"),res=$("spinres");
+  document.querySelectorAll('[data-act="spin"]').forEach(function(b){b.disabled=true});
+  if(res)res.textContent="Girando…";
+  function done(){ROUL.busy=false;ROUL.last=msg;renderHud();if(APP.mode==="journey"&&APP.jtab==="ruleta")renderJourney();toast(msg)}
+  if(reduce||!w){done();return}
+  void w.getBoundingClientRect();
+  w.style.transition="transform 4.2s cubic-bezier(.12,.6,.08,1)";
+  w.style.transform="rotate("+ROUL.rot+"deg)";
+  setTimeout(done,4400);
+}
+
+/* ---------- perfil ---------- */
+function jPerfil(){
+  var P=APP.P;
+  if(APP.guest)return '<div class="card stack"><h3>Estás como invitado</h3><p>Tu progreso de esta sesión no se guarda. Crea una cuenta para conservar tu nivel, tus latas rotas, tus monedas, tus coronas y tus compras.</p><p><button class="btn" data-act="guest-register">Crear una cuenta</button></p></div>';
+  var opts='<option value="">Sin título</option>'+P.titles.map(function(t){return '<option value="'+esc(t)+'"'+(P.equip.t===t?' selected':'')+'>'+esc(t)+'</option>'}).join("");
+  var created=APP.rec&&APP.rec.created?new Date(APP.rec.created).toLocaleDateString("es-PE",{day:"numeric",month:"long",year:"numeric"}):"";
+  function chips(kind,ids,get){
+    return '<div class="chips">'+ids.filter(get.has).map(function(id){return '<button data-act="equip" data-k="'+kind+'" data-id="'+id+'" aria-pressed="'+(P.equip[kind]===id)+'">'+esc(get.name(id))+'</button>'}).join("")+(kind==="p"?'<button data-act="equip" data-k="p" data-id="" aria-pressed="'+(!P.equip.p)+'">Sin mascota</button>':'')+'</div>';
+  }
+  var cc=chips("c",Object.keys(COLORS),{has:function(i){return P.owned.indexOf(i)>=0},name:function(i){return COLORS[i].n}});
+  var ff=chips("f",Object.keys(FRAMES),{has:function(i){return P.owned.indexOf(i)>=0},name:function(i){return FRAMES[i].n}});
+  var pp=P.pets.length?chips("p",PET_ORDER,{has:function(i){return P.pets.indexOf(i)>=0},name:function(i){return PETS[i].n}}):'<p class="note">Aún no tienes mascotas. Las encuentras en la Tienda y se compran con monedas.</p>';
+  var pet=P.equip.p&&PETS[P.equip.p]?PETS[P.equip.p].n:"";
+  return '<div class="card stack"><div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">'+avatarHTML(true)+'<div><h2 style="font-size:28px">'+esc(APP.user)+'</h2><div class="note">'+(P.equip.t?esc(P.equip.t)+' · ':'')+'Nivel '+levelOf(P.xp)+(created?' · Cuenta creada el '+esc(created):'')+'</div><div class="note">Racha actual: '+(P.streak||0)+(P.streak===1?' día':' días')+(pet?' · Te acompaña '+esc(pet):'')+'</div></div></div>'
+   +'<div><label for="sel-title">Título que se muestra</label><select id="sel-title">'+opts+'</select><p class="note" style="margin-top:6px">Los títulos se desbloquean al reclamar recompensas de niveles como el 5, 10, 20 y 30.</p></div>'
+   +'<div><div class="sec">Mis colores</div>'+cc+'</div><div><div class="sec">Mis marcos</div>'+ff+'</div><div><div class="sec">Mi mascota</div>'+pp+'</div>'
+   +'<hr class="hr"><div class="sec">Datos de la cuenta</div><p class="note">Tu cuenta vive en este dispositivo y navegador. Si borras los datos del navegador, se pierde. Tus datos de documentos (como el DNI) no se guardan.</p>'
+   +'<div class="docbtns"><button class="btn ghost" data-act="reset-ask">Reiniciar mi progreso</button><button class="btn ghost danger" data-act="del-ask">Eliminar mi cuenta</button></div><div id="confirm-box"></div></div>';
 }
 /* ===== documentos mejorados ===== */
 var D={type:"residuos",v:{},ch:{},an:{},modo:"ind",ready:false};
@@ -1289,7 +2091,7 @@ var DOCS=[
 {id:"residuos",name:"Reclamo por basura acumulada",
  fields:[
   {k:"entidad",l:"Entidad destinataria",ph:"Municipalidad Distrital de ... (Gerencia de Servicios Públicos)",req:1},
-  {k:"direccion",l:"Dirección del punto con basura",ph:"Pasaje 3, cuadra 2, Barrio Nueva Esperanza",req:1},
+  {k:"direccion",l:"Dirección del punto con basura",ph:"Calle o pasaje, cuadra y urbanización o sector",req:1},
   {k:"dias",l:"Días sin recojo",t:"num",ph:"14",req:1},
   {k:"familias",l:"Familias afectadas (aprox.)",t:"num",ph:"40"},
   {k:"riesgos",l:"Problemas que genera",t:"chk",o:["roedores e insectos","malos olores","riesgo de enfermedades","quema de basura","obstrucción de la vía o la acequia","cercanía a un colegio, mercado o posta"]},
@@ -1457,7 +2259,7 @@ var DOCS=[
  cierre:"Solicito que se evalúe la denuncia y se me informe el número de registro y el estado del caso."},
 {id:"acta",name:"Acta de asamblea vecinal",acta:true,
  fields:[
-  {k:"org",l:"Junta, comité o sector",ph:"Junta Vecinal Nueva Esperanza",req:1},
+  {k:"org",l:"Junta, comité o sector",ph:"Junta vecinal de mi sector",req:1},
   {k:"lugarasa",l:"Lugar de la asamblea",req:1},
   {k:"fechaasa",l:"Fecha de la asamblea",t:"date",req:1},
   {k:"hora",l:"Hora",ph:"6:00 p. m."},
@@ -1674,17 +2476,8 @@ function addContact(){
   renderPhones();
 }
 /* ---------- eventos ---------- */
-var NAV_IDS="#mode-game,#mode-journey,#mode-pro,#g-barrio,#g-limpio,#g-ruta,#g-bolsas,#g-mitos,#p-ruta,#p-doc,#p-plazo,#p-tel,#j-camino,#j-victorias,#j-tienda,#j-perfil";
+var NAV_IDS="#mode-game,#mode-journey,#mode-pro,"+GAME_KEYS.map(function(k){return "#g-"+k}).join(",")+",#p-ruta,#p-doc,#p-plazo,#p-tel,#j-camino,#j-victorias,#j-tienda,#j-ruleta,#j-perfil";
 var DOCMAP={residuos:"residuos",contaminacion:"ambiental",derechos:"derechos",informacion:"info",obra:"obra",propuesta:"firmas"};
-function buyItem(kind,id){
-  var P=APP.P,def=kind==="c"?COLORS[id]:FRAMES[id];if(!def)return;
-  var cost=def[kind==="c"?2:1],min=def[kind==="c"?3:2];
-  if(P.owned.indexOf(id)>=0)return;
-  if(levelOf(P.xp)<min){toast("Necesitas el nivel "+min+".");return}
-  if(P.latas<cost){toast("Te faltan latas rotas.");return}
-  P.latas-=cost;P.owned.push(id);P.equip[kind]=id;save();renderHud();renderJourney();
-  toast("Compraste "+def[0]+" y lo estás usando.");
-}
 function confirmBox(html){var b=$("confirm-box");if(b)b.innerHTML=html}
 function handleAct(a,el){
   var v=el.getAttribute("data-v");
@@ -1704,10 +2497,13 @@ function handleAct(a,el){
    case "showpw":var t=el.checked?"text":"password";["au-pw","au-pw2"].forEach(function(i){if($(i))$(i).type=t});return;
    case "claim":return claimAll();
    case "lvsel":APP.sel=+el.getAttribute("data-n");return renderJourney();
-   case "buy":return buyItem(el.getAttribute("data-k"),el.getAttribute("data-id"));
+   case "buy":return buyCosmetic(el.getAttribute("data-k"),el.getAttribute("data-id"));
+   case "buypet":return buyPet(el.getAttribute("data-id"));
+   case "buyskip":return buySkip(el.getAttribute("data-how"));
+   case "spin":return spinWheel(el.getAttribute("data-free")==="1");
    case "equip":APP.P.equip[el.getAttribute("data-k")]=el.getAttribute("data-id");save();renderHud();return renderJourney();
    case "guest-register":APP.authMode="register";return showScreen("auth");
-   case "reset-ask":return confirmBox('<div class="warnbox">Se borrarán tu nivel, tus latas rotas, tus coronas y tus compras. <button class="btn ghost danger" data-act="reset-do" style="margin-left:8px">Sí, reiniciar</button></div>');
+   case "reset-ask":return confirmBox('<div class="warnbox">Se borrarán tu nivel, tus latas rotas, tus monedas, tus coronas y tus compras. <button class="btn ghost danger" data-act="reset-do" style="margin-left:8px">Sí, reiniciar</button></div>');
    case "reset-do":var th=APP.P.theme;APP.P=newProgress();APP.P.theme=th;save();resetGames();renderHud();renderJourney();return toast("Progreso reiniciado.");
    case "del-ask":return confirmBox('<div class="warnbox">Se eliminará la cuenta "'+esc(APP.user)+'" de este dispositivo y no se puede deshacer. <button class="btn ghost danger" data-act="del-do" style="margin-left:8px">Sí, eliminar</button></div>');
    case "del-do":return deleteAccount();
@@ -1727,8 +2523,8 @@ function handleAct(a,el){
      APP.P.draft={};["nombre","domicilio","contacto","localidad","org2","cargo"].forEach(function(k){if(op(k))APP.P.draft[k]=op(k)});
      save();return toast(APP.guest?"Entras como invitado: crea una cuenta para guardar tus datos.":"Datos guardados en tu cuenta de este dispositivo.");
   }
-  if(["start","pick","next","topro","hint"].indexOf(a)>=0)return gameAct(a,el);
-  if(["lstart","bin","lnext"].indexOf(a)>=0)return limpioAct(a,el);
+  if(["start","pick","next","topro","hint","skip"].indexOf(a)>=0)return gameAct(a,el);
+  if(["lstart","bin","lnext","lskip"].indexOf(a)>=0)return limpioAct(a,el);
   if(extraAct(a,el))return;
 }
 document.addEventListener("click",function(e){
@@ -1769,6 +2565,10 @@ document.addEventListener("change",function(e){
 document.addEventListener("input",function(e){
   var el=e.target,f=el.getAttribute&&el.getAttribute("data-f");
   if(f&&el.tagName!=="SELECT"){D.v[f]=el.value;refreshDoc();return}
+  if(el.id==="bg-min"){
+    var mn=+el.value;if(mn>=1){BGSEL=clamp(Math.round(mn),1,60)*60;var t=$("bg-sel");if(t)t.textContent="Tiempo elegido: "+durLabel(BGSEL);var bs=document.querySelectorAll('[data-act="bg-dur"]');for(var q=0;q<bs.length;q++)bs[q].setAttribute("aria-pressed",String(+bs[q].getAttribute("data-v")===BGSEL))}
+    return;
+  }
   var hit=true;
   if(el.id==="pl-custom")PL.custom=+el.value;
   else if(el.id==="pl-start")PL.start=el.value;
@@ -1783,20 +2583,26 @@ document.addEventListener("keydown",function(e){
   if($("app").hidden||$("game").hidden||$("view-limpio").hidden||L.phase!=="play")return;
   var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT")return;
   var n=+e.key;
-  if(!L.answered&&n>=1&&n<=4){limpioAct("bin",{getAttribute:function(){return BINS[n-1].k}})}
+  if(!L.answered&&n>=1&&n<=4){limpioAct("bin",{getAttribute:function(){return L.bins[n-1].k}})}
   else if(L.answered&&e.key==="Enter"&&e.target.tagName!=="BUTTON"){limpioAct("lnext",null)}
 });
 
 /* ---------- reinicio de partidas y arranque ---------- */
 function resetGames(){
   if(typeof bgStop==="function")bgStop();
-  G={round:0,m:{P:30,D:40,A:25,C:35},seals:[],phase:"intro",pick:-1,order:[],last:null,bonus:{},xp:0,disc:[],rw:null};
-  L={phase:"intro",i:0,score:0,streak:0,answered:false,items:[],last:null};
+  if(typeof patioStop==="function")patioStop();
+  if(MM.timer)clearTimeout(MM.timer);
+  G=newG();
+  L={phase:"intro",i:0,score:0,resp:0,sk:0,streak:0,answered:false,items:[],bins:[],last:null,win:false};
   RT={phase:"intro",pts:[],sel:{},budget:0,res:""};
-  MT={phase:"intro",i:0,score:0,answered:false,items:[],ok:false,msg:""};
+  MT={phase:"intro",i:0,score:0,resp:0,sk:0,answered:false,items:[],ok:false,msg:""};
   BG={phase:"intro",raf:0};
+  MM={phase:"intro",cards:[],open:[],moves:0,matched:0,lock:false,timer:0};
+  OD={phase:"intro",list:[],i:0,order:[],picked:[],checked:false,res:[],right:0,wrong:0,sk:0,msg:""};
+  PB={phase:"intro",list:[],sel:{},budget:0};
+  PT={phase:"intro",t:0,score:0,cells:[],tick:0,spawn:0,hits:0,bad:0};
   D.v={};D.ch={};D.an={};D.ready=false;D.modo="ind";D.type="residuos";
-  setGameView("barrio");
+  setGameView("colegio");
 }
 (function boot(){
   var th=lsGet("bc_theme");
@@ -1805,10 +2611,8 @@ function resetGames(){
   var s=lsGet("bc_session");
   if(s){var rec=lsGet(ukey(s));if(rec&&rec.hash)APP.remembered=rec}
   resetGames();
-  renderBarrio();renderRuta();renderBanner();
+  renderColegio();renderRuta();renderBanner();
   showScreen("splash");
 })();
 </script>
-
-</body>
-</html>
+</body></html>
