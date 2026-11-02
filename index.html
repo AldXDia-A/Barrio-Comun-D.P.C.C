@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}</style>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Colegio Limpio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
@@ -299,6 +299,15 @@ ul.plain{margin:6px 0 0;padding-left:18px}
 .purpose input[type=number]{color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px;font:inherit}
 .purpose label{color:var(--bg)}
 .purpose summary{cursor:pointer}
+.wheels2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.roulette.dbl{grid-template-columns:minmax(0,1fr)}
+@media (min-width:820px){.roulette.dbl{grid-template-columns:minmax(0,560px) minmax(0,1fr)}}
+.wheels2 .wheelsvg{max-width:260px}
+.gid{font-family:var(--f-mono);font-size:clamp(24px,6vw,36px);font-weight:500;letter-spacing:.08em}
+.codebox{width:100%;font-family:var(--f-mono);font-size:12px;word-break:break-all;border:1.5px solid var(--line);border-radius:10px;padding:10px;background:var(--surface);color:var(--ink)}
+.flist{display:grid;gap:8px}
+.frow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:6px 12px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px}
+@media (max-width:620px){.frow{grid-template-columns:minmax(0,1fr)}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <div class="wrap">
@@ -427,6 +436,7 @@ ul.plain{margin:6px 0 0;padding-left:18px}
         <button id="j-victorias" aria-pressed="false">Victorias</button>
         <button id="j-tienda" aria-pressed="false">Tienda</button>
         <button id="j-ruleta" aria-pressed="false">Ruleta</button>
+        <button id="j-amigos" aria-pressed="false">Amigos</button>
         <button id="j-perfil" aria-pressed="false">Perfil</button>
       </div>
       <section id="view-journey"></section>
@@ -683,7 +693,7 @@ var GAMES=[
  {k:"colegio",n:"Colegio Sagrada Familia",win:"Terminar como Colegio organizado o ejemplar (240 puntos o más de 400).",fmt:function(v){return v+" / 400"}},
  {k:"limpio",n:"Punto limpio",win:"Acertar 10 de 12 residuos (si usas skips, hasta 2 errores entre los que respondes, con 8 respondidos como mínimo).",fmt:function(v){return v+" aciertos"}},
  {k:"ruta",n:"Ruta del camión",win:"Lograr 85 % de eficiencia o más.",fmt:function(v){return v+" %"}},
- {k:"bolsas",n:"Atrapa-bolsas",win:"Recoger 20 bolsas o más y atrapar al menos el 75 % de las que caen.",fmt:function(v){return v+" pts"}},
+ {k:"bolsas",n:"Atrapa-bolsas",win:"Recoger 20 bolsas o más y atrapar al menos el 75 % de las que caen. Además, 1 corona extra por jugar 10 minutos o más con 60 % de aciertos.",fmt:function(v){return v+" pts"}},
  {k:"mitos",n:"Mitos y datos",win:"Acertar 7 de 8 (con skips, máximo un error entre las que respondes, con 6 respondidas como mínimo).",fmt:function(v){return v+" aciertos"}},
  {k:"memoria",n:"Memoria de residuos",win:"Completar todas las parejas en 12 movimientos o menos.",fmt:function(v){return v+" puntos"}},
  {k:"orden",n:"Ordena el proceso",win:"Ordenar bien casi todos los pasos de 3 procesos (como máximo 2 pasos mal ubicados).",fmt:function(v){return v+" pasos bien"}},
@@ -774,7 +784,7 @@ function newProgress(){
   return {rv:2,xp:0,claimed:1,latas:0,coins:0,skips:0,spins:0,bonusCrowns:0,titles:[],pets:[],
     crowns:zeroMap(),plays:zeroMap(),best:zeroMap(),
     checks:{},once:{},owned:["c0","f0"],equip:{c:"c0",f:"f0",t:"",p:""},
-    contacts:[],draft:{},theme:"",day:"",streak:0,hints:0,spent:0,lseen:[]};
+    contacts:[],draft:{},theme:"",day:"",streak:0,hints:0,spent:0,lseen:[],friends:[],fin:[],fsent:[],battle:{w:0,l:0,t:0,best:{},done:[],out:{}}};
 }
 function fillDefaults(p,d){
   if(!p||typeof p!=="object")return d;
@@ -826,7 +836,7 @@ function register(name,pw){
   if(list.some(function(n){return n.toLowerCase()===name.toLowerCase()}))return Promise.reject(fail("Ese usuario ya existe en este dispositivo. Elige otro o ingresa."));
   var salt=crypto.getRandomValues(new Uint8Array(16)),it=150000;
   return hashPw(pw,salt,it).then(function(h){
-    var rec={name:name,salt:b64(salt),hash:h,it:it,created:Date.now(),P:newProgress()};
+    var rec={name:name,id:uniqueGid(),salt:b64(salt),hash:h,it:it,created:Date.now(),P:newProgress()};
     if(!lsSet(ukey(name),rec))throw fail("No se pudo guardar la cuenta: el navegador bloquea el almacenamiento. Puedes jugar como invitado.");
     list.push(name);lsSet("bc_users",list);
     return rec;
@@ -836,6 +846,7 @@ function login(name,pw){
   var now=Date.now();
   if(AUTH.until>now)return Promise.reject(fail("Demasiados intentos. Espera "+Math.ceil((AUTH.until-now)/1000)+" segundos."));
   var rec=lsGet(ukey(name));
+  if((!rec||!rec.hash)&&isGid(name))rec=findByGid(name);
   if(!rec||!rec.hash)return Promise.reject(wrong());
   if(!canCrypto())return Promise.reject(fail("Este navegador no permite ingresar a cuentas seguras."));
   return hashPw(pw,unb64(rec.salt),rec.it).then(function(h){
@@ -846,13 +857,14 @@ function login(name,pw){
 function wrong(){
   AUTH.fails++;
   if(AUTH.fails>=5){AUTH.until=Date.now()+30000;AUTH.fails=0;return fail("Demasiados intentos. Espera 30 segundos.")}
-  return fail("Usuario o contraseña incorrectos.");
+  return fail("Usuario, identificador o contraseña incorrectos.");
 }
 
 /* ---------- sesión ---------- */
 function save(){
   if(APP.guest||!APP.user||!APP.rec)return;
   APP.rec.P=APP.P;
+  if(APP.rec.cloud){if(typeof cloudSaveSoon==="function")cloudSaveSoon();return}
   lsSet(ukey(APP.user),APP.rec);
 }
 function ymdLocal(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
@@ -860,8 +872,9 @@ function startSession(rec,remember,guest){
   APP.guest=!!guest;
   APP.rec=guest?null:rec;
   APP.user=guest?null:rec.name;
+  if(!guest&&!rec.id){rec.id=uniqueGid()}
   APP.P=guest?newProgress():loadProgress(rec.P);
-  if(!guest){rec.P=APP.P;if(remember)lsSet("bc_session",rec.name);else lsDel("bc_session")}
+  if(!guest){rec.P=APP.P;if(rec.cloud){lsDel("bc_session")}else if(remember)lsSet("bc_session",rec.name);else lsDel("bc_session")}
   resetGames();
   if(APP.P.theme&&!guest)setTheme(APP.P.theme,true);
   enterApp();
@@ -870,6 +883,7 @@ function startSession(rec,remember,guest){
 function logout(){
   if(typeof bgStop==="function")bgStop();
   if(typeof patioStop==="function")patioStop();
+  if(typeof cloudLogout==="function")cloudLogout();
   lsDel("bc_session");APP.remembered=null;
   APP.user=null;APP.rec=null;APP.guest=false;APP.P=newProgress();
   hideMenu();showScreen("splash");
@@ -910,18 +924,19 @@ function once(key,xp,latas){
   toast("Primera vez: +"+xp+" XP y +"+latas+" latas rotas.");
   return true;
 }
-function reward(game,xp,latas,win,score){
-  var P=APP.P;
+function reward(game,xp,latas,win,score,extra){
+  var P=APP.P;extra=extra||{};
   P.plays[game]=(P.plays[game]||0)+1;
   if(score>(P.best[game]||0))P.best[game]=score;
-  var coins=0;
+  var coins=0,xc=extra.coins|0,xk=extra.crowns|0;
   if(win){P.crowns[game]=(P.crowns[game]||0)+1;xp+=10;latas+=10;coins=CROWN_COINS}
-  var g=gain(xp,latas,coins);
-  return {xp:xp,latas:latas,coins:coins,win:win,up:g.up,level:g.level};
+  if(xk>0)P.crowns[game]=(P.crowns[game]||0)+xk;
+  var g=gain(xp,latas,coins+xc);
+  return {xp:xp,latas:latas,coins:coins,win:win,up:g.up,level:g.level,xc:xc,xk:xk,xkCoins:extra.crownCoins|0};
 }
 function rwHTML(r){
   if(!r)return "";
-  return '<div class="rw"><span class="pill">+'+r.xp+' XP</span><span class="pill">+'+r.latas+' latas rotas</span>'+(r.win?'<span class="pill crown">+1 corona</span><span class="pill crown">+'+r.coins+' monedas</span>':'')+(r.up?'<span class="pill">Nivel '+r.level+'</span>':'')+'</div>'+(APP.guest?'<p class="note">Eres invitado: este progreso no se guardará. Crea una cuenta para conservarlo.</p>':'');
+  return '<div class="rw"><span class="pill">+'+r.xp+' XP</span><span class="pill">+'+r.latas+' latas rotas</span>'+(r.win?'<span class="pill crown">+1 corona</span><span class="pill crown">+'+r.coins+' monedas</span>':'')+(r.xk?'<span class="pill crown">+'+r.xk+(r.xk===1?' corona de resistencia':' coronas de resistencia')+'</span>':'')+(r.xc?'<span class="pill crown">+'+r.xc+' monedas por el tiempo jugado</span>':'')+(r.up?'<span class="pill">Nivel '+r.level+'</span>':'')+'</div>'+(APP.guest?'<p class="note">Eres invitado: este progreso no se guardará. Crea una cuenta para conservarlo.</p>':'');
 }
 function claimAll(){
   var P=APP.P,L=levelOf(P.xp),sum={latas:0,coins:0,skips:0,spins:0},ts=[],ul=[];
@@ -1390,6 +1405,7 @@ function extraAct(a,el){
   if(a==="mt-next"){mtAdvance();renderMitos();return true}
   if(a==="basura-ruta"){R.id="residuos";setProView("ruta");renderRuta();return true}
   if(a==="basura-doc"){basuraDoc();setProView("doc");renderDoc();return true}
+  if(battleAct(a,el))return true;
   return newGameAct(a,el);
 }
 /* ---------- minijuego: atrapa-bolsas (reflejos, con tiempo elegible hasta 1 hora) ---------- */
@@ -1414,31 +1430,32 @@ var BGPRE=[30,60,120,300,600,1800,3600];
 
 function renderBolsas(){
   var el=$("view-bolsas"),best=APP.P.best.bolsas||null;
+  if(BG.phase!=="play"&&BGV==="battle"){renderBatalla();return}
   if(BG.phase==="intro"){
     var chips=BGPRE.map(function(s){return '<button data-act="bg-dur" data-v="'+s+'" aria-pressed="'+(BGSEL===s)+'">'+durLabel(s)+'</button>'}).join("");
     var leg=Object.keys(BGTYPES).map(function(k){var t=BGTYPES[k];return '<li><b>'+t.name+'.</b> '+t.d+'</li>'}).join("");
-    el.innerHTML='<div class="purpose"><div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>Caen bolsas de basura sobre el patio del colegio. Toca cada bolsa antes de que llegue al suelo. Encadena aciertos para subir tu combo: cada 5 seguidos aumenta el multiplicador hasta ×4. Vigila los relámpagos, que caen rapidísimo, y no toques las mochilas de tus compañeros. También puedes recoger la bolsa más baja con la barra espaciadora. Cada bolsa que llega al suelo se suma a la basura acumulada.</p>'
+    el.innerHTML='<div class="purpose">'+modeChips()+'<div class="mono">Minijuego de reflejos</div><h2>Atrapa-bolsas</h2><p>Caen bolsas de basura sobre el patio del colegio. Toca cada bolsa antes de que llegue al suelo. Encadena aciertos para subir tu combo: cada 5 seguidos aumenta el multiplicador hasta ×4. Vigila los relámpagos, que caen rapidísimo, y no toques las mochilas de tus compañeros. También puedes recoger la bolsa más baja con la barra espaciadora. Cada bolsa que llega al suelo se suma a la basura acumulada.</p>'
       +'<div style="margin-top:16px"><div class="mono" style="margin-bottom:6px">Elige cuánto quieres jugar (máximo 1 hora)</div><div class="chips" role="group" aria-label="Duración del juego">'+chips+'</div><div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap"><label for="bg-min" style="margin:0">Otro tiempo, en minutos (1 a 60):</label><input id="bg-min" type="number" min="1" max="60" step="1" value="'+Math.max(1,Math.round(BGSEL/60))+'" style="width:96px"></div><p class="mono" id="bg-sel" style="margin-top:8px">Tiempo elegido: '+durLabel(BGSEL)+'</p></div>'
       +'<p style="margin-top:18px"><button class="btn sun" data-act="bg-start">Empezar</button></p>'
       +'<details style="margin-top:14px"><summary>Tipos de bolsa</summary><ul class="plain" style="margin-top:8px">'+leg+'</ul></details>'
-      +(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'<p class="note" style="margin-top:8px">Las recompensas por XP y latas tienen un tope por partida, así que jugar más tiempo es solo para divertirse y para limpiar más.</p></div>';
+      +(best!==null?'<p class="mono" style="margin-top:12px">Tu mejor puntaje: '+best+'</p>':'')+'<p class="note" style="margin-top:8px">Mientras más tiempo juegues y más bolsas atrapes, más ganas: cada minuto suma XP, latas rotas y monedas, según tu porcentaje de aciertos. Si juegas 10 minutos o más con al menos 60 % de aciertos, ganas 1 corona extra de resistencia con sus 10 monedas. Quedarte quieto no suma nada.</p></div>';
     return;
   }
   if(BG.phase==="end"){
-    el.innerHTML='<div class="card stack"><div class="mono">Resultado · '+durLabel(BG.dur)+'</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas, '+BG.missed+' llegaron al suelo y tu mejor combo fue ×'+BG.maxMult+' ('+BG.bestCombo+' seguidas). '+(BG.zaps?'Atrapaste '+BG.zaps+(BG.zaps===1?' relámpago. ':' relámpagos. '):'')+esc(BG.msg)+'</p>'+rwHTML(BG.rw)+'<p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="bg-start">Jugar otra vez</button><button class="btn ghost" data-act="bg-menu">Cambiar el tiempo</button></p></div>';
+    el.innerHTML='<div class="card stack"><div class="mono">Resultado · '+durLabel(BG.dur)+'</div><div class="big">'+BG.score+' puntos</div><p>Recogiste '+BG.caught+' bolsas, '+BG.missed+' llegaron al suelo y tu mejor combo fue ×'+BG.maxMult+' ('+BG.bestCombo+' seguidas). '+(BG.zaps?'Atrapaste '+BG.zaps+(BG.zaps===1?' relámpago. ':' relámpagos. '):'')+esc(BG.msg)+'</p>'+rwHTML(BG.rw)+(BG.bonus&&BG.bonus.min>=1?'<p class="note">Por jugar '+Math.floor(BG.bonus.min)+' min con '+Math.round(BG.bonus.ratio*100)+' % de aciertos: +'+BG.bonus.xp+' XP, +'+BG.bonus.la+' latas rotas y +'+BG.bonus.co+' monedas'+(BG.bonus.crown?', y 1 corona de resistencia':'')+'.</p>':'')+'<p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="bg-start">Jugar otra vez</button><button class="btn ghost" data-act="bg-menu">Cambiar el tiempo</button></p></div>';
     return;
   }
-  el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen sobre el patio del colegio"></canvas><p style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button><button class="btn ghost" data-act="bg-pause" id="bg-pause">Pausa</button><button class="btn ghost" data-act="bg-stop">Terminar ahora</button></p></div>';
+  el.innerHTML='<div class="card"><div class="hud" id="hud" aria-live="off"></div><canvas id="arena" class="arena" width="'+AW+'" height="'+AH+'" aria-label="Área de juego: bolsas de basura que caen sobre el patio del colegio"></canvas><p style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="bg-take">Recoger la más baja</button>'+(BG.battle?'':'<button class="btn ghost" data-act="bg-pause" id="bg-pause">Pausa</button><button class="btn ghost" data-act="bg-stop">Terminar ahora</button>')+'</p></div>';
 }
 function bgPick(){
   var tot=BGSPAWN.reduce(function(s,a){return s+a[1]},0),r=Math.random()*tot;
   for(var i=0;i<BGSPAWN.length;i++){r-=BGSPAWN[i][1];if(r<=0)return BGSPAWN[i][0]}
   return "n";
 }
-function bgStart(){
-  bgStop();
-  var dur=clamp(Math.round(BGSEL),BGMIN,BGMAX);
-  BG={phase:"play",raf:0,dur:dur,t:dur,el:0,bags:[],pops:[],score:0,caught:0,missed:0,combo:0,bestCombo:0,maxMult:1,zaps:0,spawn:.3,last:performance.now(),msg:"",paused:false,flash:0};
+function bgStart(opts){
+  bgStop();opts=opts||{};
+  var dur=opts.dur?opts.dur:clamp(Math.round(BGSEL),BGMIN,BGMAX);
+  BG={battle:!!opts.battle,sched:opts.sched||null,si:0,phase:"play",raf:0,dur:dur,t:dur,el:0,bags:[],pops:[],score:0,caught:0,missed:0,combo:0,bestCombo:0,maxMult:1,zaps:0,spawn:.3,last:performance.now(),msg:"",paused:false,flash:0};
   renderBolsas();
   var cv=$("arena"),cs=getComputedStyle(document.documentElement);
   function c(n){return cs.getPropertyValue(n).trim()}
@@ -1519,7 +1536,9 @@ function bgLoop(ts){
   if(!BG.paused){
     BG.t-=dt;BG.el+=dt;BG.spawn-=dt;if(BG.flash>0)BG.flash-=dt;
     var inten=Math.min(1.2,BG.el/90);
-    if(BG.spawn<=0){
+    if(BG.sched){
+      while(BG.si<BG.sched.length&&BG.sched[BG.si].t<=BG.el){var e=BG.sched[BG.si++];BG.bags.push({x:e.x,x0:e.x,y:-20,vy:e.vy,r:BGTYPES[e.k].r,k:e.k,ph:e.ph})}
+    }else if(BG.spawn<=0){
       var k=bgPick(),T=BGTYPES[k];
       BG.bags.push({x:30+Math.random()*(AW-60),x0:0,y:-20,vy:(70+Math.random()*50)*(1+.5*inten)*T.sp,r:T.r,k:k,ph:Math.random()*6});
       BG.bags[BG.bags.length-1].x0=BG.bags[BG.bags.length-1].x;
@@ -1533,16 +1552,857 @@ function bgLoop(ts){
     for(var j=BG.pops.length-1;j>=0;j--){var p=BG.pops[j];p.t-=dt;p.y-=30*dt;if(p.t<=0)BG.pops.splice(j,1)}
   }
   bgDraw();
-  var h=$("hud");if(h)h.innerHTML='<span>Tiempo: '+fmtT(BG.t)+'</span><span>Puntos: '+BG.score+'</span><span>Combo: '+BG.combo+' (×'+bgMult()+')</span><span>Al suelo: '+BG.missed+'</span>';
+  var h=$("hud");if(h)h.innerHTML='<span>Tiempo: '+fmtT(BG.t)+'</span><span>Puntos: '+BG.score+'</span><span>Combo: '+BG.combo+' (×'+bgMult()+')</span><span>Al suelo: '+BG.missed+'</span>'+(BG.battle&&BT.target!==undefined?'<span>'+(BT.net&&BT.opp?esc(BT.opp.name)+': ':'Marca a vencer: ')+BT.target+'</span>':'')+(BG.dur>=600?(BG.el<600?'<span>Corona de resistencia en '+fmtT(600-BG.el)+'</span>':'<span>Corona de resistencia lista</span>'):'');
   if(BG.t<=0){bgEnd();return}
   BG.raf=requestAnimationFrame(bgLoop);
 }
+function bgBonus(){
+  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0,min=BG.el/60;
+  var b={min:min,ratio:ratio,xp:Math.floor(min*ratio*6),la:Math.floor(min*ratio*8),co:Math.floor(min*ratio*1.5),crown:0};
+  if(BG.el>=600&&ratio>=0.6){b.crown=1;b.co+=CROWN_COINS}
+  return b;
+}
 function bgEnd(){
   if(BG.raf)cancelAnimationFrame(BG.raf);BG.raf=0;BG.phase="end";
-  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0;
-  BG.rw=reward("bolsas",Math.min(40,BG.caught*2),Math.min(30,Math.floor(BG.caught/2)),BG.caught>=20&&ratio>=0.75,BG.score);
+  if(BG.battle){btFinish();renderBolsas();return}
+  var tot=BG.caught+BG.missed,ratio=tot?BG.caught/tot:0,b=bgBonus();
+  BG.bonus=b;
+  BG.rw=reward("bolsas",Math.min(40,BG.caught*2)+b.xp,Math.min(30,Math.floor(BG.caught/2))+b.la,BG.caught>=20&&ratio>=0.75,BG.score,{coins:b.co,crowns:b.crown});
   BG.msg=award("bolsas",ratio);
   renderBolsas();
+}
+/* ===== Batalla del Atrapa-bolsas: misma lluvia de bolsas para los dos jugadores ===== */
+var BGV="solo";                       /* "solo" | "battle" */
+var BTDUR=45;
+var BT={phase:"menu",kind:"",dur:45,seed:0,opp:null,me:null,target:undefined,code:"",msg:"",pre:null,p2:"",first:null,out:""};
+var BOTNAMES=["Brigadista_27","Reciclador_Pro","LataVeloz","Eco_Mateo","Guardiana_Verde","Tacho_Rápido","Patio_Limpio","Capitán_Reciclaje","Ardilla_Eco","Comando_Verde"];
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function newSeed(){return Math.floor(Math.random()*2147483000)+1}
+function bgSchedule(seed,dur){
+  var r=mulberry(seed),t=.3,out=[],list=BGSPAWN.filter(function(a){return a[0]!=="t"}),tot=list.reduce(function(s,a){return s+a[1]},0);
+  while(t<dur){
+    var inten=Math.min(1.2,t/90),x=r()*tot,k="n";
+    for(var i=0;i<list.length;i++){x-=list[i][1];if(x<=0){k=list[i][0];break}}
+    out.push({t:t,k:k,x:30+r()*(AW-60),vy:(70+r()*50)*(1+.5*inten)*BGTYPES[k].sp,ph:r()*6});
+    t+=(.55+r()*.35)*(1-.4*Math.min(1,inten));
+  }
+  return out;
+}
+function btTally(){var b=APP.P.battle;return b.w+" ganadas · "+b.l+" perdidas · "+b.t+" empates"}
+function btOutcome(a,b){return a>b?"w":a<b?"l":"t"}
+var BTREW={net:{w:[16,10,2],l:[7,4,0],t:[10,6,1]},"new":{t:[4,3,0]},bot:{w:[12,8,2],l:[5,3,0],t:[8,5,1]},friend:{w:[18,12,3],l:[8,4,0],t:[12,8,1]},local:{w:[6,3,0],l:[6,3,0],t:[6,3,0]}};
+function btReward(kind,res,count){
+  var P=APP.P,r=BTREW[kind][res],txt;
+  gain(r[0],r[1],r[2]);
+  if(count){P.battle[res]++}
+  txt="+"+r[0]+" XP, +"+r[1]+" latas rotas"+(r[2]?" y +"+r[2]+(r[2]===1?" moneda":" monedas"):"");
+  save();return txt;
+}
+function btBest(score){var b=APP.P.battle;if(score>(b.best[BT.dur]||0)){b.best[BT.dur]=score}}
+function btRecordFriend(id,res){
+  var f=APP.P.friends.filter(function(x){return x.id===id})[0];
+  if(f){f[res]=(f[res]||0)+1}
+}
+function btDone(key){var d=APP.P.battle.done;if(d.indexOf(key)>=0)return true;d.push(key);if(d.length>60)d.shift();return false}
+
+/* ---------- arranque de una partida de batalla ---------- */
+function btPlay(){
+  BT.phase="play";BT.me=null;
+  bgStart({battle:true,dur:BT.dur,sched:bgSchedule(BT.seed,BT.dur)});
+}
+function btFinish(){
+  var P=APP.P,sc=BG.score,k=BT.kind;
+  BT.me={score:sc,caught:BG.caught,missed:BG.missed};btBest(sc);
+  if(k.indexOf("net-")===0){cbFinish();return}
+  if(k==="bot"){
+    var res=btOutcome(sc,BT.opp.score);BT.res=res;BT.rew=btReward("bot",res,true);BT.phase="result";
+  }else if(k==="friend-new"){
+    P.battle.out[BT.seed]={score:sc,dur:BT.dur,at:Date.now()};
+    var keys=Object.keys(P.battle.out);if(keys.length>20)delete P.battle.out[keys[0]];
+    BT.code=encCode("CLB1",{s:BT.seed,d:BT.dur,id:myId(),n:APP.user,sc:sc,ca:BG.caught});
+    BT.rew=btReward("new","t",false);BT.phase="result";BT.res="";
+  }else if(k==="friend-reply"){
+    var res2=btOutcome(sc,BT.opp.score);BT.res=res2;
+    BT.code=encCode("CLB2",{s:BT.seed,id:myId(),n:APP.user,sc:sc});
+    var key="rep"+BT.seed+BT.opp.id;
+    if(btDone(key)){BT.rew="Este reto ya lo habías jugado: no suma otra vez."}
+    else{BT.rew=btReward("friend",res2,true);btRecordFriend(BT.opp.id,res2)}
+    BT.phase="result";
+  }else if(k==="local"){
+    if(!BT.first){BT.first={score:sc};BT.phase="pass"}
+    else{
+      var r3=btOutcome(BT.first.score,sc);BT.res=r3;
+      BT.rew=btReward("local",r3,false);BT.phase="result";
+    }
+  }
+  save();
+}
+
+/* ---------- pantallas ---------- */
+function btChips(){
+  return '<div class="chips" role="group" aria-label="Duración de la batalla">'+[30,45,60,90].map(function(s){return '<button data-act="bt-dur" data-v="'+s+'" aria-pressed="'+(BTDUR===s)+'">'+s+' s</button>'}).join("")+'</div>';
+}
+function modeChips(){
+  return '<div class="chips" role="group" aria-label="Modo" style="margin-bottom:14px"><button data-act="bgv" data-v="solo" aria-pressed="'+(BGV==="solo")+'">Jugar solo</button><button data-act="bgv" data-v="battle" aria-pressed="'+(BGV==="battle")+'">Batalla</button></div>';
+}
+function whoWon(res,me,opp){return res==="w"?'<span class="ok">¡Ganaste!</span> ':res==="l"?'<span class="no">Perdiste esta vez.</span> ':'<span>Empate.</span> '}
+function renderBatalla(){
+  var el=$("view-bolsas");
+  if(BT.phase==="play"&&BG.phase!=="play")BT.phase="menu";
+  if(["search","invite","count","waitres","nomatch"].indexOf(BT.phase)>=0){el.innerHTML=cbScreen();return}
+  if(BT.phase==="pass"){
+    el.innerHTML='<div class="card stack">'+modeChips()+'<div class="mono">Mismo dispositivo</div><h2 style="font-size:28px">Turno de '+esc(BT.p2)+'</h2><p>'+esc(APP.user||"Jugador 1")+' hizo <b>'+BT.first.score+'</b> puntos. Pasa el dispositivo: '+esc(BT.p2)+' juega la misma lluvia de bolsas durante '+BT.dur+' segundos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="bt-p2go">Empezar el turno de '+esc(BT.p2)+'</button><button class="btn ghost" data-act="bt-menu">Cancelar</button></p></div>';
+    return;
+  }
+  if(BT.phase==="preview"){
+    var o=BT.pre;
+    el.innerHTML='<div class="card stack">'+modeChips()+'<div class="mono">Reto recibido</div><h2 style="font-size:28px">'+esc(o.name)+' te reta</h2><p><span class="mono">'+esc(o.id)+'</span></p><p>Hizo <b>'+o.score+'</b> puntos en '+o.dur+' segundos. Juegas la misma lluvia de bolsas: gana quien sume más puntos.</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="bt-accept">Aceptar el reto</button><button class="btn ghost" data-act="bt-menu">Cancelar</button></p></div>';
+    return;
+  }
+  if(BT.phase==="result"){
+    var me=BT.me,k=BT.kind,h='<div class="card stack">'+modeChips()+'<div class="mono">Resultado de la batalla</div>';
+    if(k.indexOf("net-")===0)h+=cbResultHTML();
+    else if(k==="bot")h+='<div class="big">'+me.score+' a '+BT.opp.score+'</div><p>'+whoWon(BT.res)+'Jugaste contra <b>'+esc(BT.opp.name)+'</b> (rival simulado, no es una persona real).</p>';
+    else if(k==="friend-new")h+='<div class="big">'+me.score+' puntos</div><p>Reto creado. Mándale este código a quien quieras retar y, cuando lo juegue, te mandará su resultado para compararlo.</p><textarea readonly rows="3" class="codebox">'+esc(BT.code)+'</textarea><p><button class="btn sun" data-act="copyn" data-v="'+esc(BT.code)+'">Copiar código del reto</button></p>';
+    else if(k==="friend-reply")h+='<div class="big">'+me.score+' a '+BT.opp.score+'</div><p>'+whoWon(BT.res)+'Jugaste contra <b>'+esc(BT.opp.name)+'</b>. Mándale este código de resultado para que él también vea quién ganó:</p><textarea readonly rows="3" class="codebox">'+esc(BT.code)+'</textarea><p><button class="btn sun" data-act="copyn" data-v="'+esc(BT.code)+'">Copiar código de resultado</button></p>';
+    else h+='<div class="big">'+BT.first.score+' a '+me.score+'</div><p>'+(BT.res==="w"?'<b>'+esc(APP.user||"Jugador 1")+'</b> ganó.':BT.res==="l"?'<b>'+esc(BT.p2)+'</b> ganó.':'Empate.')+'</p>';
+    if(k.indexOf("net-")!==0)h+='<p class="note">'+esc(BT.rew||"")+'</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="bt-menu">Volver a Batalla</button></p>';
+    h+='</div>';
+    el.innerHTML=h;
+    return;
+  }
+  /* menú */
+  var friends=APP.P.friends.length,netH=cloudBatallaHTML();
+  el.innerHTML='<div class="card stack">'+modeChips()+'<div><div class="mono">Batalla</div><h2 style="font-size:28px">Compite con la misma lluvia de bolsas</h2><p style="margin-top:6px;max-width:64ch">Los dos jugadores reciben exactamente las mismas bolsas, en el mismo orden y en el mismo momento. Gana quien sume más puntos. En batalla no hay pausa ni se puede terminar antes, y no aparecen relojes.</p><p class="mono" style="margin-top:8px">Tu récord: '+btTally()+'</p></div>'
+   +'<div><div class="mono" style="margin-bottom:6px">Duración</div>'+btChips()+'</div>'
+   +netH+'<details class="card"'+(netH.indexOf('data-act="cl-search"')<0?' open':'')+'><summary>Otras formas de jugar (sin conexión)</summary><div class="stack" style="margin-top:12px">'
+   +'<div class="two"><div class="card stack"><h3>Rival simulado</h3><p>Juegas contra un rival <b>simulado</b> con puntaje parecido al tuyo: no es una persona real.</p><p><button class="btn" data-act="bt-bot">Jugar contra el simulado</button></p></div>'
+   +'<div class="card stack"><h3>Con un amigo</h3><p>Crea un reto, juégalo y mándale el código a tu amigo'+(friends?' ('+friends+(friends===1?' amigo':' amigos')+')':'')+'. Cuando lo juegue, te devuelve su resultado.</p><p><button class="btn" data-act="bt-new">Crear un reto</button></p></div></div>'
+   +'<div class="card stack"><h3>Responder un reto o un resultado</h3><label for="bt-in">Pega aquí el código que te mandaron</label><textarea id="bt-in" rows="3" class="codebox" placeholder="CLB1:... o CLB2:..."></textarea><p><button class="btn" data-act="bt-open">Abrir código</button></p><div class="note" role="status" aria-live="polite">'+esc(BT.msg||"")+'</div></div>'
+   +'<div class="card stack"><h3>En el mismo dispositivo</h3><p>Dos jugadores, un solo celular o computadora: juegan por turnos la misma lluvia de bolsas.</p><div><label for="bt-p2">Nombre del segundo jugador</label><input id="bt-p2" maxlength="20" value="'+esc(BT.p2||"")+'" placeholder="Nombre"></div><p><button class="btn" data-act="bt-local">Empezar</button></p></div></div></details></div>';
+}
+
+function btCfg(kind,extra){var c={net:false,phase:"menu",kind:kind,dur:BTDUR,seed:newSeed(),opp:null,me:null,target:undefined,code:"",msg:"",pre:null,p2:BT.p2||"",first:null,out:"",res:"",rew:""};for(var k in extra)c[k]=extra[k];return c}
+function btOpenCode(txt){
+  var o=decCode(txt,"CLB1");
+  if(o&&o.s&&o.d&&o.id&&isGid(o.id)){
+    if(o.id===myId())return "Ese reto lo creaste tú: mándaselo a tu amigo.";
+    if([30,45,60,90].indexOf(+o.d)<0)return "El reto tiene una duración no válida.";
+    BT=btCfg("friend-reply",{dur:+o.d,seed:+o.s,opp:{id:o.id,name:cleanName(o.n),score:Math.max(0,Math.min(5000,+o.sc||0))},target:+o.sc||0,phase:"preview",pre:{id:o.id,name:cleanName(o.n),score:Math.max(0,Math.min(5000,+o.sc||0)),dur:+o.d}});
+    return "";
+  }
+  var r=decCode(txt,"CLB2");
+  if(r&&r.s&&r.id&&isGid(r.id)){
+    var mine=APP.P.battle.out[r.s];
+    if(!mine)return "No tengo un reto tuyo con ese código. Quizá ya lo cerraste o lo creó otra persona.";
+    var their=Math.max(0,Math.min(5000,+r.sc||0)),res=btOutcome(mine.score,their);
+    var key="res"+r.s+r.id;
+    if(btDone(key))return "Ese resultado ya lo habías registrado.";
+    var rew=btReward("friend",res,true);btRecordFriend(r.id,res);
+    delete APP.P.battle.out[r.s];save();
+    return (res==="w"?"¡Ganaste! ":res==="l"?"Perdiste esta vez. ":"Empate. ")+mine.score+" a "+their+" contra "+cleanName(r.n)+". "+rew+".";
+  }
+  return "El código no es válido. Cópialo completo, tal como te lo mandaron.";
+}
+function battleAct(a,el){
+  if(a==="bgv"){var v=el.getAttribute("data-v");if(BG.phase==="play")return true;if(typeof cbReset==="function"&&BT.net)cbReset(true);BGV=v;if(v==="solo"){BG={phase:"intro",raf:0}}else if(BT.phase==="play"){BT.phase="menu"}renderBolsas();return true}
+  if(a==="bt-dur"){BTDUR=+el.getAttribute("data-v");renderBolsas();return true}
+  if(a==="bt-menu"){if(typeof cbReset==="function")cbReset(true);BT=btCfg("");BT.phase="menu";BG={phase:"intro",raf:0};renderBolsas();return true}
+  if(a==="bt-bot"){
+    var seed=newSeed(),r=mulberry(seed+7),base=APP.P.battle.best[BTDUR]||Math.round(BTDUR*0.8);
+    var nm=BOTNAMES[Math.floor(r()*BOTNAMES.length)]+(Math.floor(r()*90)+10);
+    BT=btCfg("bot",{seed:seed,opp:{name:nm,score:Math.max(3,Math.round(base*(0.7+r()*0.6)))}});
+    btPlay();return true;
+  }
+  if(a==="bt-new"){BT=btCfg("friend-new");btPlay();return true}
+  if(a==="bt-open"){var t=$("bt-in"),m=btOpenCode(t?t.value:"");if(BT.phase!=="preview")BT.msg=m;renderBolsas();return true}
+  if(a==="bt-accept"){btPlay();return true}
+  if(a==="bt-local"){
+    var n=$("bt-p2"),nm2=cleanName(n?n.value:"");
+    if(!n||!n.value.trim()){BT.msg="Escribe el nombre del segundo jugador.";BT.p2="";renderBolsas();return true}
+    BT=btCfg("local",{p2:nm2});btPlay();return true;
+  }
+  if(a==="bt-p2go"){btPlay();return true}
+  return false;
+}
+/* ===== identificador único, cuenta portátil, amigos por códigos ===== */
+var GID_ABC="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+function newGid(){
+  var a=new Uint8Array(8),s="CL-",i;
+  if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(a);else for(i=0;i<8;i++)a[i]=Math.floor(Math.random()*256);
+  for(i=0;i<8;i++)s+=GID_ABC.charAt(a[i]%32);
+  return s;
+}
+function isGid(s){return /^CL-[A-HJ-NP-Z2-9]{8}$/i.test(String(s).trim())}
+function findByGid(g){
+  g=String(g).trim().toUpperCase();
+  var l=userList();
+  for(var i=0;i<l.length;i++){var r=lsGet(ukey(l[i]));if(r&&r.id===g)return r}
+  return null;
+}
+function uniqueGid(){var g=newGid(),n=0;while(findByGid(g)&&n<20){g=newGid();n++}return g}
+
+/* ---------- códigos con suma de control (evitan errores al copiar; no son secretos) ---------- */
+function u64(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function d64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return decodeURIComponent(escape(atob(s)))}
+function chk(s){var h=2166136261;s="colegio-limpio|"+s;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h.toString(36)}
+function encCode(pre,obj){var b=u64(JSON.stringify(obj));return pre+":"+b+"."+chk(b)}
+function decCode(code,pre){
+  try{
+    code=String(code||"").replace(/\s+/g,"");
+    var k=code.indexOf(":");if(k<0||code.slice(0,k)!==pre)return null;
+    var body=code.slice(k+1),d=body.lastIndexOf(".");if(d<0)return null;
+    var b=body.slice(0,d);if(chk(b)!==body.slice(d+1))return null;
+    var o=JSON.parse(d64(b));return o&&typeof o==="object"?o:null;
+  }catch(e){return null}
+}
+function cleanName(n){return String(n||"").replace(/[^A-Za-z0-9ÁÉÍÓÚÜÑáéíóúüñ ._-]/g,"").trim().slice(0,20)||"Jugador"}
+
+/* ---------- llevar la cuenta a otro dispositivo ---------- */
+function exportAccount(){
+  if(APP.guest||!APP.rec)return "";
+  save();
+  var r=APP.rec;
+  return encCode("CLA1",{n:r.name,id:r.id,s:r.salt,h:r.hash,i:r.it,c:r.created,P:r.P});
+}
+function importAccount(code){
+  var o=decCode(code,"CLA1");
+  if(!o||!o.n||!o.id||!o.s||!o.h||!o.i||!o.P||typeof o.P!=="object")return {ok:false,msg:"El código no es válido o está incompleto. Cópialo de nuevo completo."};
+  if(!isGid(o.id)||checkName(o.n))return {ok:false,msg:"El código no es válido."};
+  var cur=lsGet(ukey(o.n));
+  if(cur&&cur.id&&cur.id!==o.id)return {ok:false,msg:"En este dispositivo ya existe otra cuenta con el nombre «"+o.n+"»."};
+  if(cur&&cur.id===o.id&&cur.P&&(cur.P.xp||0)>(o.P.xp||0))return {ok:false,msg:"Este dispositivo ya tiene una versión más avanzada de esa cuenta."};
+  var rec={name:o.n,id:String(o.id).toUpperCase(),salt:o.s,hash:o.h,it:o.i,created:o.c||Date.now(),P:o.P};
+  if(!lsSet(ukey(o.n),rec))return {ok:false,msg:"No se pudo guardar: el navegador bloquea el almacenamiento."};
+  var l=userList();if(l.indexOf(o.n)<0){l.push(o.n);lsSet("bc_users",l)}
+  return {ok:true,msg:"Cuenta «"+o.n+"» traída. Ingresa con su identificador o su usuario y su contraseña de siempre.",name:o.n,id:rec.id};
+}
+
+/* ---------- amigos: solicitud y aceptación por códigos ---------- */
+var SOC={out:"",acc:"",msg:"",tx:"",txmsg:""};
+function myId(){return APP.rec&&APP.rec.id?APP.rec.id:""}
+function isFriend(id){return APP.P.friends.some(function(f){return f.id===id})}
+function friendReq(){
+  var P=APP.P,n=newGid().slice(3,9);
+  P.fsent=P.fsent.slice(-19);P.fsent.push({n:n,at:Date.now()});save();
+  return encCode("CLF1",{t:"req",id:myId(),name:APP.user,n:n,at:Date.now()});
+}
+function friendPaste(text){
+  var P=APP.P,o=decCode(text,"CLF1");
+  if(!o||!o.t||!o.id||!o.n)return "El código no es válido. Cópialo completo, tal como te lo mandaron.";
+  if(!isGid(o.id))return "El código no es válido.";
+  if(o.id===myId())return "Ese código lo creaste tú: pásaselo a tu amigo para que lo pegue en su aplicación.";
+  if(o.t==="req"){
+    if(isFriend(o.id))return "Ya eres amigo de "+cleanName(o.name)+".";
+    if(P.fin.some(function(x){return x.id===o.id}))return "Ya tienes una solicitud de "+cleanName(o.name)+" esperando tu respuesta.";
+    P.fin=P.fin.slice(-19);P.fin.push({id:o.id,name:cleanName(o.name),n:String(o.n).slice(0,12),at:o.at||Date.now()});save();
+    return "Recibiste una solicitud de amistad de "+cleanName(o.name)+". Acéptala o recházala abajo.";
+  }
+  if(o.t==="acc"){
+    var ix=-1;P.fsent.forEach(function(s,i){if(s.n===o.n)ix=i});
+    if(ix<0)return "No tienes una solicitud pendiente con ese código. Quizá ya se usó o lo creó otra persona.";
+    if(isFriend(o.id)){P.fsent.splice(ix,1);save();return "Ya eres amigo de "+cleanName(o.name)+"."}
+    P.fsent.splice(ix,1);
+    P.friends.push({id:o.id,name:cleanName(o.name),since:Date.now(),w:0,l:0,t:0});save();
+    return cleanName(o.name)+" aceptó tu solicitud. ¡Ya son amigos!";
+  }
+  return "El código no es válido.";
+}
+function friendAccept(i){
+  var P=APP.P,r=P.fin[i];if(!r)return;
+  if(!isFriend(r.id))P.friends.push({id:r.id,name:r.name,since:Date.now(),w:0,l:0,t:0});
+  P.fin.splice(i,1);save();
+  SOC.acc=encCode("CLF1",{t:"acc",n:r.n,id:myId(),name:APP.user});
+  SOC.accFor=r.name;
+}
+
+function jAmigos(){
+  var P=APP.P;
+  if(inCloud())return jAmigosCloud();
+  if(APP.guest||!APP.rec)return '<div class="card stack"><h2 style="font-size:28px">Amigos</h2><p>Los amigos y el identificador son parte de tu cuenta. Crea una cuenta para usarlos.</p><p><button class="btn sun" data-act="guest-register">Crear una cuenta</button></p></div>';
+  var id=myId();
+  var idCard='<div class="card stack"><div class="mono">Tu identificador único</div><div class="gid" aria-label="Identificador">'+esc(id)+'</div><p class="note">Se generó al azar al crear tu cuenta y no se repite. Sirve para ingresar (en lugar de tu usuario) y para que tus amigos te reconozcan. Quien tenga tu identificador no puede entrar sin tu contraseña.</p><p><button class="btn ghost" data-act="copyn" data-v="'+esc(id)+'">Copiar mi identificador</button></p></div>';
+  var fl=P.friends.length?'<div class="flist">'+P.friends.map(function(f,i){return '<div class="frow"><div><b>'+esc(f.name)+'</b><span class="mono"> '+esc(f.id)+'</span></div><div class="mono">Batallas: '+(f.w||0)+' G · '+(f.l||0)+' P · '+(f.t||0)+' E</div><button class="btn ghost" data-act="fr-del" data-i="'+i+'">Quitar</button></div>'}).join("")+'</div>':'<p class="note">Todavía no tienes amigos. Agrega a alguien con los pasos de abajo.</p>';
+  var inc=P.fin.length?'<div class="stack"><div class="mono">Solicitudes recibidas</div>'+P.fin.map(function(r,i){return '<div class="frow"><div><b>'+esc(r.name)+'</b><span class="mono"> '+esc(r.id)+'</span></div><div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="fr-yes" data-i="'+i+'">Aceptar</button><button class="btn ghost" data-act="fr-no" data-i="'+i+'">Rechazar</button></div></div>'}).join("")+'</div>':'';
+  var acc=SOC.acc?'<div class="warnbox stack" style="background:var(--surface2)"><div><b>Aceptaste a '+esc(SOC.accFor||"tu amigo")+'.</b> Para que también te vea a ti como amigo, mándale este código de aceptación y que lo pegue en su aplicación:</div><textarea readonly rows="3" id="fr-acc" class="codebox">'+esc(SOC.acc)+'</textarea><p><button class="btn" data-act="copyn" data-v="'+esc(SOC.acc)+'">Copiar código de aceptación</button></p></div>':'';
+  var out=SOC.out?'<textarea readonly rows="3" id="fr-out" class="codebox">'+esc(SOC.out)+'</textarea><p><button class="btn" data-act="copyn" data-v="'+esc(SOC.out)+'">Copiar solicitud</button></p>':'';
+  var add='<div class="card stack"><h3>Agregar amigos</h3><ol class="plain" style="padding-left:20px"><li><b>Tú:</b> crea una solicitud y mándasela a tu amigo por WhatsApp o donde quieras.</li><li><b>Tu amigo:</b> pega el código en su aplicación y la acepta. Ahí le sale un código de aceptación.</li><li><b>Tú:</b> pega ese código de aceptación aquí. Y listo: ya son amigos.</li></ol>'
+   +'<p><button class="btn sun" data-act="fr-gen">Crear solicitud de amistad</button></p>'+out
+   +'<div><label for="fr-in">Pegar un código (solicitud o aceptación)</label><textarea id="fr-in" rows="3" class="codebox" placeholder="CLF1:..."></textarea></div><p><button class="btn" data-act="fr-paste">Procesar código</button></p><div class="note" role="status" id="fr-msg" aria-live="polite">'+esc(SOC.msg||"")+'</div>'+inc+acc+'</div>';
+  var tx='<div class="card stack"><h3>Mi cuenta en otros dispositivos</h3><p>Tu cuenta se guarda en este navegador. Para usarla en otro celular o computadora, genera un código de cuenta y pégalo allá en «Traer mi cuenta». Luego ingresas con tu identificador y tu contraseña.</p><p><button class="btn" data-act="acc-export">Generar código de mi cuenta</button></p>'+(SOC.tx?'<textarea readonly rows="4" class="codebox" id="acc-code">'+esc(SOC.tx)+'</textarea><p><button class="btn" data-act="copyn" data-v="'+esc(SOC.tx)+'">Copiar código de cuenta</button></p>':'')+'<p class="warnbox">No compartas este código con nadie: contiene tu progreso y los datos para comprobar tu contraseña. Cada traslado es una copia: el progreso que sigas ganando en un dispositivo no se pasa solo al otro.</p></div>';
+  return '<div class="stack">'+jAmigosLocalCloud()+idCard+'<div class="card stack"><h3>Mis amigos ('+P.friends.length+')</h3>'+fl+'</div>'+add+tx+'</div>';
+}
+
+function socialAct(a,el){
+  if(a==="fr-gen"){SOC.out=friendReq();SOC.msg="Solicitud creada. Cópiala y mándasela a tu amigo.";renderJourney();return true}
+  if(a==="fr-paste"){var t=$("fr-in");SOC.msg=friendPaste(t?t.value:"");SOC.out=SOC.out;renderJourney();return true}
+  if(a==="fr-yes"){friendAccept(+el.getAttribute("data-i"));SOC.msg="";renderJourney();return true}
+  if(a==="fr-no"){APP.P.fin.splice(+el.getAttribute("data-i"),1);save();renderJourney();return true}
+  if(a==="fr-del"){APP.P.friends.splice(+el.getAttribute("data-i"),1);save();renderJourney();return true}
+  if(a==="acc-export"){SOC.tx=exportAccount();renderJourney();return true}
+  if(a==="acc-import-go"){
+    var c=$("au-code"),r=importAccount(c?c.value:""),m=$("au-msg");
+    if(m){m.textContent=r.msg;m.className=r.ok?"ok":"err"}
+    if(r.ok){APP.authMode="login";setTimeout(function(){renderAuth();var n=$("au-name");if(n)n.value=r.id;toast(r.msg)},50)}
+    return true;
+  }
+  if(a==="acc-import"){APP.authMode="import";renderAuth();return true}
+  return false;
+}
+/* ===== Nube: cuenta única en todos los dispositivos, identificador y amigos =====
+   Usa la base de datos compartida de la página (capacidad db) y la identidad de Claude (capacidad user).
+   Sin ellas (archivo suelto, sin sesión de Claude o sin permiso de escritura) la app sigue con cuentas locales. */
+var CL={on:false,tried:false,db:null,user:null,uid:"",canW:null,prof:null,saveDoc:null,
+  fin:[],fout:[],invs:[],names:{},unsubs:[],timer:0,saving:false,pend:false,sig:"",psig:"",seen:Date.now(),msg:"",
+  fmsg:"",addId:"",busy:false,lastErr:""};
+var NET_CAP=12;
+function cloudOn(){return !!(CL.on&&CL.uid)}
+function inCloud(){return !!(APP.rec&&APP.rec.cloud&&cloudOn())}
+function cerr(e){return e&&e.code?e.code:"error"}
+function cwrite(fn){
+  return fn().catch(function(e){
+    if(e&&e.code==="unavailable")return new Promise(function(r){setTimeout(r,350+Math.random()*500)}).then(fn);
+    throw e;
+  });
+}
+function snapData(s){return s&&s.exists?s.data():null}
+
+/* ---------- arranque ---------- */
+function cloudInit(){
+  if(CL.tried)return Promise.resolve();
+  CL.tried=true;
+  if(!window.claude||typeof claude.use!=="function"){CL.fail="nolib";return Promise.resolve()}
+  return Promise.all([claude.use("db"),claude.use("user")]).then(function(r){
+    if(!r[0]||!r[1]){CL.fail=!r[1]?"nouser":"nodb";return null}
+    CL.db=r[0];CL.user=r[1];
+    return r[1].id();
+  }).then(function(id){
+    if(!id||!CL.db){if(!CL.fail)CL.fail="noid";return null}
+    CL.uid=String(id);
+    return Promise.resolve(CL.user.can("data.write")).catch(function(){return null});
+  }).then(function(can){
+    if(!CL.uid)return;
+    CL.canW=can;
+    CL.on=can!==false;
+    if(!CL.on){CL.fail="readonly";return}
+    return CL.db.doc("players/"+CL.uid).get().then(function(s){CL.prof=snapData(s)}).catch(function(e){CL.lastErr=cerr(e)});
+  }).catch(function(e){CL.on=false;CL.fail="error";CL.lastErr=cerr(e)}).then(function(){
+    if(APP.screen==="splash")renderSplash();
+    else if(APP.screen==="auth"){if(CL.on&&APP.authMode!=="cloud"&&APP.authMode!=="import"&&!APP.userChose)APP.authMode="cloud";renderAuth()}
+  });
+}
+function cloudReason(){
+  var f=CL.fail;
+  if(CL.on)return "";
+  if(!CL.tried)return "Conectando con la nube…";
+  if(f==="readonly")return "Tu acceso a esta página es solo de lectura: pide al dueño que te comparta como colaborador para usar cuentas en la nube y batallas en línea.";
+  if(f==="nouser"||f==="nodb"||f==="noid"||f==="nolib")return "Las cuentas en la nube y las batallas en línea solo funcionan al abrir esta página en Claude, con tu sesión iniciada y como colaborador. Mientras tanto puedes usar una cuenta de este dispositivo.";
+  return "No se pudo conectar con la nube ahora mismo. Puedes usar una cuenta de este dispositivo.";
+}
+
+/* ---------- perfil público y progreso privado ---------- */
+function profileOf(){
+  var P=APP.P,b=P.battle||{};
+  return {gid:APP.rec.id,name:APP.user,lvl:levelOf(P.xp),xp:P.xp,crowns:totalCrowns(),w:b.w||0,l:b.l||0,t:b.t||0,
+    eq:{c:P.equip.c,f:P.equip.f,p:P.equip.p||""},seen:CL.seen};
+}
+function cloudSaveSoon(){
+  if(!inCloud())return;
+  if(CL.timer)clearTimeout(CL.timer);
+  CL.timer=setTimeout(function(){CL.timer=0;cloudFlush()},1800);
+}
+function cloudFlush(){
+  if(CL.timer){clearTimeout(CL.timer);CL.timer=0}
+  if(!inCloud())return Promise.resolve();
+  if(CL.saving){CL.pend=true;return Promise.resolve()}
+  var s=JSON.stringify(APP.P),pr=profileOf(),ps=JSON.stringify(pr);
+  lsSet("bc_cl_"+CL.uid,{ts:Date.now(),p:s});
+  if(s===CL.sig&&ps===CL.psig)return Promise.resolve();
+  CL.saving=true;
+  var jobs=[];
+  if(s!==CL.sig)jobs.push(cwrite(function(){return CL.db.doc("data/users/"+CL.uid+"/save").set({p:s,ts:Date.now(),v:1})}).then(function(){CL.sig=s}));
+  if(ps!==CL.psig)jobs.push(cwrite(function(){return CL.db.doc("players/"+CL.uid).set(pr)}).then(function(){CL.psig=ps;CL.prof=pr}));
+  return Promise.all(jobs).catch(function(e){CL.lastErr=cerr(e)}).then(function(){
+    CL.saving=false;
+    if(CL.pend){CL.pend=false;cloudSaveSoon()}
+  });
+}
+function cloudLoadSave(){
+  return CL.db.doc("data/users/"+CL.uid+"/save").get().then(function(s){
+    var d=snapData(s),P=null;
+    if(d&&d.p){try{P=JSON.parse(d.p)}catch(e){P=null}}
+    var c=lsGet("bc_cl_"+CL.uid),cp=null;
+    if(c&&c.p){try{cp=JSON.parse(c.p)}catch(e){cp=null}}
+    if(cp&&(!P||(cp.xp||0)>(P.xp||0)))P=cp;
+    return P;
+  });
+}
+
+/* ---------- identificador único ---------- */
+function gidTaken(g){
+  return CL.db.collection("players").where("gid","==",g).limit(1).get().then(function(s){return !s.empty});
+}
+function cloudUniqueGid(pref,n){
+  n=n||0;
+  var g=(pref&&n===0&&isGid(pref))?String(pref).toUpperCase():newGid();
+  if(n>12)return Promise.reject(fail("No se pudo generar un identificador. Inténtalo otra vez."));
+  return gidTaken(g).then(function(t){return t?cloudUniqueGid("",n+1):g});
+}
+function cloudFindGid(g){
+  g=String(g).trim().toUpperCase();
+  return CL.db.collection("players").where("gid","==",g).limit(1).get().then(function(s){
+    if(s.empty)return null;
+    var d=s.docs[0];return {uid:d.id,data:d.data()};
+  });
+}
+
+/* ---------- crear / entrar ---------- */
+function cloudCreate(name,P,prefGid){
+  name=String(name||"").trim();
+  var e=checkName(name);if(e)return Promise.reject(fail(e));
+  if(!cloudOn())return Promise.reject(fail("La nube no está disponible."));
+  if(CL.prof)return Promise.reject(fail("Esta cuenta de Claude ya tiene una cuenta en la nube: «"+CL.prof.name+"» ("+CL.prof.gid+")."));
+  return cloudUniqueGid(prefGid).then(function(g){
+    var rec={name:name,id:g,cloud:true,created:Date.now(),P:P||newProgress()};
+    return cwrite(function(){return CL.db.doc("data/users/"+CL.uid+"/save").set({p:JSON.stringify(loadProgress(rec.P)),ts:Date.now(),v:1,created:rec.created})}).then(function(){
+      var pr={gid:g,name:name,lvl:1,xp:0,crowns:0,w:0,l:0,t:0,eq:{c:"c0",f:"f0",p:""},seen:Date.now()};
+      return cwrite(function(){return CL.db.doc("players/"+CL.uid).set(pr)}).then(function(){CL.prof=pr;return rec});
+    });
+  }).catch(function(er){
+    if(er&&er.user)throw er;
+    throw fail(cloudErrText(er));
+  });
+}
+function cloudErrText(e){
+  var c=cerr(e);
+  if(c==="invalid_argument")return "No tienes permiso para guardar datos en esta página. Pide al dueño que te comparta como colaborador.";
+  if(c==="quota_exceeded")return "La base de datos de la página está llena. Avisa al dueño.";
+  if(c==="resource_exhausted")return "Demasiadas acciones seguidas. Espera un momento e inténtalo de nuevo.";
+  if(c==="revoked")return "Se retiró tu acceso a esta página.";
+  return "No se pudo conectar con la nube. Inténtalo de nuevo.";
+}
+function cloudEnter(remember){
+  if(!CL.prof)return Promise.reject(fail("No hay cuenta en la nube."));
+  return cloudLoadSave().then(function(P){
+    var rec={name:CL.prof.name,id:CL.prof.gid,cloud:true,created:CL.prof.seen||Date.now(),P:P||newProgress()};
+    return rec;
+  }).then(function(rec){
+    if(remember)lsSet("bc_cl_auto",CL.uid);
+    lsSet("bc_cl_last",rec.id);
+    startSession(rec,false,false);
+    CL.sig="";CL.psig="";CL.seen=Date.now();
+    cloudWatch();
+    cloudFlush();
+    return rec;
+  });
+}
+function cloudAuth(){
+  if(APP.busy)return;
+  var msg=$("au-msg"),btn=$("au-go"),n=$("au-name").value.trim(),rem=$("au-rem")&&$("au-rem").checked;
+  msg.textContent="";
+  if(!cloudOn()){msg.textContent=cloudReason();return}
+  if(!n){msg.textContent=CL.prof?"Escribe tu identificador (CL-…).":"Escribe el nombre de usuario que quieres.";return}
+  APP.busy=true;btn.disabled=true;btn.textContent="Verificando…";
+  var done=function(){APP.busy=false;btn.disabled=false;btn.textContent=CL.prof?"Ingresar":"Crear cuenta y abrir"};
+  var p;
+  if(CL.prof){
+    if(!isGid(n)){done();msg.textContent="El identificador tiene el formato CL- y 8 letras o números.";return}
+    p=cloudFindGid(n).then(function(f){
+      if(!f)throw fail("Ese identificador no existe. Revísalo.");
+      if(f.uid!==CL.uid)throw fail("Ese identificador es de otra cuenta de Claude. Para entrar con él, abre esta página con la sesión de Claude de esa persona.");
+      return cloudEnter(rem);
+    });
+  }else{
+    p=cloudCreate(n).then(function(rec){
+      lsSet("bc_cl_last",rec.id);
+      if(rem)lsSet("bc_cl_auto",CL.uid);
+      startSession(rec,false,false);CL.seen=Date.now();
+      cloudWatch();cloudFlush();
+      toast("Cuenta creada. Tu identificador único es "+rec.id+". Guárdalo: con él ingresas desde cualquier dispositivo.");
+      return rec;
+    });
+  }
+  p.then(function(){APP.busy=false}).catch(function(e){done();msg.textContent=e&&e.user?e.message:cloudErrText(e)});
+}
+function cloudMigrate(){
+  if(!APP.rec||APP.rec.cloud||APP.guest)return;
+  if(CL.prof){CL.msg="Esta cuenta de Claude ya tiene la cuenta «"+CL.prof.name+"» ("+CL.prof.gid+") en la nube. Cierra sesión y entra con ella.";return renderJourney()}
+  CL.busy=true;CL.msg="Subiendo tu cuenta…";renderJourney();
+  save();
+  cloudCreate(APP.user,APP.P,APP.rec.id).then(function(rec){
+    CL.busy=false;CL.msg="";
+    lsSet("bc_cl_last",rec.id);lsSet("bc_cl_auto",CL.uid);
+    startSession(rec,false,false);CL.seen=Date.now();cloudWatch();cloudFlush();
+    toast("Tu cuenta ya está en la nube. Identificador: "+rec.id);
+  }).catch(function(e){CL.busy=false;CL.msg=e&&e.user?e.message:cloudErrText(e);renderJourney()});
+}
+function cloudDelete(){
+  var uid=CL.uid,jobs=[];
+  jobs.push(CL.db.doc("players/"+uid).delete(),CL.db.doc("data/users/"+uid+"/save").delete());
+  CL.fin.concat(CL.fout).forEach(function(r){jobs.push(CL.db.doc("frq/"+r.id).delete())});
+  return Promise.all(jobs).catch(function(){}).then(function(){
+    CL.prof=null;lsDel("bc_cl_auto");lsDel("bc_cl_last");lsDel("bc_cl_"+uid);
+  });
+}
+function cloudLogout(){
+  cloudFlush();
+  lsDel("bc_cl_auto");
+  CL.unsubs.forEach(function(u){try{u()}catch(e){}});CL.unsubs=[];
+  CL.fin=[];CL.fout=[];CL.invs=[];
+  if(typeof cloudBattleStop==="function")cloudBattleStop();
+}
+
+/* ---------- amigos: solicitudes en vivo ---------- */
+function frId(a,b){return a+"__"+b}
+function cloudWatch(){
+  CL.unsubs.forEach(function(u){try{u()}catch(e){}});CL.unsubs=[];
+  var me=CL.uid,db=CL.db,lastIn=0;
+  function rows(s){return s.docs.map(function(d){var x=d.data();x.id=d.id;return x})}
+  CL.unsubs.push(db.collection("frq").where("to","==",me).onSnapshot(function(s){
+    var r=rows(s),pend=r.filter(function(x){return x.st==="pending"}).length;
+    CL.fin=r;
+    if(pend>lastIn&&APP.rec&&APP.rec.cloud){var nw=r.filter(function(x){return x.st==="pending"})[0];toast("Solicitud de amistad de "+(nw?nw.fn:"un jugador")+". Míra Journey, Amigos.")}
+    lastIn=pend;cloudRefreshUI();
+  },function(e){CL.lastErr=cerr(e)}));
+  CL.unsubs.push(db.collection("frq").where("from","==",me).onSnapshot(function(s){
+    CL.fout=rows(s);cloudRefreshUI();
+  },function(e){CL.lastErr=cerr(e)}));
+  if(typeof cloudBattleWatch==="function")cloudBattleWatch();
+}
+function cloudRefreshUI(){
+  if(!APP.rec||!APP.rec.cloud)return;
+  if(APP.screen==="app"&&!$("view-journey").hidden&&APP.jtab==="amigos")renderJourney();
+  if(typeof cbRender==="function")cbRender();
+}
+function cloudFriends(){
+  var me=CL.uid,out={};
+  CL.fin.concat(CL.fout).forEach(function(r){
+    if(r.st!=="accepted")return;
+    var mine=r.from===me,uid=mine?r.to:r.from;
+    out[uid]={uid:uid,name:mine?r.tn:r.fn,gid:mine?r.tg:r.fg,reqId:r.id};
+  });
+  return Object.keys(out).map(function(k){return out[k]});
+}
+function cloudPending(){return CL.fin.filter(function(r){return r.st==="pending"})}
+function cloudSent(){return CL.fout.filter(function(r){return r.st==="pending"||r.st==="declined"})}
+function cloudRefreshNames(){
+  cloudFriends().forEach(function(f){
+    CL.db.doc("players/"+f.uid).get().then(function(s){
+      var d=snapData(s);if(!d)return;
+      var old=CL.names[f.uid];CL.names[f.uid]=d;
+      if(!old||old.lvl!==d.lvl||old.name!==d.name)cloudRefreshUI();
+    }).catch(function(){});
+  });
+}
+function cloudAddFriend(gid){
+  gid=String(gid||"").trim().toUpperCase();
+  CL.addId=gid;
+  if(!isGid(gid)){CL.fmsg="El identificador tiene el formato CL- seguido de 8 letras o números.";return renderJourney()}
+  if(gid===APP.rec.id){CL.fmsg="Ese es tu propio identificador: dáselo a tu amigo.";return renderJourney()}
+  CL.fmsg="Buscando…";renderJourney();
+  cloudFindGid(gid).then(function(f){
+    if(!f){CL.fmsg="No existe ninguna cuenta con ese identificador. Revísalo con tu amigo.";return}
+    if(f.uid===CL.uid){CL.fmsg="Ese es tu propio identificador.";return}
+    var fr=cloudFriends().filter(function(x){return x.uid===f.uid})[0];
+    if(fr){CL.fmsg="Ya eres amigo de "+fr.name+".";return}
+    var inc=CL.fin.filter(function(r){return r.from===f.uid&&r.st==="pending"})[0];
+    if(inc){
+      return cwrite(function(){return CL.db.doc("frq/"+inc.id).update({st:"accepted"})}).then(function(){CL.fmsg=f.data.name+" ya te había enviado una solicitud: ahora son amigos.";CL.addId=""});
+    }
+    var sent=CL.fout.filter(function(r){return r.to===f.uid})[0];
+    if(sent&&sent.st==="pending"){CL.fmsg="Ya le enviaste una solicitud a "+f.data.name+". Falta que la acepte.";return}
+    var doc={from:CL.uid,to:f.uid,fn:APP.user,fg:APP.rec.id,tn:f.data.name,tg:f.data.gid,st:"pending",ts:Date.now()};
+    return cwrite(function(){return CL.db.doc("frq/"+frId(CL.uid,f.uid)).set(doc)}).then(function(){CL.fmsg="Solicitud enviada a "+f.data.name+". Cuando la acepte, serán amigos.";CL.addId=""});
+  }).catch(function(e){CL.fmsg=e&&e.user?e.message:cloudErrText(e)}).then(function(){renderJourney()});
+}
+function cloudFrAct(a,id){
+  var ref=CL.db.doc("frq/"+id),p;
+  if(a==="cl-fr-yes")p=cwrite(function(){return ref.update({st:"accepted"})});
+  else if(a==="cl-fr-no")p=cwrite(function(){return ref.update({st:"declined"})});
+  else p=cwrite(function(){return ref.delete()});
+  p.catch(function(e){CL.fmsg=cloudErrText(e)}).then(function(){renderJourney()});
+}
+
+/* ---------- pantalla Amigos (cuenta en la nube) ---------- */
+function lvlOf(uid){var d=CL.names[uid];return d?'Nivel '+d.lvl+' · '+d.crowns+(d.crowns===1?' corona':' coronas'):''}
+function jAmigosCloud(){
+  var id=APP.rec.id,fl=cloudFriends(),pend=cloudPending(),sent=cloudSent();
+  setTimeout(cloudRefreshNames,0);
+  var idCard='<div class="card stack"><div class="mono">Tu identificador único</div><div class="gid" aria-label="Identificador">'+esc(id)+'</div><p class="note">Es único en todos los dispositivos y no se repite. Con él ingresas a tu cuenta (en cualquier celular o computadora donde tengas tu sesión de Claude) y tus amigos te encuentran para enviarte una solicitud.</p><p><button class="btn ghost" data-act="copyn" data-v="'+esc(id)+'">Copiar mi identificador</button></p></div>';
+  var inc=pend.length?'<div class="card stack" style="border-color:var(--sun)"><div class="mono">Solicitudes de amistad recibidas</div>'+pend.map(function(r){return '<div class="frow"><div><b>'+esc(r.fn)+'</b><span class="mono"> '+esc(r.fg)+'</span></div><div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="cl-fr-yes" data-id="'+esc(r.id)+'">Aceptar</button><button class="btn ghost" data-act="cl-fr-no" data-id="'+esc(r.id)+'">Rechazar</button></div></div>'}).join("")+'</div>':'';
+  var list=fl.length?'<div class="flist">'+fl.map(function(f){var d=CL.names[f.uid]||{};return '<div class="frow"><div><b>'+esc(d.name||f.name)+'</b><span class="mono"> '+esc(f.gid)+'</span></div><div class="mono">'+esc(lvlOf(f.uid))+'</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="cl-battle-to" data-u="'+esc(f.uid)+'">Retar</button><button class="btn ghost" data-act="cl-fr-del" data-id="'+esc(f.reqId)+'">Quitar</button></div></div>'}).join("")+'</div>':'<p class="note">Todavía no tienes amigos. Escribe abajo el identificador de alguien para enviarle una solicitud.</p>';
+  var sentH=sent.length?'<div class="stack"><div class="mono">Solicitudes enviadas</div>'+sent.map(function(r){return '<div class="frow"><div><b>'+esc(r.tn)+'</b><span class="mono"> '+esc(r.tg)+'</span></div><div class="mono">'+(r.st==="declined"?'No la aceptó':'Esperando respuesta')+'</div><button class="btn ghost" data-act="cl-fr-del" data-id="'+esc(r.id)+'">'+(r.st==="declined"?'Quitar':'Cancelar')+'</button></div>'}).join("")+'</div>':'';
+  var add='<div class="card stack"><h3>Agregar un amigo</h3><p>Escribe el identificador de tu amigo (CL-…). Le llega una solicitud y, cuando la acepta, los dos son amigos y pueden retarse en la Batalla del Atrapa-bolsas.</p><div><label for="fr-id">Identificador de tu amigo</label><input id="fr-id" maxlength="11" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="CL-XXXXXXXX" value="'+esc(CL.addId||"")+'"></div><p><button class="btn sun" data-act="cl-fr-add">Enviar solicitud</button></p><div class="note" role="status" aria-live="polite">'+esc(CL.fmsg||"")+'</div>'+sentH+'</div>';
+  var how='<details class="card"><summary>Qué necesita tu amigo para jugar contigo</summary><ul class="plain" style="margin-top:8px"><li>Abrir esta misma página en Claude con su sesión iniciada.</li><li>Que el dueño de la página lo haya compartido como <b>colaborador</b>; si solo la ve con un enlace, puede mirar pero no guardar cuenta ni jugar en línea.</li><li>Crear su cuenta en la nube: ahí recibe su propio identificador.</li></ul></details>';
+  return '<div class="stack">'+idCard+inc+'<div class="card stack"><h3>Mis amigos ('+fl.length+')</h3>'+list+'</div>'+add+how+'</div>';
+}
+function jAmigosLocalCloud(){
+  /* cuenta local: invita a pasarla a la nube */
+  if(!CL.tried||!CL.on)return '<div class="card stack"><h3>Cuenta en la nube</h3><p class="note">'+esc(cloudReason())+'</p></div>';
+  var already=CL.prof?'<p>Esta cuenta de Claude ya tiene la cuenta <b>'+esc(CL.prof.name)+'</b> ('+esc(CL.prof.gid)+') en la nube. Cierra sesión y entra con ella.</p>':'<p>Pasa esta cuenta a la nube para usarla en todos tus dispositivos, con el mismo identificador y progreso, y para tener amigos y jugar batallas con rivales reales.</p><p><button class="btn sun" data-act="cl-migrate"'+(CL.busy?' disabled':'')+'>Subir mi cuenta a la nube</button></p>';
+  return '<div class="card stack"><h3>Cuenta en la nube</h3>'+already+'<div class="note" role="status" aria-live="polite">'+esc(CL.msg||"")+'</div></div>';
+}
+
+function cloudAct(a,el){
+  if(a.indexOf("cl-")!==0)return false;
+  var g=function(k){return el.getAttribute(k)};
+  if(a==="cl-fr-add"){var i=$("fr-id");cloudAddFriend(i?i.value:"");return true}
+  if(a==="cl-fr-yes"||a==="cl-fr-no"||a==="cl-fr-del"){cloudFrAct(a,g("data-id"));return true}
+  if(a==="cl-migrate"){cloudMigrate();return true}
+  if(a==="cl-local"){APP.userChose=true;APP.authMode=userList().length?"login":"register";renderAuth();return true}
+  if(a==="cl-cloud"){APP.userChose=false;APP.authMode="cloud";renderAuth();return true}
+  if(typeof cloudBattleAct==="function")return cloudBattleAct(a,el);
+  return false;
+}
+window.addEventListener("pagehide",function(){cloudFlush()});
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")cloudFlush()});
+/* ===== Batalla en línea: rival aleatorio real o amigos (misma lluvia de bolsas, puntajes en vivo) ===== */
+var CB={id:"",role:"",unsub:null,ounsub:null,started:false,t0:0,tick:0,sendT:0,waitT:0,lim:0,chain:Promise.resolve(),lastQ:-1,
+  oppSc:0,oppFin:false,oppAt:0,endAt:0,wait:"",done:false};
+function cbTimers(){
+  ["tick","sendT","waitT","lim"].forEach(function(k){if(CB[k]){clearInterval(CB[k]);clearTimeout(CB[k]);CB[k]=0}});
+}
+function cbReset(cancelRoom){
+  cbTimers();
+  if(CB.unsub){try{CB.unsub()}catch(e){}CB.unsub=null}
+  if(CB.ounsub){try{CB.ounsub()}catch(e){}CB.ounsub=null}
+  if(cancelRoom&&CB.id&&CB.role==="a"&&!CB.started&&cloudOn()){CL.db.doc("bt/"+CB.id).update({st:"cancel"}).catch(function(){})}
+  CB.id="";CB.role="";CB.started=false;CB.t0=0;CB.chain=Promise.resolve();CB.lastQ=-1;CB.oppSc=0;CB.oppFin=false;CB.oppAt=0;CB.endAt=0;CB.wait="";CB.done=false;
+}
+function cloudBattleStop(){cbReset(true)}
+function cbRender(){
+  var el=$("view-bolsas");
+  if(!el||el.hidden||APP.screen!=="app")return;
+  if(BGV==="battle"&&BG.phase!=="play")renderBolsas();
+}
+function cbToken(){return "b"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+
+/* ---------- invitaciones de amigos (en vivo) ---------- */
+function cloudBattleWatch(){
+  var first=true,seen={};
+  CL.unsubs.push(CL.db.collection("bt").where("b","==",CL.uid).onSnapshot(function(s){
+    var now=Date.now();
+    CL.invs=s.docs.map(function(d){var x=d.data();x.id=d.id;return x}).filter(function(x){return x.mode==="friend"&&x.st==="invite"&&x.ts>now-100000});
+    CL.invs.forEach(function(x){if(!seen[x.id]){seen[x.id]=1;if(!first||x.ts>now-60000)toast(x.an+" te reta a una batalla. Entra a Atrapa-bolsas, Batalla.")}});
+    first=false;
+    cloudRefreshUI();
+  },function(e){CL.lastErr=cerr(e)}));
+}
+function cbInvHTML(){
+  var now=Date.now(),l=(CL.invs||[]).filter(function(x){return x.ts>now-100000});
+  if(!l.length)return "";
+  return '<div class="card stack" style="border-color:var(--sun)"><div class="mono">Te retaron</div>'+l.map(function(x){return '<div class="frow"><div><b>'+esc(x.an)+'</b><span class="mono"> '+esc(x.ag)+'</span></div><div class="mono">'+x.dur+' segundos</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sun" data-act="cl-inv-yes" data-id="'+esc(x.id)+'">Aceptar</button><button class="btn ghost" data-act="cl-inv-no" data-id="'+esc(x.id)+'">Rechazar</button></div></div>'}).join("")+'</div>';
+}
+
+/* ---------- salas ---------- */
+function cbAttach(id,role){
+  CB.id=id;CB.role=role;
+  CB.unsub=CL.db.doc("bt/"+id).onSnapshot(function(s){
+    var d=snapData(s);
+    if(!d){if(!CB.started&&(BT.phase==="search"||BT.phase==="invite"))cbFail("La sala se cerró.");return}
+    d.id=id;cbOnDoc(d);
+  },function(){if(!CB.started)cbFail("Se perdió la conexión con la nube.")});
+}
+function cbFail(msg){
+  var rm=CB.role==="a"&&!CB.started;
+  cbReset(rm);
+  BT.phase="nomatch";BT.msg=msg;cbRender();
+}
+function cbOnDoc(d){
+  if(CB.started||CB.done)return;
+  if(d.st==="cancel"){cbFail(CB.role==="a"?"La sala se canceló.":"El otro jugador canceló la batalla.");return}
+  if(d.st!=="playing"||!d.b)return;
+  CB.started=true;cbTimers();
+  var opp=CB.role==="a"?{uid:d.b,name:d.bn,id:d.bg}:{uid:d.a,name:d.an,id:d.ag};
+  var now=Date.now();
+  BT.seed=+d.seed;BT.dur=+d.dur;BT.opp={uid:opp.uid,name:cleanName(opp.name),id:opp.id,score:0};
+  BT.kind=d.mode==="friend"?"net-friend":"net-random";BT.net=true;BT.target=0;BT.phase="count";
+  CB.t0=Math.max(Math.min(+d.t0||now+6000,now+8000),now+800);
+  CB.oppSc=0;CB.oppFin=false;CB.oppAt=now;
+  CB.ounsub=CL.db.doc("bts/"+d.id+"__"+opp.uid).onSnapshot(function(s){
+    var x=snapData(s);if(!x)return;
+    CB.oppSc=x.sc|0;CB.oppFin=!!x.fin;CB.oppAt=Date.now();BT.target=CB.oppSc;
+    if(CB.oppFin&&BT.phase==="waitres")cbMaybeResult();
+  },function(){});
+  cbRender();
+  CB.tick=setInterval(function(){
+    if(Date.now()>=CB.t0){clearInterval(CB.tick);CB.tick=0;cbGo()}else cbRender();
+  },250);
+}
+function cbGo(){
+  if(BT.phase!=="count")return;
+  btPlay();
+  cbSend(false);
+  CB.sendT=setInterval(function(){if(BT.phase==="play")cbSend(false)},1500);
+}
+function cbSend(fin){
+  if(!cloudOn()||!CB.id)return;
+  var sc=BG.score|0,id=CB.id;
+  if(!fin&&sc===CB.lastQ)return;
+  CB.lastQ=sc;
+  var doc={u:CL.uid,sc:sc,ca:BG.caught|0,fin:!!fin,ts:Date.now()};
+  CB.chain=CB.chain.then(function(){return cwrite(function(){return CL.db.doc("bts/"+id+"__"+CL.uid).set(doc)})}).catch(function(){});
+}
+function cbFinish(){
+  cbTimers();
+  BT.phase="waitres";CB.endAt=Date.now();
+  cbSend(true);
+  CB.waitT=setInterval(cbMaybeResult,1000);
+  save();
+}
+function btNetReward(res,caught){
+  var b=APP.P.battle,today=ymdLocal(new Date());
+  if(!b.net||b.net.d!==today)b.net={d:today,n:0};
+  b[res]++;
+  if(caught<5){save();return "Para recibir premios atrapa al menos 5 bolsas en la batalla."}
+  if(b.net.n>=NET_CAP){save();return "Llegaste al límite de premios por batallas en línea de hoy ("+NET_CAP+"). Tu récord sí se cuenta; mañana vuelven los premios."}
+  b.net.n++;
+  var txt=btReward("net",res,false);
+  return txt+" (premio "+b.net.n+" de "+NET_CAP+" de hoy)";
+}
+function cbMaybeResult(){
+  if(BT.phase!=="waitres")return;
+  var now=Date.now(),gone=false;
+  if(!CB.oppFin){
+    var quiet=now-CB.oppAt>15000&&now-CB.endAt>8000,abs=now-CB.endAt>70000;
+    if(!quiet&&!abs)return;
+    gone=true;
+  }
+  var me=BT.me.score,opp=Math.min(CB.oppSc,Math.max(60,BT.dur*45)),res=btOutcome(me,opp);
+  BT.res=res;BT.opp.score=opp;BT.gone=gone;
+  BT.rew=btNetReward(res,BT.me.caught);
+  BT.phase="result";
+  var id=CB.id,role=CB.role,oppUid=BT.opp.uid;
+  cbTimers();
+  if(CB.ounsub){try{CB.ounsub()}catch(e){}CB.ounsub=null}
+  if(CB.unsub){try{CB.unsub()}catch(e){}CB.unsub=null}
+  CB.done=true;
+  setTimeout(function(){
+    if(!cloudOn())return;
+    CL.db.doc("bts/"+id+"__"+CL.uid).delete().catch(function(){});
+    if(role==="a")CL.db.doc("bt/"+id).delete().catch(function(){});
+  },30000);
+  save();cbRender();
+}
+
+/* ---------- buscar rival aleatorio ---------- */
+function cbCleanup(){
+  CL.db.collection("bt").where("a","==",CL.uid).get().then(function(s){
+    var now=Date.now();
+    s.docs.forEach(function(d){var x=d.data();if(x.ts<now-120000)CL.db.doc("bt/"+d.id).delete().catch(function(){})});
+  }).catch(function(){});
+}
+function cbClaim(list,i){
+  if(i>=list.length)return Promise.resolve(null);
+  var d=list[i],ref=CL.db.doc("bt/"+d.id);
+  return ref.acquire({holder:CL.uid,ttlMs:8000}).then(function(r){
+    if(!r||!r.acquired)return cbClaim(list,i+1);
+    return ref.get().then(function(s){
+      var x=snapData(s);
+      if(!x||x.st!=="open"||x.b)return cbClaim(list,i+1);
+      var t0=Date.now()+6000;
+      return ref.update({b:CL.uid,bn:APP.user,bg:APP.rec.id,st:"playing",t0:t0}).then(function(){return d.id});
+    });
+  }).catch(function(){return cbClaim(list,i+1)});
+}
+function cbSearch(){
+  if(!inCloud())return;
+  cbReset(true);
+  var dur=BTDUR;
+  BT=btCfg("net-random",{dur:dur,net:true});BT.phase="search";CB.wait="Buscando un jugador conectado…";
+  cbRender();renderBolsas();
+  cbCleanup();
+  var now=Date.now();
+  CL.db.collection("bt").where("st","==","open").limit(40).get().then(function(s){
+    var l=s.docs.map(function(d){var x=d.data();x.id=d.id;return x}).filter(function(x){return x.mode==="random"&&+x.dur===dur&&x.a!==CL.uid&&x.ts>now-50000});
+    l.sort(function(a,b){return a.ts-b.ts});
+    return cbClaim(l,0);
+  }).then(function(id){
+    if(BT.phase!=="search")return;
+    if(id){cbAttach(id,"b");return}
+    var rid=cbToken();
+    return cwrite(function(){return CL.db.doc("bt/"+rid).set({a:CL.uid,an:APP.user,ag:APP.rec.id,mode:"random",dur:dur,seed:BT.seed,st:"open",ts:Date.now()})}).then(function(){
+      if(BT.phase!=="search"){CL.db.doc("bt/"+rid).update({st:"cancel"}).catch(function(){});return}
+      CB.wait="Nadie esperaba todavía. Te quedas en la sala: apenas entre otro jugador, empieza. (máx. 40 s)";
+      cbAttach(rid,"a");
+      CB.lim=setTimeout(function(){if(!CB.started)cbFail("No apareció ningún jugador conectado en este momento. Puedes intentarlo de nuevo, retar a un amigo o jugar contra un rival simulado.")},40000);
+      cbRender();
+    });
+  }).catch(function(e){cbFail(cloudErrText(e))});
+}
+
+/* ---------- retar a un amigo ---------- */
+function cbInvite(uid){
+  if(!inCloud())return;
+  var f=cloudFriends().filter(function(x){return x.uid===uid})[0];
+  if(!f)return;
+  cbReset(true);
+  var dur=BTDUR,rid=cbToken();
+  BT=btCfg("net-friend",{dur:dur,net:true});BT.phase="invite";CB.wait="Reto enviado a "+f.name+". Esperando que lo acepte… (máx. 90 s)";
+  setMode("game");setGameView("bolsas");BGV="battle";
+  cbRender();renderBolsas();
+  cwrite(function(){return CL.db.doc("bt/"+rid).set({a:CL.uid,an:APP.user,ag:APP.rec.id,b:uid,bn:f.name,bg:f.gid,mode:"friend",dur:dur,seed:BT.seed,st:"invite",ts:Date.now()})}).then(function(){
+    if(BT.phase!=="invite"){CL.db.doc("bt/"+rid).update({st:"cancel"}).catch(function(){});return}
+    cbAttach(rid,"a");
+    CB.lim=setTimeout(function(){if(!CB.started)cbFail(f.name+" no respondió. Quizá no está conectado ahora.")},90000);
+    renderBolsas();
+  }).catch(function(e){cbFail(cloudErrText(e))});
+}
+function cbInvAnswer(id,yes){
+  var d=(CL.invs||[]).filter(function(x){return x.id===id})[0];
+  if(!d)return;
+  var ref=CL.db.doc("bt/"+id);
+  if(!yes){cwrite(function(){return ref.update({st:"cancel"})}).catch(function(){}).then(function(){CL.invs=CL.invs.filter(function(x){return x.id!==id});cloudRefreshUI();cbRender()});return}
+  cbReset(true);
+  BT=btCfg("net-friend",{dur:+d.dur,seed:+d.seed,net:true});BT.phase="search";CB.wait="Entrando a la batalla contra "+d.an+"…";
+  setMode("game");setGameView("bolsas");BGV="battle";
+  renderBolsas();
+  cbAttach(id,"b");
+  cwrite(function(){return ref.update({st:"playing",t0:Date.now()+6000})}).catch(function(e){cbFail(cloudErrText(e))});
+}
+
+/* ---------- pantallas ---------- */
+function cbScreen(){
+  var h='<div class="card stack">'+modeChips();
+  if(BT.phase==="search"||BT.phase==="invite")
+    h+='<div class="mono">Batalla en línea</div><h2 style="font-size:28px">'+(BT.phase==="invite"?'Esperando a tu amigo':'Buscando rival')+'</h2><p role="status" aria-live="polite">'+esc(CB.wait||"")+'</p><p><button class="btn ghost" data-act="cl-cancel">Cancelar</button></p>';
+  else if(BT.phase==="count"){
+    var s=Math.max(0,Math.ceil((CB.t0-Date.now())/1000));
+    h+='<div class="mono">Rival encontrado</div><h2 style="font-size:28px">'+esc(BT.opp.name)+'</h2><p class="mono">'+esc(BT.opp.id)+'</p><p>Las dos personas reciben las mismas bolsas, en el mismo orden. Duración: '+BT.dur+' segundos.</p><div class="big" role="status" aria-live="polite">Empieza en '+s+'</div>';
+  }else if(BT.phase==="waitres")
+    h+='<div class="mono">Terminaste</div><div class="big">'+BT.me.score+' puntos</div><p role="status" aria-live="polite">Esperando el resultado final de <b>'+esc(BT.opp.name)+'</b>…</p>';
+  else
+    h+='<div class="mono">Batalla en línea</div><h2 style="font-size:28px">No se pudo empezar</h2><p>'+esc(BT.msg||"")+'</p><p style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sun" data-act="cl-search">Buscar otra vez</button><button class="btn" data-act="bt-bot">Jugar contra un rival simulado</button><button class="btn ghost" data-act="bt-menu">Volver a Batalla</button></p>';
+  return h+'</div>';
+}
+function cbResultHTML(){
+  var me=BT.me,h='<div class="big">'+me.score+' a '+BT.opp.score+'</div><p>'+whoWon(BT.res)+'Jugaste contra <b>'+esc(BT.opp.name)+'</b> <span class="mono">'+esc(BT.opp.id)+'</span>, una persona real.'+(BT.gone?' Se desconectó antes de terminar: se tomó su último puntaje.':'')+'</p>';
+  h+='<p class="note">'+esc(BT.rew||"")+'</p><p style="display:flex;gap:10px;flex-wrap:wrap">'
+   +(BT.kind==="net-friend"?'<button class="btn sun" data-act="cl-battle-to" data-u="'+esc(BT.opp.uid)+'">Revancha</button>':'<button class="btn sun" data-act="cl-search">Otro rival</button>')
+   +'<button class="btn" data-act="bt-menu">Volver a Batalla</button></p>';
+  return h;
+}
+function cloudBatallaHTML(){
+  if(!APP.rec||APP.guest)return '<div class="card stack"><h3>Batalla en línea</h3><p class="note">Para competir contra otras personas necesitas una cuenta en la nube. Entra o crea una desde el inicio.</p></div>';
+  if(!inCloud()){
+    var why=CL.on?'Pasa tu cuenta a la nube desde Journey, Amigos y podrás competir contra otras personas.':cloudReason();
+    return '<div class="card stack"><h3>Batalla en línea</h3><p class="note">'+esc(why)+'</p></div>';
+  }
+  var fl=cloudFriends();
+  var friends=fl.length?'<div class="flist">'+fl.map(function(f){var d=CL.names[f.uid]||{};return '<div class="frow"><div><b>'+esc(d.name||f.name)+'</b><span class="mono"> '+esc(f.gid)+'</span></div><div class="mono">'+esc(lvlOf(f.uid))+'</div><button class="btn" data-act="cl-battle-to" data-u="'+esc(f.uid)+'">Retar</button></div>'}).join("")+'</div>':'<p class="note">Todavía no tienes amigos. Agrégalos en Journey, Amigos con su identificador.</p><p><button class="btn ghost" data-act="cl-goamigos">Ir a Amigos</button></p>';
+  setTimeout(cloudRefreshNames,0);
+  return cbInvHTML()+'<div class="two"><div class="card stack"><h3>Rival aleatorio</h3><p>Te empareja con otra persona real que esté buscando batalla en este momento, con la misma duración.</p><p><button class="btn sun" data-act="cl-search">Buscar rival</button></p></div><div class="card stack"><h3>Con tus amigos</h3><p>Reta a un amigo: le llega el reto al instante y, si lo acepta, empiezan juntos.</p>'+friends+'</div></div>'
+   +'<p class="note">Los puntajes los envía cada jugador desde su dispositivo; por eso las batallas en línea dan un máximo de '+NET_CAP+' premios por día.</p>';
+}
+function cloudBattleAct(a,el){
+  var g=function(k){return el.getAttribute(k)};
+  if(a==="cl-search"){setMode("game");setGameView("bolsas");BGV="battle";cbSearch();return true}
+  if(a==="cl-cancel"){cbReset(true);BT=btCfg("");BT.phase="menu";BG={phase:"intro",raf:0};renderBolsas();return true}
+  if(a==="cl-battle-to"){cbInvite(g("data-u"));return true}
+  if(a==="cl-inv-yes"){cbInvAnswer(g("data-id"),true);return true}
+  if(a==="cl-inv-no"){cbInvAnswer(g("data-id"),false);return true}
+  if(a==="cl-goamigos"){setMode("journey");APP.jtab="amigos";renderJourney();return true}
+  return false;
 }
 /* ===== cuatro minijuegos más, todos sobre la basura y el colegio ===== */
 
@@ -1837,35 +2697,45 @@ function renderSplash(){
   $("splash-scene").innerHTML=scene({P:85,D:75,A:92,C:85});
   var h=$("splash-hello");
   if(APP.remembered){h.hidden=false;h.textContent="Hola de nuevo, "+APP.remembered.name+". Toca Abrir para continuar."}
+  else if(cloudOn()&&CL.prof&&lsGet("bc_cl_auto")===CL.uid){h.hidden=false;h.textContent="Hola de nuevo, "+CL.prof.name+". Toca Abrir para continuar."}
   else h.hidden=true;
   setTheme(APP.theme,true);
 }
 function openApp(){
   if(APP.remembered){startSession(APP.remembered,true,false);return}
-  APP.authMode=userList().length?"login":"register";
+  if(cloudOn()&&CL.prof&&lsGet("bc_cl_auto")===CL.uid){cloudEnter(true).catch(function(){APP.authMode="cloud";showScreen("auth")});return}
+  APP.userChose=false;
+  APP.authMode=cloudOn()?"cloud":(userList().length?"login":"register");
   showScreen("auth");
 }
 
 /* ---------- ingreso y registro ---------- */
 function renderAuth(){
+  if(APP.authMode==="cloud"&&cloudOn()){renderAuthCloud();return}
+  if(APP.authMode==="cloud")APP.authMode=userList().length?"login":"register";
+  if(APP.authMode==="import"){
+    $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="authmode">‹ Volver</button></p><div class="card authbox"><div class="mono">Otro dispositivo</div><h2 style="font-size:30px;margin-top:4px">Trae tu cuenta</h2><p style="margin-top:8px;color:var(--muted)">En el dispositivo donde tienes tu cuenta, abre Journey, Amigos y genera el «código de mi cuenta». Pégalo aquí.</p><div><label for="au-code">Código de cuenta</label><textarea id="au-code" rows="5" class="codebox" placeholder="CLA1:..."></textarea></div><div class="err" id="au-msg" role="alert"></div><p><button class="btn" data-act="acc-import-go">Traer mi cuenta</button></p><p class="note">Después ingresas con tu identificador (CL-…) o tu usuario, y tu contraseña de siempre.</p></div>';
+    return;
+  }
   var reg=APP.authMode==="register",users=userList();
   var accs=(!reg&&users.length)?'<div><div class="mono" style="margin-bottom:8px">Cuentas en este dispositivo</div><div class="acclist">'+users.map(function(n){return '<button type="button" data-act="pickacc" data-n="'+esc(n)+'">'+esc(n)+'</button>'}).join("")+'</div></div>':'';
   $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="auth-back">‹ Volver al inicio</button></p>'
    +'<div class="card authbox"><div class="mono">'+(reg?'Cuenta nueva':'Ingresar')+'</div><h2 style="font-size:30px;margin-top:4px">'+(reg?'Crea tu cuenta':'Bienvenido de nuevo')+'</h2>'
    +'<p style="margin-top:8px;color:var(--muted)">'+(reg?'Elige un usuario y una contraseña. Con ellos guardarás tu nivel, tus latas rotas, tus monedas, tus coronas y tus compras.':'Ingresa con tu usuario y contraseña para continuar tu progreso.')+'</p>'
    +accs
-   +'<form id="auth-form" novalidate><div><label for="au-name">Usuario</label><input id="au-name" autocomplete="username" maxlength="20" autocapitalize="off" spellcheck="false"></div>'
+   +'<form id="auth-form" novalidate><div><label for="au-name">'+(reg?'Usuario':'Identificador o usuario')+'</label><input id="au-name" autocomplete="username" maxlength="20" autocapitalize="off" spellcheck="false"></div>'
    +'<div><label for="au-pw">Contraseña</label><input id="au-pw" type="password" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'
    +(reg?'<div><label for="au-pw2">Repite la contraseña</label><input id="au-pw2" type="password" autocomplete="new-password"></div>':'')
    +'<div class="chkrow"><input type="checkbox" id="au-show" data-act="showpw"><label for="au-show">Mostrar contraseña</label></div>'
    +'<div class="chkrow"><input type="checkbox" id="au-rem"><label for="au-rem">Mantener la sesión en este dispositivo</label></div>'
    +'<div class="err" id="au-msg" role="alert"></div>'
    +'<button class="btn" id="au-go" type="submit">'+(reg?'Crear cuenta y abrir':'Ingresar')+'</button></form>'
-   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="authmode">'+(reg?'Ya tengo cuenta':'Crear una cuenta nueva')+'</button><button class="linkbtn" data-act="guest">Entrar como invitado</button></p>'
-   +'<p class="note">Tu cuenta y tu progreso se guardan solo en este dispositivo y navegador. No pedimos correo ni datos personales. No hay recuperación de contraseña: si la olvidas tendrás que crear otra cuenta. No uses una contraseña que uses en otros sitios.</p>'
+   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="authmode">'+(reg?'Ya tengo cuenta':'Crear una cuenta nueva')+'</button><button class="linkbtn" data-act="guest">Entrar como invitado</button><button class="linkbtn" data-act="acc-import">Traer mi cuenta de otro dispositivo</button>'+(cloudOn()?'<button class="linkbtn" data-act="cl-cloud">Usar mi cuenta en la nube</button>':'')+'</p>'
+   +'<p class="note">Al crear tu cuenta recibes un identificador único (CL-…) con el que puedes ingresar. Tu cuenta y tu progreso se guardan en este dispositivo y navegador; para usarla en otro, genera un código de cuenta en Journey, Amigos. No pedimos correo ni datos personales. No hay recuperación de contraseña: si la olvidas tendrás que crear otra cuenta. No uses una contraseña que uses en otros sitios.</p>'
    +(canCrypto()?'':'<p class="warnbox">Este navegador no permite crear cuentas seguras. Puedes entrar como invitado.</p>')+'</div>';
 }
 function doAuth(){
+  if(APP.authMode==="cloud")return cloudAuth();
   if(APP.busy)return;
   var reg=APP.authMode==="register",n=$("au-name").value.trim(),pw=$("au-pw").value,rem=$("au-rem").checked,msg=$("au-msg"),btn=$("au-go");
   msg.textContent="";
@@ -1873,11 +2743,12 @@ function doAuth(){
   if(reg&&$("au-pw2").value!==pw){msg.textContent="Las contraseñas no coinciden.";return}
   APP.busy=true;btn.disabled=true;btn.textContent="Verificando…";
   var p=reg?register(n,pw):login(n,pw);
-  p.then(function(rec){APP.busy=false;startSession(rec,rem,false);toast(reg?"Cuenta creada. Bienvenido, "+rec.name+".":"Hola, "+rec.name+".")})
+  p.then(function(rec){APP.busy=false;startSession(rec,rem,false);toast(reg?"Cuenta creada. Tu identificador es "+rec.id+". Guárdalo.":"Hola, "+rec.name+".")})
    .catch(function(e){APP.busy=false;btn.disabled=false;btn.textContent=reg?"Crear cuenta y abrir":"Ingresar";msg.textContent=e&&e.user?e.message:"No se pudo completar la acción. Inténtalo de nuevo."});
 }
 function deleteAccount(){
   var n=APP.user;
+  if(APP.rec&&APP.rec.cloud){cloudDelete().then(function(){toast("Cuenta eliminada.");logout()});return}
   lsDel(ukey(n));lsSet("bc_users",userList().filter(function(x){return x!==n}));
   toast("Cuenta eliminada.");logout();
 }
@@ -1887,7 +2758,7 @@ function hideMenu(){var m=$("menu");if(m){m.hidden=true;$("menu-btn").setAttribu
 function toggleMenu(){var m=$("menu"),open=m.hidden;m.hidden=!open;$("menu-btn").setAttribute("aria-expanded",open?"true":"false")}
 
 /* ---------- Journey ---------- */
-var JTABS=["camino","victorias","tienda","ruleta","perfil"];
+var JTABS=["camino","victorias","tienda","ruleta","amigos","perfil"];
 function renderJourney(){
   var t=APP.jtab,el=$("view-journey");
   setPressed(JTABS.map(function(k){return "j-"+k}),"j-"+t);
@@ -1895,6 +2766,7 @@ function renderJourney(){
   else if(t==="victorias")el.innerHTML=jVictorias();
   else if(t==="tienda")el.innerHTML=jTienda();
   else if(t==="ruleta"){el.innerHTML=jRuleta()}
+  else if(t==="amigos"){el.innerHTML=jAmigos()}
   else el.innerHTML=jPerfil();
 }
 function jCamino(){
@@ -1920,6 +2792,20 @@ function jVictorias(){
     return '<tr><td><b>'+esc(g.n)+'</b><div class="note">'+esc(g.win)+'</div></td><td>'+(P.plays[g.k]||0)+'</td><td>'+(P.crowns[g.k]||0)+'</td><td>'+(P.best[g.k]?g.fmt(P.best[g.k]):'—')+'</td></tr>';
   }).join("");
   return '<div class="card stack"><div class="lvhead"><div class="lvbig" style="display:flex;align-items:center;gap:10px"><svg class="ic" style="width:.8em;height:.8em;color:var(--ink)" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18 2 7l5.5 5L12 5l4.5 7L22 7l-1 11z" fill="var(--crown)" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'+totalCrowns()+'</div><div><div class="mono">Coronas ganadas</div><div class="note">Cada victoria suma una corona y 10 monedas.'+(P.bonusCrowns?' Incluye '+P.bonusCrowns+' de la ruleta.':'')+'</div></div></div><div class="tblwrap"><table class="tbl"><thead><tr><th>Juego y condición de victoria</th><th>Jugadas</th><th>Coronas</th><th>Mejor marca</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+
+/* ---------- ingreso con cuenta en la nube (identificador único) ---------- */
+function renderAuthCloud(){
+  var has=!!CL.prof,last=lsGet("bc_cl_last")||"";
+  $("auth").innerHTML='<p style="margin-block:18px 0"><button class="linkbtn" data-act="auth-back">‹ Volver al inicio</button></p>'
+   +'<div class="card authbox"><div class="mono">'+(has?'Cuenta en la nube':'Cuenta nueva en la nube')+'</div><h2 style="font-size:30px;margin-top:4px">'+(has?'Ingresa con tu identificador':'Crea tu cuenta')+'</h2>'
+   +'<p style="margin-top:8px;color:var(--muted)">'+(has?'Escribe tu identificador único (CL-…) para continuar tu progreso, en este o en cualquier otro dispositivo donde tengas tu sesión de Claude.':'Elige un nombre de usuario. Se te asignará un identificador único (CL-…) que no se repite y con el que ingresarás desde cualquier dispositivo.')+'</p>'
+   +'<form id="auth-form" novalidate><div><label for="au-name">'+(has?'Identificador':'Nombre de usuario')+'</label><input id="au-name" autocomplete="off" maxlength="'+(has?'11':'20')+'" autocapitalize="'+(has?'characters':'off')+'" spellcheck="false" placeholder="'+(has?'CL-XXXXXXXX':'')+'" value="'+(has?esc(last):'')+'"></div>'
+   +'<div class="chkrow"><input type="checkbox" id="au-rem"><label for="au-rem">Mantener la sesión en este dispositivo</label></div>'
+   +'<div class="err" id="au-msg" role="alert"></div>'
+   +'<button class="btn" id="au-go" type="submit">'+(has?'Ingresar':'Crear cuenta y abrir')+'</button></form>'
+   +'<p style="display:flex;flex-wrap:wrap;gap:4px 18px"><button class="linkbtn" data-act="cl-local">Usar una cuenta solo de este dispositivo</button><button class="linkbtn" data-act="guest">Entrar como invitado</button></p>'
+   +'<p class="note">Tu cuenta está vinculada a tu sesión de Claude, por eso no necesita contraseña propia: nadie puede entrar a ella sin esa sesión. El identificador es público (tus amigos lo usan para encontrarte). Para jugar en línea, esta página debe estar compartida contigo como colaborador. No pedimos correo ni datos personales.</p></div>';
 }
 /* ===== tienda, ruleta y perfil ===== */
 function balanceHTML(){
@@ -1981,82 +2867,139 @@ function buySkip(how){
   P.skips++;save();renderHud();renderJourney();toast("Compraste 1 skip.");
 }
 
-/* ---------- ruleta ---------- */
+/* ---------- ruletas ---------- */
 var LATA_AMOUNTS=[[40,25],[60,25],[80,20],[100,15],[150,10],[250,5]];
-var PRIZES=[
- {id:"coins15",p:35,col:"#D9A21B",fg:"#14232B",lab:"15",txt:"15 monedas"},
- {id:"latas",p:30,col:"#5F6E77",fg:"#FFFFFF",lab:"Latas",txt:"Latas rotas (entre 40 y 250)"},
- {id:"skip",p:15,col:"#2349D8",fg:"#FFFFFF",lab:"1 skip",txt:"1 skip"},
- {id:"gris",p:10,col:"#8A8F94",fg:"#14232B",lab:"Gris",txt:"Color gris para tu perfil"},
- {id:"coins100",p:5,col:"#1E7F48",fg:"#FFFFFF",lab:"100",txt:"100 monedas"},
- {id:"crowns10",p:5,col:"#7A45C9",fg:"#FFFFFF",lab:"10",txt:"10 coronas"}
-];
-var ROUL={rot:0,busy:false,last:""};
-function polar(a,r){var t=a*Math.PI/180;return [150+r*Math.sin(t),150-r*Math.cos(t)]}
-function sliceAngles(id){
-  var a=0;
-  for(var i=0;i<PRIZES.length;i++){var s=PRIZES[i].p*3.6;if(PRIZES[i].id===id)return [a,a+s];a+=s}
-  return [0,0];
-}
-function wheelSVG(){
-  var a=0,out="";
-  PRIZES.forEach(function(p){
-    var a1=a+p.p*3.6,s=polar(a,140),e=polar(a1,140),m=(a+a1)/2,lp=polar(m,92);
-    out+='<path d="M150 150L'+s[0].toFixed(2)+' '+s[1].toFixed(2)+'A140 140 0 '+((a1-a)>180?1:0)+' 1 '+e[0].toFixed(2)+' '+e[1].toFixed(2)+'Z" fill="'+p.col+'" stroke="#FFFFFF" stroke-width="2"/>';
-    var rot=m<180?m-90:m+90;
-    out+='<text x="'+lp[0].toFixed(1)+'" y="'+lp[1].toFixed(1)+'" fill="'+p.fg+'" font-family="IBM Plex Mono,monospace" font-size="'+(p.p<10?15:16)+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate('+rot.toFixed(1)+' '+lp[0].toFixed(1)+' '+lp[1].toFixed(1)+')">'+esc(p.lab)+'</text>';
-    a=a1;
-  });
-  return '<svg viewBox="0 -18 300 322" class="wheelsvg" role="img" aria-label="Ruleta de premios"><g id="wheel" style="transform-origin:150px 150px;transform:rotate('+ROUL.rot+'deg)">'+out+'<circle cx="150" cy="150" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/></g><path d="M136 -14h28l-14 30z" fill="var(--ink)" stroke="var(--bg)" stroke-width="2"/></svg>';
-}
-function jRuleta(){
-  var P=APP.P;
-  var legend='<ul class="legend">'+PRIZES.map(function(p){return '<li><span class="sw" style="background:'+p.col+'"></span><span>'+esc(p.txt)+'</span><b>'+p.p+' %</b></li>'}).join("")+'</ul>';
-  return '<div class="card stack"><div><h2 style="font-size:28px">Ruleta de accesorios</h2><p style="margin-top:6px;max-width:62ch">Cada giro cuesta '+SPIN_COST+' latas rotas. Estas son las probabilidades reales de cada premio.</p></div>'+balanceHTML()
-   +'<div class="roulette">'+wheelSVG()+'<div class="stack">'+legend+'<div class="docbtns"><button class="btn sun" data-act="spin" data-free="0"'+((P.latas<SPIN_COST||ROUL.busy)?' disabled':'')+'>Girar por '+SPIN_COST+' latas rotas</button>'+(P.spins>0?'<button class="btn" data-act="spin" data-free="1"'+(ROUL.busy?' disabled':'')+'>Girar gratis ('+P.spins+')</button>':'')+'</div><p class="note">Las 10 coronas de la ruleta suman al contador de coronas, pero no dan monedas. Si ya tienes el color Gris, recibes 50 latas rotas.</p><div class="spinres" id="spinres" aria-live="polite">'+esc(ROUL.last||"")+'</div></div></div></div>';
-}
 function weighted(list){
   var tot=list.reduce(function(s,x){return s+x[1]},0),r=Math.random()*tot,a=0;
   for(var i=0;i<list.length;i++){a+=list[i][1];if(r<a)return list[i][0]}
   return list[0][0];
 }
-function pickPrize(){
+function giveCoins(n){return function(P,m){var v=n*(m||1);P.coins+=v;return v+" monedas"}}
+function giveLatas(n){return function(P,m){var v=n*(m||1);P.latas+=v;return v+" latas rotas"}}
+function giveSkips(n){return function(P,m){var v=n*(m||1);P.skips+=v;return v+(v===1?" skip":" skips")}}
+function giveCrowns(n){return function(P,m){var v=n*(m||1);P.bonusCrowns=(P.bonusCrowns||0)+v;return v+(v===1?" corona":" coronas")}}
+/* ruleta de accesorios (100 latas): tus porcentajes */
+var PRIZES=[
+ {id:"coins15",p:35,col:"#D9A21B",fg:"#14232B",lab:"15",txt:"15 monedas",fn:giveCoins(15)},
+ {id:"latas",p:30,col:"#5F6E77",fg:"#FFFFFF",lab:"Latas",txt:"Latas rotas (entre 40 y 250)",fn:function(P){var n=weighted(LATA_AMOUNTS);P.latas+=n;return n+" latas rotas"}},
+ {id:"skip",p:15,col:"#2349D8",fg:"#FFFFFF",lab:"1 skip",txt:"1 skip",fn:giveSkips(1)},
+ {id:"gris",p:10,col:"#8A8F94",fg:"#14232B",lab:"Gris",txt:"Color gris para tu perfil",fn:function(P){
+   if(P.owned.indexOf("c12")<0){P.owned.push("c12");return "el color Gris para tu perfil"}
+   P.latas+=50;return "el color Gris, que ya tenías. Te damos 50 latas rotas"}},
+ {id:"coins100",p:5,col:"#1E7F48",fg:"#FFFFFF",lab:"100",txt:"100 monedas",fn:giveCoins(100)},
+ {id:"crowns10",p:5,col:"#7A45C9",fg:"#FFFFFF",lab:"10",txt:"10 coronas",fn:giveCrowns(10)}
+];
+/* ruleta de monedas (25 monedas) */
+var PRIZES_MON=[
+ {id:"m10",p:30,col:"#D9A21B",fg:"#14232B",lab:"10",txt:"10 monedas",fn:giveCoins(10)},
+ {id:"m25",p:25,col:"#B8860B",fg:"#FFFFFF",lab:"25",txt:"25 monedas",fn:giveCoins(25)},
+ {id:"m40",p:20,col:"#1E7F48",fg:"#FFFFFF",lab:"40",txt:"40 monedas",fn:giveCoins(40)},
+ {id:"l100",p:10,col:"#5F6E77",fg:"#FFFFFF",lab:"100 latas",txt:"100 latas rotas",fn:giveLatas(100)},
+ {id:"sk",p:10,col:"#2349D8",fg:"#FFFFFF",lab:"1 skip",txt:"1 skip",fn:giveSkips(1)},
+ {id:"m100",p:4,col:"#C23B2E",fg:"#FFFFFF",lab:"100",txt:"100 monedas",fn:giveCoins(100)},
+ {id:"c5",p:1,col:"#7A45C9",fg:"#FFFFFF",lab:"5",txt:"5 coronas",fn:giveCrowns(5)}
+];
+/* ruleta de mascotas (60 monedas) */
+var PET_ODDS={carbon:20,gato:18,pina:14,ardo:12,pulpo:10,basquet:8,carnero:8,galon:10};
+var PET_COL={carbon:"#3A4046",gato:"#E39A3D",pina:"#D9A21B",ardo:"#B5472A",pulpo:"#8E5BD0",basquet:"#E8772E",carnero:"#8A6D3B",galon:"#3B82C4"};
+var PET_LAB={carbon:"Carbón",gato:"Gato",pina:"Piña",ardo:"Ardo",pulpo:"Pulpo",basquet:"Básquet",carnero:"Carnero",galon:"Galón"};
+var PRIZES_PET=PET_ORDER.map(function(id){
+  return {id:id,p:PET_ODDS[id],col:PET_COL[id],fg:"#FFFFFF",lab:PET_LAB[id],txt:PETS[id].n+" (mascota)",fn:function(P){
+    if(P.pets.indexOf(id)<0){P.pets.push(id);if(!P.equip.p)P.equip.p=id;return "la mascota "+PETS[id].n}
+    var back=Math.floor(PETS[id].cost/2);P.coins+=back;return PETS[id].n+", que ya tenías. Te devolvemos "+back+" monedas"}};
+});
+/* ruleta doble: premio x multiplicador (150 latas) */
+var PRIZES_A=[
+ {id:"a20",p:35,col:"#D9A21B",fg:"#14232B",lab:"20",txt:"20 monedas",fn:giveCoins(20),unit:"monedas"},
+ {id:"a100",p:30,col:"#5F6E77",fg:"#FFFFFF",lab:"100 latas",txt:"100 latas rotas",fn:giveLatas(100)},
+ {id:"ask",p:20,col:"#2349D8",fg:"#FFFFFF",lab:"1 skip",txt:"1 skip",fn:giveSkips(1)},
+ {id:"a50",p:12,col:"#1E7F48",fg:"#FFFFFF",lab:"50",txt:"50 monedas",fn:giveCoins(50)},
+ {id:"ac3",p:3,col:"#7A45C9",fg:"#FFFFFF",lab:"3",txt:"3 coronas",fn:giveCrowns(3)}
+];
+var PRIZES_B=[
+ {id:"x1",p:45,col:"#5F6E77",fg:"#FFFFFF",lab:"×1",txt:"×1",mult:1},
+ {id:"x2",p:30,col:"#2349D8",fg:"#FFFFFF",lab:"×2",txt:"×2",mult:2},
+ {id:"x3",p:15,col:"#1E7F48",fg:"#FFFFFF",lab:"×3",txt:"×3",mult:3},
+ {id:"x5",p:7,col:"#C23B2E",fg:"#FFFFFF",lab:"×5",txt:"×5",mult:5},
+ {id:"x10",p:3,col:"#7A45C9",fg:"#FFFFFF",lab:"×10",txt:"×10",mult:10}
+];
+var WHEELS={
+ acc:{n:"Accesorios",cost:["latas",100],lists:[PRIZES],d:"Cada giro cuesta 100 latas rotas. Estas son las probabilidades reales de cada premio.",note:"Las 10 coronas de la ruleta suman al contador de coronas, pero no dan monedas. Si ya tienes el color Gris, recibes 50 latas rotas.",free:true},
+ mon:{n:"Monedas",cost:["coins",25],lists:[PRIZES_MON],d:"Cada giro cuesta 25 monedas. Un premio de monedas bueno puede devolverte el giro varias veces.",note:"Las 5 coronas suman al contador de coronas, pero no dan monedas."},
+ pet:{n:"Mascotas",cost:["coins",60],lists:[PRIZES_PET],d:"Cada giro cuesta 60 monedas y te da una mascota al azar. Las más baratas salen más seguido.",note:"Si te toca una mascota que ya tienes, te devolvemos la mitad de su precio en monedas."},
+ dob:{n:"Doble",cost:["latas",150],lists:[PRIZES_A,PRIZES_B],d:"Cada giro cuesta 150 latas rotas y gira dos ruedas a la vez: la de la izquierda da el premio y la de la derecha lo multiplica.",note:"Ejemplo: 1 skip con ×3 son 3 skips. Las coronas también se multiplican."}
+};
+var WORDER=["acc","mon","pet","dob"];
+var ROUL={sel:"acc",rots:{},busy:false,last:""};
+function polar(a,r){var t=a*Math.PI/180;return [150+r*Math.sin(t),150-r*Math.cos(t)]}
+function sliceAnglesIn(list,id){
+  var a=0;
+  for(var i=0;i<list.length;i++){var s=list[i].p*3.6;if(list[i].id===id)return [a,a+s];a+=s}
+  return [0,0];
+}
+function sliceAngles(id){return sliceAnglesIn(PRIZES,id)}
+function wheelSVG(list,wid){
+  var a=0,out="",rot=ROUL.rots[wid]||0;
+  list.forEach(function(p){
+    var a1=a+p.p*3.6,s=polar(a,140),e=polar(a1,140),m=(a+a1)/2,lp=polar(m,92);
+    out+='<path d="M150 150L'+s[0].toFixed(2)+' '+s[1].toFixed(2)+'A140 140 0 '+((a1-a)>180?1:0)+' 1 '+e[0].toFixed(2)+' '+e[1].toFixed(2)+'Z" fill="'+p.col+'" stroke="#FFFFFF" stroke-width="2"/>';
+    var rt=m<180?m-90:m+90,fs=p.p<5?12:p.p<10?13:p.p<15?15:16;
+    out+='<text x="'+lp[0].toFixed(1)+'" y="'+lp[1].toFixed(1)+'" fill="'+p.fg+'" font-family="IBM Plex Mono,monospace" font-size="'+fs+'" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate('+rt.toFixed(1)+' '+lp[0].toFixed(1)+' '+lp[1].toFixed(1)+')">'+esc(p.lab)+'</text>';
+    a=a1;
+  });
+  return '<svg viewBox="0 -18 300 322" class="wheelsvg" role="img" aria-label="Ruleta de premios"><g id="wheel-'+wid+'" style="transform-origin:150px 150px;transform:rotate('+rot+'deg)">'+out+'<circle cx="150" cy="150" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/></g><path d="M136 -14h28l-14 30z" fill="var(--ink)" stroke="var(--bg)" stroke-width="2"/></svg>';
+}
+function canPay(w){var P=APP.P;return w.cost[0]==="latas"?P.latas>=w.cost[1]:P.coins>=w.cost[1]}
+function costLabel(w){return w.cost[1]+(w.cost[0]==="latas"?" latas rotas":" monedas")}
+function jRuleta(){
+  var P=APP.P,w=WHEELS[ROUL.sel];
+  var tabs='<div class="chips" role="group" aria-label="Elige una ruleta">'+WORDER.map(function(k){return '<button data-act="wsel" data-id="'+k+'" aria-pressed="'+(ROUL.sel===k)+'"'+(ROUL.busy?' disabled':'')+'>'+esc(WHEELS[k].n)+'</button>'}).join("")+'</div>';
+  var legends=w.lists.map(function(list,i){
+    var title=w.lists.length>1?'<div class="mono" style="margin-bottom:6px">'+(i===0?"Rueda del premio":"Rueda del multiplicador")+'</div>':'';
+    return '<div>'+title+'<ul class="legend">'+list.map(function(p){return '<li><span class="sw" style="background:'+p.col+'"></span><span>'+esc(p.txt)+'</span><b>'+p.p+' %</b></li>'}).join("")+'</ul></div>';
+  }).join("");
+  var wheels='<div class="'+(w.lists.length>1?'wheels2':'')+'">'+w.lists.map(function(list,i){return wheelSVG(list,ROUL.sel+i)}).join("")+'</div>';
+  var free=w.free&&P.spins>0?'<button class="btn" data-act="spin" data-free="1"'+(ROUL.busy?' disabled':'')+'>Girar gratis ('+P.spins+')</button>':'';
+  return '<div class="card stack"><div><h2 style="font-size:28px">Ruletas</h2><p style="margin-top:6px;max-width:62ch">'+esc(w.d)+'</p></div>'+balanceHTML()+tabs
+   +'<div class="roulette'+(w.lists.length>1?' dbl':'')+'">'+wheels+'<div class="stack">'+legends+'<div class="docbtns"><button class="btn sun" data-act="spin" data-free="0"'+((!canPay(w)||ROUL.busy)?' disabled':'')+'>Girar por '+costLabel(w)+'</button>'+free+'</div><p class="note">'+esc(w.note)+'</p><div class="spinres" id="spinres" aria-live="polite">'+esc(ROUL.last||"")+'</div></div></div></div>';
+}
+function pickFrom(list){
   var r=Math.random()*100,a=0;
-  for(var i=0;i<PRIZES.length;i++){a+=PRIZES[i].p;if(r<a)return PRIZES[i]}
-  return PRIZES[0];
+  for(var i=0;i<list.length;i++){a+=list[i].p;if(r<a)return list[i]}
+  return list[0];
 }
-function applyPrize(pr){
-  var P=APP.P,m="";
-  if(pr.id==="coins15"){P.coins+=15;m="15 monedas"}
-  else if(pr.id==="coins100"){P.coins+=100;m="100 monedas"}
-  else if(pr.id==="skip"){P.skips+=1;m="1 skip"}
-  else if(pr.id==="latas"){var n=weighted(LATA_AMOUNTS);P.latas+=n;m=n+" latas rotas"}
-  else if(pr.id==="gris"){
-    if(P.owned.indexOf("c12")<0){P.owned.push("c12");m="el color Gris para tu perfil"}
-    else{P.latas+=50;m="el color Gris, que ya tenías. Te damos 50 latas rotas"}
-  }else if(pr.id==="crowns10"){P.bonusCrowns=(P.bonusCrowns||0)+10;m="10 coronas"}
-  return "Ganaste "+m+".";
-}
+function pickPrize(){return pickFrom(PRIZES)}
 function spinWheel(free){
-  var P=APP.P;if(ROUL.busy)return;
-  if(free){if(P.spins<1)return;P.spins--}
-  else{if(P.latas<SPIN_COST){toast("Te faltan latas rotas.");return}P.latas-=SPIN_COST}
-  var pr=pickPrize(),msg=applyPrize(pr);save();
+  var P=APP.P,key=ROUL.sel,w=WHEELS[key];if(ROUL.busy)return;
+  if(free){if(!w.free||P.spins<1)return;P.spins--}
+  else{
+    if(!canPay(w)){toast(w.cost[0]==="latas"?"Te faltan latas rotas.":"Te faltan monedas.");return}
+    if(w.cost[0]==="latas")P.latas-=w.cost[1];else P.coins-=w.cost[1];
+  }
+  var picks=w.lists.map(pickFrom),msg;
+  if(key==="dob"){
+    var m=picks[1].mult,txt=picks[0].fn(P,m);
+    msg="Ganaste "+txt+(m>1?" (premio × "+m+")":"")+".";
+  }else msg="Ganaste "+picks[0].fn(P)+".";
+  save();
   ROUL.busy=true;ROUL.last="Girando…";
-  var ang=sliceAngles(pr.id),mid=(ang[0]+ang[1])/2,jit=(Math.random()-0.5)*(ang[1]-ang[0])*0.7;
-  var delta=(((-(mid+jit)-ROUL.rot)%360)+360)%360;
-  ROUL.rot=ROUL.rot+360*5+delta;
   var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var w=$("wheel"),res=$("spinres");
-  document.querySelectorAll('[data-act="spin"]').forEach(function(b){b.disabled=true});
-  if(res)res.textContent="Girando…";
+  var els=[];
+  document.querySelectorAll('[data-act="spin"],[data-act="wsel"]').forEach(function(b){b.disabled=true});
+  var res=$("spinres");if(res)res.textContent="Girando…";
+  w.lists.forEach(function(list,i){
+    var wid=key+i,ang=sliceAnglesIn(list,picks[i].id),mid=(ang[0]+ang[1])/2,jit=(Math.random()-0.5)*(ang[1]-ang[0])*0.7;
+    var cur=ROUL.rots[wid]||0,delta=(((-(mid+jit)-cur)%360)+360)%360;
+    ROUL.rots[wid]=cur+360*(5+i)+delta;
+    els.push([$("wheel-"+wid),ROUL.rots[wid]]);
+  });
   function done(){ROUL.busy=false;ROUL.last=msg;renderHud();if(APP.mode==="journey"&&APP.jtab==="ruleta")renderJourney();toast(msg)}
-  if(reduce||!w){done();return}
-  void w.getBoundingClientRect();
-  w.style.transition="transform 4.2s cubic-bezier(.12,.6,.08,1)";
-  w.style.transform="rotate("+ROUL.rot+"deg)";
-  setTimeout(done,4400);
+  if(reduce||els.some(function(e){return !e[0]})){done();return}
+  void els[0][0].getBoundingClientRect();
+  els.forEach(function(e,i){e[0].style.transition="transform "+(4.2+i*.6)+"s cubic-bezier(.12,.6,.08,1)";e[0].style.transform="rotate("+e[1]+"deg)"});
+  setTimeout(done,4400+(els.length-1)*600);
 }
+
 
 /* ---------- perfil ---------- */
 function jPerfil(){
@@ -2476,7 +3419,7 @@ function addContact(){
   renderPhones();
 }
 /* ---------- eventos ---------- */
-var NAV_IDS="#mode-game,#mode-journey,#mode-pro,"+GAME_KEYS.map(function(k){return "#g-"+k}).join(",")+",#p-ruta,#p-doc,#p-plazo,#p-tel,#j-camino,#j-victorias,#j-tienda,#j-ruleta,#j-perfil";
+var NAV_IDS="#mode-game,#mode-journey,#mode-pro,"+GAME_KEYS.map(function(k){return "#g-"+k}).join(",")+",#p-ruta,#p-doc,#p-plazo,#p-tel,#j-camino,#j-victorias,#j-tienda,#j-ruleta,#j-amigos,#j-perfil";
 var DOCMAP={residuos:"residuos",contaminacion:"ambiental",derechos:"derechos",informacion:"info",obra:"obra",propuesta:"firmas"};
 function confirmBox(html){var b=$("confirm-box");if(b)b.innerHTML=html}
 function handleAct(a,el){
@@ -2498,6 +3441,7 @@ function handleAct(a,el){
    case "claim":return claimAll();
    case "lvsel":APP.sel=+el.getAttribute("data-n");return renderJourney();
    case "buy":return buyCosmetic(el.getAttribute("data-k"),el.getAttribute("data-id"));
+   case "wsel":ROUL.sel=el.getAttribute("data-id");ROUL.last="";return renderJourney();
    case "buypet":return buyPet(el.getAttribute("data-id"));
    case "buyskip":return buySkip(el.getAttribute("data-how"));
    case "spin":return spinWheel(el.getAttribute("data-free")==="1");
@@ -2505,10 +3449,10 @@ function handleAct(a,el){
    case "guest-register":APP.authMode="register";return showScreen("auth");
    case "reset-ask":return confirmBox('<div class="warnbox">Se borrarán tu nivel, tus latas rotas, tus monedas, tus coronas y tus compras. <button class="btn ghost danger" data-act="reset-do" style="margin-left:8px">Sí, reiniciar</button></div>');
    case "reset-do":var th=APP.P.theme;APP.P=newProgress();APP.P.theme=th;save();resetGames();renderHud();renderJourney();return toast("Progreso reiniciado.");
-   case "del-ask":return confirmBox('<div class="warnbox">Se eliminará la cuenta "'+esc(APP.user)+'" de este dispositivo y no se puede deshacer. <button class="btn ghost danger" data-act="del-do" style="margin-left:8px">Sí, eliminar</button></div>');
+   case "del-ask":return confirmBox('<div class="warnbox">Se eliminará la cuenta "'+esc(APP.user)+'"'+(APP.rec&&APP.rec.cloud?' de la nube, con su identificador y sus amistades,':' de este dispositivo')+' y no se puede deshacer. <button class="btn ghost danger" data-act="del-do" style="margin-left:8px">Sí, eliminar</button></div>');
    case "del-do":return deleteAccount();
    case "phcat":PHF=v;return renderPhones();
-   case "copyn":return copyText(v,"Número copiado.","No se pudo copiar. Selecciona el número.");
+   case "copyn":return copyText(v,"Copiado.","No se pudo copiar. Selecciona el texto y cópialo.");
    case "addct":return addContact();
    case "delct":APP.P.contacts.splice(+el.getAttribute("data-i"),1);save();return renderPhones();
    case "route":R.id=el.getAttribute("data-id");return renderRuta();
@@ -2525,6 +3469,8 @@ function handleAct(a,el){
   }
   if(["start","pick","next","topro","hint","skip"].indexOf(a)>=0)return gameAct(a,el);
   if(["lstart","bin","lnext","lskip"].indexOf(a)>=0)return limpioAct(a,el);
+  if(cloudAct(a,el))return;
+  if(socialAct(a,el))return;
   if(extraAct(a,el))return;
 }
 document.addEventListener("click",function(e){
@@ -2601,6 +3547,8 @@ function resetGames(){
   OD={phase:"intro",list:[],i:0,order:[],picked:[],checked:false,res:[],right:0,wrong:0,sk:0,msg:""};
   PB={phase:"intro",list:[],sel:{},budget:0};
   PT={phase:"intro",t:0,score:0,cells:[],tick:0,spawn:0,hits:0,bad:0};
+  if(typeof cloudBattleStop==="function")cloudBattleStop();
+  BGV="solo";BT=btCfg("");BT.phase="menu";SOC.out="";SOC.acc="";SOC.msg="";SOC.tx="";
   D.v={};D.ch={};D.an={};D.ready=false;D.modo="ind";D.type="residuos";
   setGameView("colegio");
 }
@@ -2613,6 +3561,8 @@ function resetGames(){
   resetGames();
   renderColegio();renderRuta();renderBanner();
   showScreen("splash");
+  cloudInit();
 })();
 </script>
+
 </body></html>
